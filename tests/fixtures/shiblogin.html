@@ -1,0 +1,422 @@
+<!--
+ BPS Bildungsportal Sachsen GmbH
+ Dresdner Straße 76
+ 09130 Chemnitz
+ Germany
+
+ Copyright (c) 2005-2024 by BPS Bildungsportal Sachsen GmbH
+ http://www.bps-system.de
+
+ All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="pragma" content="no-cache"/>
+	<meta http-equiv="expires" content="0"/>
+	<meta http-equiv="pragma-directive" content="no-cache"/>
+	<meta http-equiv="cache-directive" content="no-cache"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="referrer" content="no-referrer">
+	<meta charset="utf-8">
+
+	
+
+	<!--[if lt IE 9]>
+	<script>
+/*<![CDATA[*/
+
+		document.createElement('section');
+		document.createElement('nav');
+		document.createElement('header');
+		document.createElement('footer');
+		document.createElement('article');
+		document.createElement('aside');
+	
+/*]]>*/
+</script>
+	<![endif]-->
+
+	<title id="ide">OPAL - Online-Plattform für Akademisches Lehren und Lernen</title>
+<link rel="shortcut icon" href="/opal/raw/20261005/themes/opal_new/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/opal/raw/20261005/themes/opal_new/favicon.ico" type="image/x-icon" />
+<meta name="description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="keywords" content="OPAL, eLearning, Lernplattform, LMS, Learning Management System, LCMS, Learning Content Management System, Open Source, elearning, JAVA, IMS, QTI, SCORM, Content package, Kollaboration, Usability, Performanz, Skalierbarkeit" />
+<meta name="DC.creator" content="BPS Bildungsportal Sachsen GmbH" />
+<meta name="DC.subject" content="OPAL - Online Learning And Training" />
+<meta name="DC.description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="DC.contributor" content="" />
+<meta name="DC.date" content="2026-10-05" scheme="DCTERMS.W3CDTF" />
+<meta name="DC.type" content="Interactive Resource" scheme="DCTERMS.DCMIType" />
+<meta name="DC.identifier" content="https://bildungsportal.sachsen.de/opal" scheme="DCTERMS.URI" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/js/dropzone/dropzone.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/js/bar/bar.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/js/powertip/css/jquery.powertip.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/css/jquery-ui/smoothness/jquery-ui-1.12.1.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/js/dragtable/dragtable-default.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/js/tag-it/css/jquery.tagit.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/js/pnotify/PNotifyBrightTheme.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/themes/opal_new/layout.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/themes/opal_new/responsive.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261005/themes/opal_new/retina.css" media="(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)" />
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/js/app/script.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/js/dropzone/dropzone.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/js/bar/bar.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/bootstrap/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/js/powertip/jquery.powertip.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/js/jQuery/jquery.are-you-sure.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/js/jQuery/ays-beforeunload-shim.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261005/js/jQuery/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript" id="dragtable" defer="defer" src="/opal/raw/20261005/js/dragtable/jquery.dragtable.js"></script>
+<script type="text/javascript" id="tagit" defer="defer" src="/opal/raw/20261005/js/tag-it/js/tag-it.min.js"></script>
+<script type="text/javascript" id="notify" defer="defer" src="/opal/raw/20261005/js/pnotify/PNotify.js"></script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.resource.DynamicJQueryResourceReference/jquery/jquery-2.2.4-ver-F9EE266EF993962AD59E804AD9DEBE66.js"></script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery-ver-04D5389C5F00ED98AD39E57EBB5AA818.js"></script>
+<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="shiblogin?0";
+/*]]>*/
+</script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-disclaimer","c":"id5","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-privacy","c":"id6","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-imprint","c":"id7","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-accessibilityContainer-accessibility","c":"id8","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-languageChooserListElement-0-languageChooserListElementLink","c":"id9","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-languageChooserListElement-1-languageChooserListElementLink","c":"ida","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-desktopButton","c":"idb","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-newsPortlet-content-outerPortletContainer-container-showMobilePortletContentOnOwnPage","c":"idc","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.0-loginContainer-login-olatFormLink","c":"idd","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+$('body').on('click',function(t){var i=$(t.target);'popover'!==i.data('toggle')&&0===i.parents('[autohide],.popover').length&&$('[autohide]').each(function(){var t=$(this),i=t.attr('autohide');i?$('#'+i).is(':visible')&&this.click():t.attr('aria-describedby')&&this.click()})});;
+window.addEventListener("message", function(e) {if (e.data.message === "close-dialog") {	var target = jQuery("iframe[name='" + e.data.payload + "']");	var container = target.parents(".fancybox-container");	var id = container.attr("id");	jQuery.fancybox.close(id)}}, false);;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "load", function(event) { 
+try{alterNodeJumps();}catch(e){};
+;});
+/*]]>*/
+</script>
+</head>
+<body class="user-role-guest lang-de">
+<div id="clickblocker" class="clickblocker" style="display:none;" onclick="$.sidr('close','sidr');"></div>
+<div id="veil" class="veil"></div>
+<div class="skip-links-container">
+	
+	<a class="skip-link" href="#main-content">Zum Inhalt</a>
+	
+	
+</div>
+<div id="wrap" class="login page">
+	
+	<header role="banner" class="page-header-container" id="idf">
+			
+	
+
+	
+
+			
+
+			<div id="sidr">
+				<div id="id10" style="display:none" data-wicket-placeholder=""></div>
+			</div>
+
+		
+		</header>
+	
+	
+	<section class="content" role="main">
+		
+			
+			
+		
+		
+		<header class="main-header">
+			<form class="visible-md visible-lg main-header-additional">
+				<div class="btn-group language">
+					<button class="btn dropdown-toggle" data-bs-toggle="dropdown">
+						<span>Deutsch</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu">
+						<li role="menuitem">
+							<a class="dropdown-item" href="javascript:;" id="id9"><span>Deutsch</span>
+							</a>
+						</li><li role="menuitem">
+							<a class="dropdown-item" href="javascript:;" id="ida"><span>English</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="btn-group help">
+					<button class="btn dropdown-toggle" data-bs-toggle="dropdown" title="Hilfe">
+						<span class="fonticon icon-help" aria-hidden="true"></span>
+                        <span class="visually-hidden">Hilfe</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu">
+						<li role="menuitem">
+							<a class="dropdown-item" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Erste Schritte/?language=de" target="_blank" rel="noopener noreferrer" title="Hilfe - Erste Schritte"><span>Hilfe - Erste Schritte</span>
+							</a>
+						</li><li role="menuitem">
+							<a class="dropdown-item" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch%20OPAL/Erste%20Schritte/Browserkompatibilitaet/" target="_blank" rel="noopener noreferrer" title="Voraussetzungen für die Nutzung"><span>Voraussetzungen für die Nutzung</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</form>
+		</header>
+		<div class="fluid-container login-content">
+			<div class="login-container">
+				<div class="logo-container">
+					<span class="logo"></span>
+					<h1>Willkommen auf der Lernplattform OPAL</h1>
+				</div>
+                <h2 class="visually-hidden login-h2">Login</h2>
+				
+			<div id="main-content" class="login-form">
+				
+			
+	<div class="opal-login-box">
+		<div class="opal-login-form">
+			<h2>Studierende und Beschäftigte sächsischer Hochschulen</h2>
+			
+			<form id="id11" method="post" action="/opal/shiblogin;jsessionid=REDACTEDSESSION.opalN11?0-1.-loginContainer-login-shibAuthForm">
+				<div class="form-group">
+					<label id="id1" for="id2">Wählen Sie Ihre Hochschule</label>
+					<div>
+  
+</div>
+					<select class="form-select" name="wayfselection" id="id2" aria-labelledby="id1">
+<option selected="selected" value="">Ihre Hochschule</option>
+<option value="0">Berufsakademie Sachsen</option>
+<option value="1">Duale Hochschule Sachsen</option>
+<option value="2">HFM Dresden</option>
+<option value="3">Hochschuldidaktik Sachsen</option>
+<option value="4">HS Mittweida</option>
+<option value="5">HS Zittau / Görlitz</option>
+<option value="6">HTW Dresden</option>
+<option value="7">HTWK Leipzig</option>
+<option value="8">SLUB Dresden</option>
+<option value="9">Sächsische Verwaltungs- und Wirtschafts-Akademie</option>
+<option value="10">Sächsisches Staatsministerium für Wissenschaft, Kultur und Tourismus</option>
+<option value="11">TU Bergakademie Freiberg</option>
+<option value="12">TU Chemnitz</option>
+<option value="13">TU Dresden</option>
+<option value="14">Universität Leipzig</option>
+<option value="15">Westsächsische Hochschule Zwickau</option>
+<option value="16">Palucca Hochschule für Tanz Dresden</option>
+<option value="17">VHO der BPS Bildungsportal Sachsen GmbH</option>
+</select>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-highlight btn-custom" name="shibLogin" id="id12">
+						Login mit Hochschul-Account
+					</button>
+				</div>
+			</form>
+			
+		</div>
+		<div class="login-separator">oder</div>
+		<div class="alternative-login">
+			<h2>Sie haben keine E-Mail-Adresse an einer sächsischen Hochschule?</h2>
+			<div>
+				<a class="btn btn-highlight btn-custom" id="idd" href="javascript:;" title="Zum OPAL-Login">
+					<span>Zum Zugang ohne Hochschul-E-Mail-Adresse</span>
+				</a>
+			</div>
+			<div>
+				
+			</div>
+		</div>
+	</div>
+
+		
+			</div>
+			
+		
+
+                <div class="additional">
+					<div class="form-group">
+						<a class="btn" id="idb" href="javascript:;" title="Zur Desktop-Ansicht wechseln">Desktop-Ansicht
+						</a>
+					</div>
+					<div class="form-group">
+						<a class="btn" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Erste Schritte/?language=de" target="_blank" rel="noopener noreferrer" title="Hilfe - Erste Schritte">
+							Hilfe
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="login-news">
+				<div id="id13">
+	<div>
+			
+		<div id="id14" class="sortable-portlet" data-portlet-order="Information">
+			<section class="panel portlet information" id="id15">
+				<div class="panel-header">
+					<span aria-hidden="true" class="fonticon"></span>
+					<h2 class="panel-heading">
+						Aktuelles
+						
+					</h2>
+					
+				</div>
+				
+                <a class="showallmobile" id="idc" href="javascript:;"><span class="visually-hidden">Alle anzeigen</span></a>
+				<div class="panel-content">
+					
+		<style type="text/css">
+.status-box {margin-bottom: 1em; padding: 1em; border: 3px solid #fff; border-radius: 4px;}
+.with-icon {display:flex;}
+.with-icon .fonticon {margin-right: .5em;}
+ 
+.status-info {background: #333; color: #eee; border-color: #0099bc;} /*neutrale Info*/
+.status-warning {background: #333; color: #eee; border-color: #FA9370;}   /*Warnungen, Wartungsankündigungen*/
+.status-bug {background-color: #A72A2A; color: #fff; border: 0;} /*kritische Fehler*/
+.status-bug a {color: #fff !important; text-decoration: underline;}
+
+.home.page .status-info,
+.home.page .status-warning {background-color: #fff; color: #333;}
+
+.hide-on-homepage {display: none}
+
+img {max-width: 100%;}
+
+</style>
+
+
+<!-- TEMPLATES - DON'T USE -->
+
+<!--
+<div class="status-box status-info with-icon">
+    <span class="fonticon icon-bubble-star" aria-hidden="true"></span>
+    <span class="sr-only">Update</span>
+    <div>
+        <p>Ab sofort sind die neuen Versionen <a href="..." title="Releasenotes" target="_blank">OPAL x.x</a> und <a href="..." title="Releasenotes" target="_blank">ONYX x.x</a> verfügbar.</p>
+    </div>
+</div>
+-->
+ 
+<!--
+<div class="status-box status-warning with-icon" role="alert">
+    <span class="fonticon icon-warning" aria-hidden="true"></span>
+    <span class="sr-only">Achtung</span>
+    <div>
+        <p>Wartungsarbeiten am <strong>xxx von xxx bis xxx Uhr</strong>.
+        OPAL steht in dieser Zeit nur eingeschränkt zur Verfügung. Weitere Informationen:
+        <a href="..." title="..." target="_blank">...</a>.</p>
+    </div>
+</div>
+-->
+
+
+<!--
+<div class="status-box status-warning with-icon" role="alert">
+    <span class="fonticon icon-warning" aria-hidden="true"></span>
+    <span class="sr-only">Achtung! </span>
+    <div>
+        <p>Am Samstag, dem 05.09.2026, können OPAL bzw. einzelne Komponenten des Systems im Zeitraum von 10:00 – 15:00 Uhr aufgrund von Wartungsarbeiten des Rechenzentrums nicht oder nur eingeschränkt erreichbar sein. Wir bitten Sie, Ihre Arbeiten entsprechend einzuplanen und wichtige Inhalte vorab zu speichern. Wir entschuldigen uns für die entstandenen Unannehmlichkeiten und danken Ihnen für Ihr Verständnis. Für Rückfragen stehen wir unter <a href="mailto:test-contact@example.invalid">test-contact@example.invalid</a> gern zur Verfügung.</p>
+    </div>
+</div>
+-->
+
+
+<div class="status-box status-warning with-icon" role="alert">
+    <span class="fonticon icon-warning" aria-hidden="true"></span>
+    <span class="sr-only">Achtung</span>
+    <div>
+        <p> Wartungsarbeiten für den Login über die Nutzerverwaltung "VHO der BPS Bildungsportal Sachsen GmbH" am 23.10.2026 zwischen 9 und 10 Uhr. Es können kurzzeitige Verzögerungen beim Einloggen auftreten. Der Login über Hochschulen und deren Nutzung von OPAL sind davon nicht betroffen! Für Rückfragen stehen wir unter <a href="mailto:test-contact@example.invalid">test-contact@example.invalid</a> gern zur Verfügung.</p>
+    </div>
+</div>
+
+
+<!--
+<div class="status-box status-bug with-icon" role="alert">
+    <span class="fonticon icon-cancel-circle" aria-hidden="true"></span>
+    <span class="sr-only">Fehler</span>
+    <div>
+        <p><strong>Login-Server der HTW Dresden gestört</strong></p>
+        <p>Aktuell ist leider ein Login für Nutzer der HTW Dresden nicht möglich. Weitere Informationen finden Sie auf den <a href="https://help.bps-system.de/wiki/bin/view/STATHS/Betriebsstatus%20Hochschulsysteme/Blog%20zum%20Betriebsstatus%20Hochschulsysteme%20/" target="_blank">Betriebsstatus-Seiten</a>.</p>
+    </div>
+</div>
+-->
+
+
+<!-- TEMPLATES END -->
+		
+	
+				</div>
+				<div id="id16" style="display:none" data-wicket-placeholder=""></div>
+			</section>
+		</div>
+	
+		</div>
+</div>
+			</div>
+		</div>
+		
+		
+	</section>
+
+</div>
+<div class="clearfix"></div>
+<footer class="page-footer login" role="contentinfo">
+			
+	<ul class="list-unstyled page-footer-links">
+		
+		<li>
+			<a id="id6" href="javascript:;" title="Informationen zum Datenschutz">
+				Datenschutz
+			</a>
+		</li>
+		<li>
+			<a id="id5" href="javascript:;" title="Nutzungsbedingungen">
+				Nutzungsbedingungen
+			</a>
+		</li>
+		<li>
+			<a id="id7" href="javascript:;" title="Impressum">
+				Impressum
+			</a>
+		</li>
+		<li>
+			<a id="id8" href="javascript:;" title="Informationen zur Barrierefreiheit">
+				Barrierefreiheit
+			</a>
+		</li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/STATHS/Betriebsstatus%20Hochschulsysteme" target="_blank" rel="noopener noreferrer" title="Informationen zum Betriebsstatus">
+				Betriebsstatus
+			</a>
+		</li>
+		<li id="id17" style="display:none" data-wicket-placeholder=""></li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/Releasenotes/Releases%20OPAL/" target="_blank" rel="noopener noreferrer">
+				<span>Über OPAL 2026.09.3.1</span>
+				<span> | N11</span>
+			</a>
+		</li>
+		<li class="footer-bps">
+			<a href="https://www.bps-system.de" target="_blank" rel="noopener noreferrer" title="Homepage der BPS Bildungsportal Sachsen GmbH">
+				Powered by BPS
+			</a>
+		</li>
+	</ul>
+
+		</footer>
+
+<div id="dialogs">
+	
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Identity Provider der HTWK Leipzig</title>
+        <link rel="stylesheet" type="text/css" href="/idp/css/main.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <header>
+          <div class="header">
+          <div class="logo">
+                <img src="/idp/images/logo.jpg" alt="HTWK Leipzig">
+          </div>
+          </div>
+        </header>
+
+        <!-- div class="loginbox" -->
+        <div class="content">
+          <h1>Anmeldung/Login</h1>
+          <p>Willkommen an der Hochschule f&uumlr Technik, Wirtschaft und Kultur Leipzig.</p>
+         <div class="loginbox">
+          <div class="leftpane">
+
+              <h2>Login</h2>
+           <p>Bitte melden Sie sich mit dem Benutzernamen und dem Passwort des IT-Servicezentrums an.</p>
+
+
+
+            <form action="/idp/profile/SAML2/Redirect/SSO?execution=e1s2" method="post">
+    <input type="hidden" name="csrf_token" value="test-csrf-token" />
+              <legend>
+Anmelden bei OPAL Lernplattform
+              </legend>
+
+
+           <table>
+             <tr><td width="40%"><label for="username">Benutzername</label></td><td><input class="form-element form-field" id="username" name="j_username" type="text" value="" /></td></tr>
+             <tr><td><label for="password">Passwort</label></td><td><input class="form-element form-field" id="password" name="j_password" type="password" value="" /></td></tr>
+             <tr><td></td><td><button class="form-element form-button" type="submit" name="_eventId_proceed">Anmelden</button></td></tr>
+           </table>
+
+
+           <br>Sollten Sie Ihren Benutzernamen oder Ihr Passwort vergessen haben, so wenden Sie sich bitte an den Nutzerservice Ihres IT-Servicezentrums.
+
+          </div>
+        <div class="rightpane">
+        <div id="spName"><h2>OPAL&#x20;Lernplattform</h2></div>
+           <!-- pick the logo.  If its between 64 & max width/height display it
+                If its too high but OK wide clip by height
+                If its too wide clip by width.
+                We should not clip by height and width since that skews the image.  Too high an image will just show the top.
+            -->
+           <idpui:serviceLogo  minWidth="64" minHeight="64" maxWidth="350" maxHeight="147" cssId="splogo">
+              <idpui:serviceLogo  minWidth="64" minHeight="64" maxWidth="350" cssId="clippedsplogoY">
+                  <idpui:serviceLogo  minWidth="64" minHeight="64" cssId="clippedsplogoX"/>
+              </idpui:serviceLogo>
+           </idpui:serviceLogo>
+           <div id="spDescription">
+             <idpui:serviceDescription>You have asked to login to <idpui:serviceName/></idpui:serviceDescription>
+           </div>
+<!-- HW  04.03.2016
+           <div id="OpalLogo">
+               <br>
+
+        Aus- und Weiterbildung an s&auml;chsischen Hochschulen
+
+               <img src="https://shib1.rz.htwk-leipzig.de/idp/images/opal_logo.png" alt="Online-Plattform f&uuml;r Akademisches Lehren und Lernen" title="Online-Plattform f&uuml;r Akademisches Lehren und Lernen">
+          </div>
+-->
+        </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    
+     </body>
+</html>

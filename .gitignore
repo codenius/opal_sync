@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local OPAL configuration, session, and sync state
+config.toml
+session.json
+state.db*
+opal-sync.log*
+downloads/
+
+# Local development and investigation scripts; do not distribute
+/scripts/

@@ -1,0 +1,1293 @@
+<!--
+ BPS Bildungsportal Sachsen GmbH
+ Dresdner Straße 76
+ 09130 Chemnitz
+ Germany
+
+ Copyright (c) 2005-2024 by BPS Bildungsportal Sachsen GmbH
+ http://www.bps-system.de
+
+ All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="pragma" content="no-cache"/>
+	<meta http-equiv="expires" content="0"/>
+	<meta http-equiv="pragma-directive" content="no-cache"/>
+	<meta http-equiv="cache-directive" content="no-cache"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="referrer" content="no-referrer">
+	<meta charset="utf-8">
+
+	
+
+	<!--[if lt IE 9]>
+	<script>
+/*<![CDATA[*/
+
+		document.createElement('section');
+		document.createElement('nav');
+		document.createElement('header');
+		document.createElement('footer');
+		document.createElement('article');
+		document.createElement('aside');
+	
+/*]]>*/
+</script>
+	<![endif]-->
+
+	<title id="id4f">Kursangebote - OPAL</title>
+<link rel="shortcut icon" href="/opal/raw/20261013/themes/opal_new/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/opal/raw/20261013/themes/opal_new/favicon.ico" type="image/x-icon" />
+<meta name="description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="keywords" content="OPAL, eLearning, Lernplattform, LMS, Learning Management System, LCMS, Learning Content Management System, Open Source, elearning, JAVA, IMS, QTI, SCORM, Content package, Kollaboration, Usability, Performanz, Skalierbarkeit" />
+<meta name="DC.creator" content="BPS Bildungsportal Sachsen GmbH" />
+<meta name="DC.subject" content="OPAL - Online Learning And Training" />
+<meta name="DC.description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="DC.contributor" content="" />
+<meta name="DC.date" content="2026-10-13" scheme="DCTERMS.W3CDTF" />
+<meta name="DC.type" content="Interactive Resource" scheme="DCTERMS.DCMIType" />
+<meta name="DC.identifier" content="https://bildungsportal.sachsen.de/opal" scheme="DCTERMS.URI" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dropzone/dropzone.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/bar/bar.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/powertip/css/jquery.powertip.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tree/themes/default/style.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/css/jquery-ui/smoothness/jquery-ui-1.12.1.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dragtable/dragtable-default.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tag-it/css/jquery.tagit.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/pnotify/PNotifyBrightTheme.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opal_new/layout.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opal_new/responsive.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opal_new/retina.css" media="(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)" />
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.resource.DynamicJQueryResourceReference/jquery/jquery-2.2.4-ver-F9EE266EF993962AD59E804AD9DEBE66.js"></script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery-ver-04D5389C5F00ED98AD39E57EBB5AA818.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/script.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/dropzone/dropzone.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/bar/bar.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/bootstrap/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/powertip/jquery.powertip.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/tree/jstree.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery.are-you-sure.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/ays-beforeunload-shim.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript" id="dragtable" defer="defer" src="/opal/raw/20261013/js/dragtable/jquery.dragtable.js"></script>
+<script type="text/javascript" id="tagit" defer="defer" src="/opal/raw/20261013/js/tag-it/js/tag-it.min.js"></script>
+<script type="text/javascript" id="notify" defer="defer" src="/opal/raw/20261013/js/pnotify/PNotify.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="auth/repository/catalog?0";
+/*]]>*/
+</script>
+<script type="text/javascript" src="/opal/raw/20261013/js/jQuery/jquery.visible.min.js"></script>
+<script type="text/javascript" src="https://cdn.bps-system.de/live/opal/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm-navigationSearchButton-btn","m":"POST","c":"id9","f":"id8","sc":"navigationSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-logoutLink","c":"ida","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm-headerSearchButton-btn","m":"POST","c":"idc","f":"idb","sc":"headerSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-profileLink","c":"idd","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-help-br-brLink","c":"ide","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-disclaimer","c":"idf","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-privacy","c":"id10","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-imprint","c":"id11","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-html-body-footer-accessibilityContainer-accessibility","c":"id12","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-0-listPanelLeftButton-btn","m":"POST","c":"id14","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:0:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-0-listPanelLink","c":"id15","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-1-listPanelLeftButton-btn","m":"POST","c":"id16","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:1:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-1-listPanelLink","c":"id17","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-2-listPanelLeftButton-btn","m":"POST","c":"id18","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:2:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-2-listPanelLink","c":"id19","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-3-listPanelLeftButton-btn","m":"POST","c":"id1a","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:3:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-3-listPanelLink","c":"id1b","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-4-listPanelLeftButton-btn","m":"POST","c":"id1c","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:4:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-4-listPanelLink","c":"id1d","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-5-listPanelLeftButton-btn","m":"POST","c":"id1e","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:5:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-5-listPanelLink","c":"id1f","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-6-listPanelLeftButton-btn","m":"POST","c":"id20","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:6:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-6-listPanelLink","c":"id21","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-7-listPanelLeftButton-btn","m":"POST","c":"id22","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:7:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-7-listPanelLink","c":"id23","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-8-listPanelLeftButton-btn","m":"POST","c":"id24","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:8:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-8-listPanelLink","c":"id25","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-9-listPanelLeftButton-btn","m":"POST","c":"id26","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:9:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-9-listPanelLink","c":"id27","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-10-listPanelLeftButton-btn","m":"POST","c":"id28","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:10:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-10-listPanelLink","c":"id29","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-11-listPanelLeftButton-btn","m":"POST","c":"id2a","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:11:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-11-listPanelLink","c":"id2b","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-12-listPanelLeftButton-btn","m":"POST","c":"id2c","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:12:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-12-listPanelLink","c":"id2d","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-13-listPanelLeftButton-btn","m":"POST","c":"id2e","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:13:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-13-listPanelLink","c":"id2f","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-14-listPanelLeftButton-btn","m":"POST","c":"id30","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:14:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-14-listPanelLink","c":"id31","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-15-listPanelLeftButton-btn","m":"POST","c":"id32","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:15:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-15-listPanelLink","c":"id33","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-16-listPanelLeftButton-btn","m":"POST","c":"id34","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:16:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-16-listPanelLink","c":"id35","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-17-listPanelLeftButton-btn","m":"POST","c":"id36","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:17:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-17-listPanelLink","c":"id37","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-18-listPanelLeftButton-btn","m":"POST","c":"id38","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:18:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-18-listPanelLink","c":"id39","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-19-listPanelLeftButton-btn","m":"POST","c":"id3a","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:19:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-19-listPanelLink","c":"id3b","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-20-listPanelLeftButton-btn","m":"POST","c":"id3c","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:20:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-20-listPanelLink","c":"id3d","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-21-listPanelLeftButton-btn","m":"POST","c":"id3e","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:21:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-21-listPanelLink","c":"id3f","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-22-listPanelLeftButton-btn","m":"POST","c":"id40","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:22:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-22-listPanelLink","c":"id41","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-23-listPanelLeftButton-btn","m":"POST","c":"id42","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:23:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-23-listPanelLink","c":"id43","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-24-listPanelLeftButton-btn","m":"POST","c":"id44","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:24:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-24-listPanelLink","c":"id45","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-25-listPanelLeftButton-btn","m":"POST","c":"id46","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:25:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-25-listPanelLink","c":"id47","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-26-listPanelLeftButton-btn","m":"POST","c":"id48","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:26:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-26-listPanelLink","c":"id49","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id49");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"smartPlacement":true,"popupClass":"tooltip-shift-right","placement":"nw-alt"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-27-listPanelLeftButton-btn","m":"POST","c":"id4a","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:27:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-27-listPanelLink","c":"id4b","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id4b");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"smartPlacement":true,"popupClass":"tooltip-shift-right","placement":"nw-alt"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-28-listPanelLeftButton-btn","m":"POST","c":"id4c","f":"id13","sc":"listPanelCheckGroup:listPanelList:listPanelListItem:28:listPanelLeftButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm-listPanelCheckGroup-listPanelList-listPanelListItem-28-listPanelLink","c":"id4d","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id4d");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"smartPlacement":true,"popupClass":"tooltip-shift-right","placement":"nw-alt"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-catalogLoginHintBox-loginLink","c":"id4e","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Event.subscribe('/ajax/call/complete',function(){try{MathJax.Hub.Queue(['Typeset',MathJax.Hub,'wrap']);}catch(e){}});;
+$('body').on('click',function(t){var i=$(t.target);'popover'!==i.data('toggle')&&0===i.parents('[autohide],.popover').length&&$('[autohide]').each(function(){var t=$(this),i=t.attr('autohide');i?$('#'+i).is(':visible')&&this.click():t.attr('aria-describedby')&&this.click()})});;
+window.addEventListener("message", function(e) {if (e.data.message === "close-dialog") {	var target = jQuery("iframe[name='" + e.data.payload + "']");	var container = target.parents(".fancybox-container");	var id = container.attr("id");	jQuery.fancybox.close(id)}}, false);;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "load", function(event) { 
+window.onpopstate=function(){location.reload()};history.replaceState(null,"CatalogContentPanel","https://bildungsportal.sachsen.de/opal/auth/repository/catalog/360449;jsessionid=REDACTEDSESSION.opalN11");;
+try{alterNodeJumps();}catch(e){};
+;});
+/*]]>*/
+</script>
+</head>
+<body class="user-role-guest lang-de">
+<div id="clickblocker" class="clickblocker" style="display:none;" onclick="$.sidr('close','sidr');"></div>
+<div id="veil" class="veil"></div>
+<div class="skip-links-container">
+	<a class="skip-link" href="#main-nav">Zur Navigation</a>
+	<a class="skip-link" href="#main-content">Zum Inhalt</a>
+	
+	
+</div>
+<div id="wrap" class="courses page">
+	
+	<header role="banner" class="page-header-container" id="id50">
+			
+	
+
+	<div class="d-flex justify-content-between page-header">
+
+		<div class="header-logo-container">
+			<a class="logo" rel="direct" href="/opal/home;jsessionid=REDACTEDSESSION.opalN11" title="Startseite">
+                <span class="visually-hidden">OPAL</span>
+			</a>
+		</div>
+		<div class="header-functions" id="id51">
+			
+	<nav class="d-flex align-items-center gap-1 header-functions-user" aria-label="Header-Navigation">
+		<form class="header-functions-search" role="search" id="idb" method="post" action="/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm" aria-label="Lernplattform"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="headerSearchButton:btn" onclick=" var b=document.getElementById('idc'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+			<label class="visually-hidden" id="id5" for="id6">Suche</label>
+			<div class="input-group input-group-sm">
+				<input class="form-control" type="search" value="" name="headerSearchField" id="id6" placeholder="Suche" aria-labelledby="id5"/>
+				<div>
+			
+		<div id="id52" style="display:none" data-wicket-placeholder=""></div>
+	
+		</div>
+				
+			
+			<button class="btn btn-sm" type="button" name="headerSearchButton:btn" id="idc" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</div>
+		</form>
+
+		<div class="btn-group">
+			<a class="btn btn-sm" id="idd" href="javascript:;" title="Login">
+				<span class="fonticon login" aria-hidden="true"></span>
+				<span class="header-functions-user-name">Login</span>
+			</a>
+
+			
+		</div>
+
+		
+
+		
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle btn-sm" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/?language=de" title="Benutzerhandbuch OPAL">Benutzerhandbuch OPAL</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch%20OPAL/Erste%20Schritte/Ansprechpartner//?language=de" title="Kontakt &amp; Ansprechpartner">Kontakt & Ansprechpartner</a></li>
+			<li role="menuitem"><a class="dropdown-item" id="ide" href="javascript:;" title="Problem melden"><span>Problem melden</span></a></li>
+		</ul>
+	</div>
+
+		
+
+		
+
+	</nav>
+
+		</div>
+	</div>
+
+			
+
+			<div id="sidr">
+				<div id="id53">
+			
+		<nav id="main-nav" class="nav-container" role="navigation" aria-label="Hauptnavigation">
+			<div class="nav-search-placeholder" id="searchfieldlock"></div>
+			<form class="nav-search" role="search" id="id8" method="post" action="/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="navigationSearchButton:btn" onclick=" var b=document.getElementById('id9'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+                <label class="visually-hidden" id="id1" for="id2">Suche</label>
+				<div id="id54" style="display:none" data-wicket-placeholder=""></div>
+				<input class="form-control" type="search" tabindex="-1" value="" name="navigationSearch" id="id2" placeholder="Suche" aria-labelledby="id1"/>
+				
+			
+			<button class="btn only" type="button" name="navigationSearchButton:btn" id="id9" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</form>
+ 			<ul class="nav mainnav list-unstyled" id="id55">
+				<li class="home nav-tab">
+					<a href="/opal/home;jsessionid=REDACTEDSESSION.opalN11" title="Startseite">
+						
+						<span>Startseite</span>
+                        
+					</a>
+					
+				</li><li class="courses active nav-tab">
+					<a href="/opal/auth/repository/catalog/360449;jsessionid=REDACTEDSESSION.opalN11" title="Kursangebote" aria-current="page">
+						
+						<span>Kursangebote</span>
+                        
+					</a>
+					
+				</li>
+			</ul>
+			
+ 			<ul class="nav subnav list-unstyled" id="id56">
+				
+			</ul>
+			<strong class="nav-header">Persönliches</strong>
+			
+				<ul class="nav adnav list-unstyled">
+					<li id="id57" style="display:none" data-wicket-placeholder=""></li>
+					<li id="id58" style="display:none" data-wicket-placeholder=""></li>
+					<li id="id59" style="display:none" data-wicket-placeholder=""></li>
+					<li id="id5a" style="display:none" data-wicket-placeholder=""></li>
+					<li><a id="ida" href="javascript:;" title="Login"><span aria-hidden="true" class="fonticon icon-user"></span>Login</a></li>
+				</ul>
+			
+		</nav>
+		<div class="clearfix"></div>
+	
+		</div>
+			</div>
+
+		
+		</header>
+	
+	
+			<section id="main-content" role="main">
+				
+			
+			
+		
+		
+				
+	<div id="id5b">
+	<header class="fluid-container main-header">
+		<div class="row">
+		<div class="col-md-6">
+			<div>
+				
+	
+	<h1>
+		
+			
+            
+			Kursangebote
+			
+		
+	</h1>
+
+			</div>
+		</div>
+		<div class="main-header-additional col-md-6">
+			<div class="row">
+				<div class="additional-center col-md-0">
+					
+				</div>
+				<div class="additional-right col-md-12">
+					<div class="btn-toolbar">
+						<div class="btn-group">
+							
+						</div><div class="btn-group">
+							
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Lernen/Arbeit in Kursen/?language=de" title="Arbeit in Kursen">Arbeit in Kursen</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Erste Schritte/Inhalte suchen und finden/?language=de" title="Inhalte suchen und finden">Inhalte suchen und finden</a></li>
+			
+		</ul>
+	</div>
+
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+	</header>
+	
+</div>
+	<div id="id5c">
+</div>
+	<div id="id5d">
+</div>
+	<div id="id5e">
+</div>
+	<div id="id5f">
+</div>
+	<div id="id60" style="display:none" data-wicket-placeholder=""></div>
+	<div id="id61" class="fluid-container">
+		<div class="rowcontainer" id="id62">
+			<div class="menu-container" id="id63">
+				
+
+			</div>
+			<div class="content-container" id="id65">
+				
+				<div id="id66" class="">
+					<div id="id67">
+</div>
+					<div id="id68">
+</div>
+					<div class="content-container-inner" id="id69">
+			
+		<nav id="id6a" style="display:none" data-wicket-placeholder=""></nav>
+		<div class="box box-light" id="id6b"><p>Die Lernangebote und Lehrveranstaltungen der sächsischen Hochschulen.</p></div>
+		<div container="" id="id6c">
+			
+	
+		<form id="id13" method="post" action="/opal/auth/repository/catalog;jsessionid=REDACTEDSESSION.opalN11?0-1.-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-list-listContainer-listPanelForm">
+			<div id="id6d">
+				<ul class="list-group list-group-flush">
+					<li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:0:listPanelLeftButton:btn" id="id14" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id15" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/712638479" title="Dresden International University" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Dresden International University</strong>
+									<span class="list-group-item-text">
+										
+									</span>
+									<span id="id6e" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:1:listPanelLeftButton:btn" id="id16" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id17" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/3183116303" title="Duale Hochschule Sachsen – Bautzen" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Duale Hochschule Sachsen – Bautzen</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Dualen Hochschule Sachsen – Bautzen
+									</span>
+									<span id="id6f" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:2:listPanelLeftButton:btn" id="id18" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id19" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/3183116302" title="Duale Hochschule Sachsen – Dresden" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Duale Hochschule Sachsen – Dresden</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Dualen Hochschule Sachsen – Dresden
+									</span>
+									<span id="id70" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:3:listPanelLeftButton:btn" id="id1a" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id1b" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/1740603392" title="Duale Hochschule Sachsen – Glauchau" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Duale Hochschule Sachsen – Glauchau</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Dualen Hochschule Sachsen – Glauchau
+									</span>
+									<span id="id71" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:4:listPanelLeftButton:btn" id="id1c" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id1d" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/11641749505" title="Duale Hochschule Sachsen – Leipzig" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Duale Hochschule Sachsen – Leipzig</strong>
+									<span class="list-group-item-text">
+										Lernabgebote der Dualen Hochschule Sachsen – Leipzig
+									</span>
+									<span id="id72" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:5:listPanelLeftButton:btn" id="id1e" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id1f" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/6505005058" title="Duale Hochschule Sachsen – Plauen" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Duale Hochschule Sachsen – Plauen</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Dualen Hochschule Sachsen – Plauen
+									</span>
+									<span id="id73" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:6:listPanelLeftButton:btn" id="id20" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id21" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/11641749504" title="Duale Hochschule Sachsen – Riesa" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Duale Hochschule Sachsen – Riesa</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Dualen Hochschule Sachsen – Riesa
+									</span>
+									<span id="id74" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:7:listPanelLeftButton:btn" id="id22" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id23" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/47868772352" title="Hochschuldidaktik Sachsen (HDS)" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschuldidaktik Sachsen (HDS)</strong>
+									<span class="list-group-item-text">
+										Inhalte Hochschuldidaktik Sachsen (HDS)
+									</span>
+									<span id="id75" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:8:listPanelLeftButton:btn" id="id24" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id25" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/3571714" title="Hochschule Mittweida" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule Mittweida</strong>
+									<span class="list-group-item-text">
+										Lehrveranstaltungen und Lehr-/Lernangebote der Hochschule Mittweida
+									</span>
+									<span id="id76" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:9:listPanelLeftButton:btn" id="id26" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id27" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/3571715" title="Hochschule Zittau / Görlitz" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule Zittau / Görlitz</strong>
+									<span class="list-group-item-text">
+										Lehrveranstaltungen und Lernangebote der Hochschule Zittau / Görlitz
+									</span>
+									<span id="id77" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:10:listPanelLeftButton:btn" id="id28" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id29" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/70057988" title="Hochschule für Bildende Künste Dresden" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule für Bildende Künste Dresden</strong>
+									<span class="list-group-item-text">
+										Lehrangebote der Hochschule für Bildende Künste Dresden
+									</span>
+									<span id="id78" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:11:listPanelLeftButton:btn" id="id2a" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id2b" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/70057987" title="Hochschule für Musik Dresden" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule für Musik Dresden</strong>
+									<span class="list-group-item-text">
+										Lehrangebote der Hochschule für Musik Carl Maria von Weber Dresden
+									</span>
+									<span id="id79" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:12:listPanelLeftButton:btn" id="id2c" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id2d" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/69271555" title="Hochschule für Musik und Theater Leipzig" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule für Musik und Theater Leipzig</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Hochschule für Musik und Theater Leipzig
+									</span>
+									<span id="id7a" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:13:listPanelLeftButton:btn" id="id2e" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id2f" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/13008897" title="Hochschule für Technik und Wirtschaft Dresden" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule für Technik und Wirtschaft Dresden</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Hochschule für Technik und Wirtschaft Dresden
+									</span>
+									<span id="id7b" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:14:listPanelLeftButton:btn" id="id30" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id31" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/67928065" title="Hochschule für Technik, Wirtschaft und Kultur Leipzig" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule für Technik, Wirtschaft und Kultur Leipzig</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Hochschule für Technik, Wirtschaft und Kultur Leipzig
+									</span>
+									<span id="id7c" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:15:listPanelLeftButton:btn" id="id32" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id33" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/480706560" title="Hochschule für Telekommunikation Leipzig" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Hochschule für Telekommunikation Leipzig</strong>
+									<span class="list-group-item-text">
+										Lehrveranstaltungen und Lehrangebote der Hochschule für Telekommunikation Leipzig
+									</span>
+									<span id="id7d" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:16:listPanelLeftButton:btn" id="id34" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id35" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/70057986" title="Palucca Hochschule für Tanz Dresden" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Palucca Hochschule für Tanz Dresden</strong>
+									<span class="list-group-item-text">
+										Lehrangebote der Palucca Schule Dresden - Hochschule für Tanz
+									</span>
+									<span id="id7e" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:17:listPanelLeftButton:btn" id="id36" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id37" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/548470806" title="Sächsische Landesbibliothek - Staats- und Universitätsbibliothek Dresden (SLUB)" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Sächsische Landesbibliothek - Staats- und Universitätsbibliothek Dresden (SLUB)</strong>
+									<span class="list-group-item-text">
+										Sächsische Landesbibliothek - Staats- und Universitätsbibliothek Dresden (SLUB)
+									</span>
+									<span id="id7f" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:18:listPanelLeftButton:btn" id="id38" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id39" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/7897089" title="Technische Universität Bergakademie Freiberg" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Technische Universität Bergakademie Freiberg</strong>
+									<span class="list-group-item-text">
+										Lernangebote der TU Bergakademie Freiberg
+									</span>
+									<span id="id80" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:19:listPanelLeftButton:btn" id="id3a" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id3b" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/589826" title="Technische Universität Chemnitz" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Technische Universität Chemnitz</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Technische Universität Chemnitz
+									</span>
+									<span id="id81" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:20:listPanelLeftButton:btn" id="id3c" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id3d" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/3571713" title="Technische Universität Dresden" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Technische Universität Dresden</strong>
+									<span class="list-group-item-text">
+										Lehrveranstaltungen und Lernangebote der Technischen Universität Dresden
+									</span>
+									<span id="id82" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:21:listPanelLeftButton:btn" id="id3e" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id3f" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/15433730" title="Universität Leipzig" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Universität Leipzig</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Universität Leipzig
+									</span>
+									<span id="id83" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:22:listPanelLeftButton:btn" id="id40" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id41" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/461209603" title="Vorlagen" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Vorlagen</strong>
+									<span class="list-group-item-text">
+										Vorlagen für Kurse.
+									</span>
+									<span id="id84" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:23:listPanelLeftButton:btn" id="id42" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id43" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/83951639" title="Weiterbildung" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Weiterbildung</strong>
+									<span class="list-group-item-text">
+										Weiterbildungsangebote der sächsischen Hochschulen
+									</span>
+									<span id="id85" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:24:listPanelLeftButton:btn" id="id44" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id45" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/66453510" title="Westsächsische Hochschule Zwickau" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Westsächsische Hochschule Zwickau</strong>
+									<span class="list-group-item-text">
+										Lernangebote der Westsächsische Hochschule Zwickau
+									</span>
+									<span id="id86" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:25:listPanelLeftButton:btn" id="id46" title="Ordner">
+				<span aria-hidden="true" class="fonticon icon-folder"></span>
+				
+				<span class="visually-hidden">Ordner</span>
+				
+			</button>
+		
+		
+							<a id="id47" href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/359038977" title="freie Lerninhalte " rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">freie Lerninhalte </strong>
+									<span class="list-group-item-text">
+										Lerninhalte, die aus verschiedensten Internetqellen stammen und zur freien, meist nichtkommerziellen Nutzung freigegeben sind.
+									</span>
+									<span id="id87" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:26:listPanelLeftButton:btn" id="id48" title="Als Favorit markieren">
+				<span aria-hidden="true" class="fonticon icon-star"></span>
+				
+				<span class="visually-hidden">Als Favorit markieren</span>
+				
+			</button>
+		
+		
+							<a id="id49" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/37947146241" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon only icon-course" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">AutoCAD 2D_CAD</strong>
+									<span class="list-group-item-text">
+										Zuletzt angesehen: am 27.10.2026 um 12:33 Uhr, Aufrufe: 1252
+									</span>
+									<span id="id88" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:27:listPanelLeftButton:btn" id="id4a" title="Als Favorit markieren">
+				<span aria-hidden="true" class="fonticon icon-star"></span>
+				
+				<span class="visually-hidden">Als Favorit markieren</span>
+				
+			</button>
+		
+		
+							<a id="id4b" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/2480013329" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon only icon-course" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">Gründungsmanagement</strong>
+									<span class="list-group-item-text">
+										Zuletzt angesehen: am 27.10.2026 um 15:44 Uhr, Aufrufe: 74530
+									</span>
+									<span id="id89" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li><li class="d-flex list-group-item">
+							
+							
+			
+			<button class="btn only list-group-fav " type="button" name="listPanelCheckGroup:listPanelList:listPanelListItem:28:listPanelLeftButton:btn" id="id4c" title="Als Favorit markieren">
+				<span aria-hidden="true" class="fonticon icon-star"></span>
+				
+				<span class="visually-hidden">Als Favorit markieren</span>
+				
+			</button>
+		
+		
+							<a id="id4d" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/54971432961" rel="noopener noreferrer" class="list-group-item-action icon icon-right">
+								
+								<span class="fonticon only icon-course" aria-hidden="true"></span>
+								<div>
+									<strong class="list-group-item-heading">M13. Repetitorium BWL/VWL/Recht/Wirt.Wiss./Verw.Wiss (33. Studiengang Chemnitz)</strong>
+									<span class="list-group-item-text">
+										Zuletzt angesehen: am 26.09.2026 um 10:54 Uhr, Aufrufe: 135
+									</span>
+									<span id="id8a" style="display:none" data-wicket-placeholder=""></span>
+								</div>
+							</a>
+                            
+						<div class="list-group-function">
+							
+						</div>
+					</li>
+					
+				</ul>
+			</div>
+		</form>
+	
+	<p id="id8b" style="display:none" data-wicket-placeholder=""></p>
+
+		</div>
+		<div class="box box-warning" id="id8c">
+			Die Liste ist nicht vollständig.
+			Bitte melden Sie sich an.
+			<a class="btn btn-sm" id="id4e" href="javascript:;"><span>Login</span></a>
+		</div>
+	
+		</div>
+					<div class="custom-content" id="id8d">
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		
+
+			</section>
+			<div class="clearfix"></div>
+		
+</div>
+<div class="clearfix"></div>
+<footer class="page-footer" role="contentinfo">
+			
+	<ul class="list-unstyled page-footer-links">
+		
+		<li>
+			<a id="id10" href="javascript:;" title="Informationen zum Datenschutz">
+				Datenschutz
+			</a>
+		</li>
+		<li>
+			<a id="idf" href="javascript:;" title="Nutzungsbedingungen">
+				Nutzungsbedingungen
+			</a>
+		</li>
+		<li>
+			<a id="id11" href="javascript:;" title="Impressum">
+				Impressum
+			</a>
+		</li>
+		<li>
+			<a id="id12" href="javascript:;" title="Informationen zur Barrierefreiheit">
+				Barrierefreiheit
+			</a>
+		</li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/STATHS/Betriebsstatus%20Hochschulsysteme" target="_blank" rel="noopener noreferrer" title="Informationen zum Betriebsstatus">
+				Betriebsstatus
+			</a>
+		</li>
+		<li id="id8e" style="display:none" data-wicket-placeholder=""></li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/Releasenotes/Releases%20OPAL/" target="_blank" rel="noopener noreferrer">
+				<span>Über OPAL 2026.10.1</span>
+				<span> | N5</span>
+			</a>
+		</li>
+		<li class="footer-bps">
+			<a href="https://www.bps-system.de" target="_blank" rel="noopener noreferrer" title="Homepage der BPS Bildungsportal Sachsen GmbH">
+				Powered by BPS
+			</a>
+		</li>
+	</ul>
+
+		</footer>
+
+<div id="dialogs">
+	
+</div>
+
+
+</body>
+</html>

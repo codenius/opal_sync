@@ -1,0 +1,1390 @@
+<!--
+ BPS Bildungsportal Sachsen GmbH
+ Dresdner Straße 76
+ 09130 Chemnitz
+ Germany
+
+ Copyright (c) 2005-2024 by BPS Bildungsportal Sachsen GmbH
+ http://www.bps-system.de
+
+ All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="pragma" content="no-cache"/>
+	<meta http-equiv="expires" content="0"/>
+	<meta http-equiv="pragma-directive" content="no-cache"/>
+	<meta http-equiv="cache-directive" content="no-cache"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="referrer" content="no-referrer">
+	<meta charset="utf-8">
+
+	
+
+	<!--[if lt IE 9]>
+	<script>
+/*<![CDATA[*/
+
+		document.createElement('section');
+		document.createElement('nav');
+		document.createElement('header');
+		document.createElement('footer');
+		document.createElement('article');
+		document.createElement('aside');
+	
+/*]]>*/
+</script>
+	<![endif]-->
+
+	<title id="id2e7">N021 Mathematik 1 - EIB, STB - OPAL</title>
+<link rel="shortcut icon" href="/opal/raw/20261013/themes/opalmobil_htwk/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/opal/raw/20261013/themes/opalmobil_htwk/favicon.ico" type="image/x-icon" />
+<meta name="description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="keywords" content="OPAL, eLearning, Lernplattform, LMS, Learning Management System, LCMS, Learning Content Management System, Open Source, elearning, JAVA, IMS, QTI, SCORM, Content package, Kollaboration, Usability, Performanz, Skalierbarkeit" />
+<meta name="DC.creator" content="BPS Bildungsportal Sachsen GmbH" />
+<meta name="DC.subject" content="OPAL - Online Learning And Training" />
+<meta name="DC.description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="DC.contributor" content="" />
+<meta name="DC.date" content="2026-10-13" scheme="DCTERMS.W3CDTF" />
+<meta name="DC.type" content="Interactive Resource" scheme="DCTERMS.DCMIType" />
+<meta name="DC.identifier" content="https://bildungsportal.sachsen.de/opal" scheme="DCTERMS.URI" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/_noversion_/js/qtip/jquery.qtip.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dropzone/dropzone.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/bar/bar.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/powertip/css/jquery.powertip.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tree/themes/default/style.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/css/jquery-ui/smoothness/jquery-ui-1.12.1.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dragtable/dragtable-default.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tag-it/css/jquery.tagit.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/pnotify/PNotifyBrightTheme.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opalmobil_htwk/layout.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opalmobil_htwk/responsive.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opalmobil_htwk/retina.css" media="(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)" />
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.resource.DynamicJQueryResourceReference/jquery/jquery-2.2.4-ver-F9EE266EF993962AD59E804AD9DEBE66.js"></script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery-ver-04D5389C5F00ED98AD39E57EBB5AA818.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/script.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/dropzone/dropzone.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/bar/bar.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/bootstrap/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/powertip/jquery.powertip.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/tree/jstree.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery.are-you-sure.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/ays-beforeunload-shim.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript" id="dragtable" defer="defer" src="/opal/raw/20261013/js/dragtable/jquery.dragtable.js"></script>
+<script type="text/javascript" id="tagit" defer="defer" src="/opal/raw/20261013/js/tag-it/js/tag-it.min.js"></script>
+<script type="text/javascript" id="notify" defer="defer" src="/opal/raw/20261013/js/pnotify/PNotify.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10";
+/*]]>*/
+</script>
+<script type="text/javascript" src="/opal/raw/20261013/js/jQuery/jquery.visible.min.js"></script>
+<script type="text/javascript" id="fcqt" src="/opal/raw/_noversion_/js/qtip/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="https://cdn.bps-system.de/live/opal/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm-navigationSearchButton-btn","m":"POST","c":"id2b5","f":"id2b4","sc":"navigationSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-dynamicTabs-0-closeLink","c":"id2b6","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-notificationsLinkContainer-notificationsLink","c":"id2b7","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-profileLinkContainer-profileLink","c":"id2b8","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-settingsLinkContainer-settingsLink","c":"id2b9","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-reportLinkContainer-reportLink","c":"id2ba","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-logoutLink","c":"id2bb","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm-headerSearchButton-btn","m":"POST","c":"id2bd","f":"id2bc","sc":"headerSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-profileLink","c":"id2be","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsProfile","c":"id2bf","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsSettings","c":"id2c0","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsDisplaySettings","c":"id2c1","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsNews","c":"id2c2","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsCalendar","c":"id2c3","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-help-br-brLink","c":"id2c4","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-logoutLink","c":"id2c5","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-footer-disclaimer","c":"id2c6","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-html-body-footer-accessibilityContainer-accessibility","c":"id2c7","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+$(function(){var to_path=function(node){return node.id + ":" + node.parents.join(":")};var wrap=function(e,b){if(!b&&e.selected){var t,n=e.selected,r=e.instance,a=n.length,o=[];for(t=0;a>t;t++)o.push(to_path(r.get_node(n[t])));return JSON.stringify(o)}return"[\"" + to_path(e) + "\"]"};var callback=function (name,selected,extra) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-treeContainer-treePanel-view-1-tree","c":"id2c8","i":"veil","dep":[function(attrs){return extra;}]};
+var params = [{"name":"name","value":name},{"name":"selected","value":selected}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var load=function (cb,selected) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-treeContainer-treePanel-view-1-tree","c":"id2c8","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){cb(data);}],"wr":false,"dt":"json"};
+var params = [{"name":"selected","value":to_path(selected)}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var initial_data=[{"id":"id94324488563383","text":"<span class=\"jstree-title\">N021 Mathematik 1 - EIB, STB<\/span>","icon":"fonticon icon-root","state":{"opened":true},"children":[{"id":"id94324488563885","text":"<span class=\"jstree-title\">Mitteilungen<\/span>","parent":"id94324488563383","icon":"fonticon icon-info","li_attr":{"class":"node-info"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563885","title":"Mitteilungen","class":"node-info"}},{"id":"id94324488563659","text":"<span class=\"jstree-title\">Einschreibung in den Kurs<\/span>","parent":"id94324488563383","icon":"fonticon icon-en","li_attr":{"class":"node-en"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563659","title":"Einschreibung in den Kurs","class":"node-en"}},{"id":"id94407379535985","text":"<span class=\"jstree-title\">Unterlagen<\/span>","parent":"id94324488563383","icon":"fonticon icon-st","state":{"opened":true},"children":[{"id":"id94390817219110","text":"<span class=\"jstree-title\">Kursmaterialien<\/span>","parent":"id94407379535985","icon":"fonticon icon-bc","state":{"opened":true,"selected":true},"li_attr":{"class":"node-bc"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110","title":"Kursmaterialien","class":"node-bc"}}],"li_attr":{"class":"node-st"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94407379535985","title":"Unterlagen","class":"node-st"}},{"id":"id1728268292543639005","text":"<span class=\"jstree-title\">Lernstandserhebung Sachsen<\/span><span class=\"fonticon icon-radio-unchecked assess-open\" title=\"Bewertung offen\" aria-hidden=\"true\"><\/span><span class=\"visually-hidden\">Bewertung offen<\/span>","parent":"id94324488563383","icon":"fonticon icon-iqtest","li_attr":{"class":"node-iqtest"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/1728268292543639005","title":"Lernstandserhebung Sachsen","class":"node-iqtest"}},{"id":"id102729773845819","text":"<span class=\"jstree-title\">Belegabgabe<\/span>","parent":"id94324488563383","icon":"fonticon icon-st","children":[{"id":"id102729774067957","text":"<span class=\"jstree-title\">EIB2 / EIK2<\/span>","parent":"id102729773845819","icon":"fonticon icon-bc","li_attr":{"class":"node-bc"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/102729774067957","title":"EIB2 / EIK2","class":"node-bc"}}],"li_attr":{"class":"node-st"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/102729773845819","title":"Belegabgabe","class":"node-st"}},{"id":"id102790542717191","text":"<span class=\"jstree-title\">Belegr&uuml;ckgabe<\/span><span class=\"fonticon icon-radio-unchecked assess-open\" title=\"Bewertung offen\" aria-hidden=\"true\"><\/span><span class=\"visually-hidden\">Bewertung offen<\/span>","parent":"id94324488563383","icon":"fonticon icon-ta","li_attr":{"class":"node-ta"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/102790542717191","title":"Belegrückgabe","class":"node-ta"}},{"id":"id1760409360283989009","text":"<span class=\"jstree-title\">Kontakt zu Prof. Grundel<\/span>","parent":"id94324488563383","icon":"fonticon icon-co","li_attr":{"class":"node-co"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/1760409360283989009","title":"Kontakt zu Prof. Grundel","class":"node-co"}},{"id":"id94324488563663","text":"<span class=\"jstree-title\">Kontakt zu Dr. Peltri<\/span>","parent":"id94324488563383","icon":"fonticon icon-co","li_attr":{"class":"node-co"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563663","title":"Kontakt zu Dr. Peltri","class":"node-co"}}],"li_attr":{"class":"node-root"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563383","title":"N021 Mathematik 1 - EIB, STB","class":"node-root"}}];var tree="id2c8";$("#" + tree).on("changed.jstree", function(e,data){"select_node"===data.action&&data.event&&($("div.jstree").each(function(e,a){$(a).jstree("deselect_all",!0)}),data.instance.select_node(data.selected,!0),data.instance.open_node(data.node),callback("select_node",wrap(data)));}).on("ready.jstree", function(e,data){var save=data.instance.save_state;data.instance.save_state=function(){var open=this.get_state().core.open;callback("save_action", null, function(attrs){attrs.ep.push({"name":"open","value":open})}, true);save.call(this);};}).jstree({"core":{"multiple":false,"animation":250,"data":function(node,datacb){if(node.id==="#"){datacb(initial_data)}else{load(datacb,node)}},"themes":{"icons":true,"dots":false,"responsive":false}},"plugins":["state"],"state":{"key":"courses-12416188466","filter":function(e){delete e.core.selected;var t,n=e.core.open;for(t=0;t<n.length;t++){var r=this.get_node(n[t]);r&&0!=r.children.length||delete n[t]}return e}}});});;
+$(function(){var to_path=function(node){return node.id + ":" + node.parents.join(":")};var wrap=function(e,b){if(!b&&e.selected){var t,n=e.selected,r=e.instance,a=n.length,o=[];for(t=0;a>t;t++)o.push(to_path(r.get_node(n[t])));return JSON.stringify(o)}return"[\"" + to_path(e) + "\"]"};var callback=function (name,selected,extra) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-treeContainer-treePanel-view-2-tree","c":"id2c9","i":"veil","dep":[function(attrs){return extra;}]};
+var params = [{"name":"name","value":name},{"name":"selected","value":selected}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var load=function (cb,selected) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-treeContainer-treePanel-view-2-tree","c":"id2c9","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){cb(data);}],"wr":false,"dt":"json"};
+var params = [{"name":"selected","value":to_path(selected)}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var initial_data=[{"id":"idgroups","text":"<span class=\"jstree-title\">Gruppen<\/span>","icon":"fonticon icon-group","children":[{"id":"id12416155747","text":"<span class=\"jstree-title\">EIB-2<\/span>","parent":"idgroups","icon":"fonticon icon-group","children":true,"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/BusinessGroup/12416155747","title":"EIB-2"}}],"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/BusinessGroup/Overview","title":"Gruppen"}}];var tree="id2c9";$("#" + tree).on("changed.jstree", function(e,data){"select_node"===data.action&&data.event&&($("div.jstree").each(function(e,a){$(a).jstree("deselect_all",!0)}),data.instance.select_node(data.selected,!0),data.instance.open_node(data.node),callback("select_node",wrap(data)));}).on("ready.jstree", function(e,data){var save=data.instance.save_state;data.instance.save_state=function(){var open=this.get_state().core.open;callback("save_action", null, function(attrs){attrs.ep.push({"name":"open","value":open})}, true);save.call(this);};}).jstree({"core":{"multiple":false,"animation":250,"data":function(node,datacb){if(node.id==="#"){datacb(initial_data)}else{load(datacb,node)}},"themes":{"icons":true,"dots":false,"responsive":false}},"plugins":["state"],"state":{"key":"groups-12416188466","filter":function(e){delete e.core.selected;var t,n=e.core.open;for(t=0;t<n.length;t++){var r=this.get_node(n[t]);r&&0!=r.children.length||delete n[t]}return e}}});});;
+{
+
+const MIN_WIDTH = 200;
+let xDown, contiDownWidth, outerContiWidth;
+const resize = e => {
+const newWidth = Math.max(
+Math.min(
+contiDownWidth + e.clientX - xDown,
+outerContiWidth - MIN_WIDTH
+), MIN_WIDTH
+);
+
+	const newWidthPercent = (newWidth / outerContiWidth) * 100;
+$('#id289').css('width', newWidthPercent + '%');
+};
+const gutter = $('<div><\/div>')
+.addClass('gutter-horizontal')
+.css({
+'touch-action': 'none',
+'user-select': 'none',
+'position': 'absolute',
+'top': 0,
+'right': 0,
+'bottom': 0,
+'transform': 'translateX(100%)'
+})
+.on('pointerup', e => $(e.currentTarget).off('pointermove', resize))
+.on('pointerdown', e => {
+xDown = e.clientX;
+contiDownWidth = $('#id289').outerWidth();
+outerContiWidth = $('#id289').parent().width();
+$(e.currentTarget).on('pointermove', resize);
+e.currentTarget.setPointerCapture(e.originalEvent.pointerId);
+return false;
+})
+.appendTo('#id289');
+$('#id289').css({
+'position': 'relative',
+'margin-right': gutter.css('width')
+}).parent().css({
+'display': 'flex',
+'flex-wrap': 'nowrap'
+});
+$('#id289').next().css('flex', 1);
+};
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-breadCrumbPanel-breadCrumb-breadCrumbItem-0-breadCrumbLink","c":"id2ca","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-tableMultiActionContainer-tableMultiActionRepeater-1-tableMultiAction","m":"POST","c":"tableMultiAction_VFSItemTable_23777table.multi.download","f":"id2cb","sc":"tableMultiActionContainer:tableMultiActionRepeater:1:tableMultiAction","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-adaptTableContainer-adaptTable","c":"id2cc","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-adaptTableContainer-adaptTableOptionsCheckGroup-confirmButton","m":"POST","c":"id2cd","f":"id2cb","sc":"adaptTableContainer:adaptTableOptionsCheckGroup:confirmButton","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-adaptTableContainer-adaptTableOptionsCheckGroup-cancelButton","m":"POST","c":"id2ce","f":"id2cb","sc":"adaptTableContainer:adaptTableOptionsCheckGroup:cancelButton","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-selectAllComlumnHeader-selectAllCheckbox","c":"id294","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-headers-0-header-th-link","c":"id2cf","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-headers-1-header-th-link","c":"id2d0","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-headers-2-header-th-link","c":"id2d1","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-headers-3-header-th-link","c":"id2d2","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-headers-4-header-th-link","c":"id2d3","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-1-checkBoxColumn-checkbox","c":"id2a0","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-1-tableCellRepeating-2-tableLink","c":"id2d4","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2d4");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-1-tableCellRepeating-2-tableLink","c":"id2d4","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-2-checkBoxColumn-checkbox","c":"id2a2","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-2-tableCellRepeating-2-tableLink","c":"id2d5","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2d5");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-2-tableCellRepeating-2-tableLink","c":"id2d5","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-3-checkBoxColumn-checkbox","c":"id2a4","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-3-tableCellRepeating-2-tableLink","c":"id2d6","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2d6");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-3-tableCellRepeating-2-tableLink","c":"id2d6","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-4-checkBoxColumn-checkbox","c":"id2a6","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-4-tableCellRepeating-2-tableLink","c":"id2d7","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2d7");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-4-tableCellRepeating-2-tableLink","c":"id2d7","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-5-checkBoxColumn-checkbox","c":"id2a8","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-5-tableCellRepeating-2-tableLink","c":"id2d8","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2d8");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-5-tableCellRepeating-2-tableLink","c":"id2d8","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-6-checkBoxColumn-checkbox","c":"id2aa","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-6-tableCellRepeating-2-tableLink","c":"id2d9","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2d9");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-6-tableCellRepeating-2-tableLink","c":"id2d9","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-7-checkBoxColumn-checkbox","c":"id2ac","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-7-tableCellRepeating-2-tableLink","c":"id2da","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2da");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-7-tableCellRepeating-2-tableLink","c":"id2da","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-8-checkBoxColumn-checkbox","c":"id2ae","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-8-tableCellRepeating-2-tableLink","c":"id2db","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2db");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-8-tableCellRepeating-2-tableLink","c":"id2db","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-9-checkBoxColumn-checkbox","c":"id2b0","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {var callback = function (callback) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-9-tableCellRepeating-2-tableLink","c":"id2dc","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){callback(data)}],"async":false,"wr":false,"dt":"html"};
+var params = [];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+;var selector = jQuery("#id2dc");selector.data("powertip", function() {	var content = "";	callback(function(data) {		content = data;	});	selector.data("powertip", content);	return content;});selector.powerTip({"placement":"w"});})();;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.1-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-multiSelect-multiSelectGroup-tableRow-9-tableCellRepeating-2-tableLink","c":"id2dc","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-pager-navigation-0-pageLink","c":"id2dd","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+$('#id2de table').dragtable({
+	persistState: "/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel",
+	restoreState: null,
+	dragaccept: ".accept"
+});
+;
+bindPopStateJQueryEvent('#id2df');;
+$('.content-container').removeClass (function (index, className) {    return (className.match (/\bep-map(\S+|\b)/g) || []).join(' ');});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentHeaderPanel-leftContainer-left-1-view-1-header-link","c":"id2e0","i":"veil","e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentHeaderPanel-rightContainer-innerRightContainer-additional-1-view-1-btn","c":"id2e1","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-fluidContainer-rowContainer-outerContentContainer-hideButtonContainer-hideButton","c":"id2e2","i":"veil","e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-headerPanel-rightContainer-innerRightContainer-additional-1-view-1-searchForm-searchButton-btn","m":"POST","c":"id2e4","f":"id2e3","sc":"searchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');},function(attrs){const e=$('#id2b3:hidden');if(e.length){e.show().focus();return false;}}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-headerPanel-rightContainer-innerRightContainer-additional-2-view-1-btn","c":"id2e5","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.0-headerPanel-rightContainer-innerRightContainer-additional-2-view-2-container-view-1-link","c":"id2e6","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Event.subscribe('/ajax/call/complete',function(){try{MathJax.Hub.Queue(['Typeset',MathJax.Hub,'wrap']);}catch(e){}});;
+$('body').on('click',function(t){var i=$(t.target);'popover'!==i.data('toggle')&&0===i.parents('[autohide],.popover').length&&$('[autohide]').each(function(){var t=$(this),i=t.attr('autohide');i?$('#'+i).is(':visible')&&this.click():t.attr('aria-describedby')&&this.click()})});;
+window.addEventListener("message", function(e) {if (e.data.message === "close-dialog") {	var target = jQuery("iframe[name='" + e.data.payload + "']");	var container = target.parents(".fancybox-container");	var id = container.attr("id");	jQuery.fancybox.close(id)}}, false);;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "load", function(event) { 
+try{alterNodeJumps();}catch(e){};
+;});
+/*]]>*/
+</script>
+</head>
+<body class="user-role-learner lang-de">
+<div id="clickblocker" class="clickblocker" style="display:none;" onclick="$.sidr('close','sidr');"></div>
+<div id="veil" class="veil"></div>
+<div class="skip-links-container">
+	<a class="skip-link" href="#main-nav">Zur Navigation</a>
+	<a class="skip-link" href="#main-content">Zum Inhalt</a>
+	<a class="skip-link" href="#side-menu">Zum Kursmenü</a>
+	
+</div>
+<div id="wrap" class="course page">
+	
+	<header role="banner" class="page-header-container" id="id2e8">
+			
+	
+
+	<div class="d-flex justify-content-between page-header">
+
+		<div class="header-logo-container">
+			<a class="logo" rel="direct" href="/opal/home" title="Startseite">
+                <span class="visually-hidden">OPAL</span>
+			</a>
+		</div>
+		<div class="header-functions" id="id2e9">
+			
+	<nav class="d-flex align-items-center gap-1 header-functions-user" aria-label="Header-Navigation">
+		<form class="header-functions-search" role="search" id="id2bc" method="post" action="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm" aria-label="Lernplattform"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="headerSearchButton:btn" onclick=" var b=document.getElementById('id2bd'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+			<label class="visually-hidden" id="id28e" for="id28f">Suche</label>
+			<div class="input-group input-group-sm">
+				<input class="form-control" type="search" value="" name="headerSearchField" id="id28f" placeholder="Suche" aria-labelledby="id28e"/>
+				<div>
+			
+		<div id="id2ea" style="display:none" data-wicket-placeholder=""></div>
+	
+		</div>
+				
+			
+			<button class="btn btn-sm" type="button" name="headerSearchButton:btn" id="id2bd" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</div>
+		</form>
+
+		<div class="btn-group">
+			<a class="btn btn-sm" id="id2be" href="javascript:;" title="Profil anzeigen (Test User)">
+				<span class="fonticon icon-user" aria-hidden="true"></span>
+				<span class="header-functions-user-name">Test User</span>
+			</a>
+
+			<div class="dropdown btn-group">
+				<button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-trigger="focus" title="Weitere Optionen">
+					<span class="visually-hidden">Optionen</span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right" role="menu">
+					<li role="menuitem">
+						<a class="dropdown-item" id="id2bf" href="javascript:;" title="Profileinstellungen öffnen">
+							<span>Profil</span>
+						</a>
+					</li>
+					
+						<li role="menuitem">
+							<a class="dropdown-item" id="id2c0" href="javascript:;" title="Systemeinstellungen öffnen">
+								<span>Einstellungen</span>
+							</a>
+						</li>
+						<li role="menuitem">
+							<a class="dropdown-item" id="id2c1" href="javascript:;" title="Anzeigeeinstellungen öffnen">
+								<span>Anzeige</span>
+							</a>
+						</li>
+						
+						<li class="dropdown-divider" aria-hidden="true"></li>
+					
+					
+						<li role="menuitem">
+							<a class="dropdown-item" id="id2c2" href="javascript:;" title="Neuigkeiten und Abonnements konfigurieren">
+								<span>Neuigkeiten</span>
+							</a>
+						</li>
+						<li class="dropdown-divider" aria-hidden="true"></li>
+					
+					<li role="menuitem">
+						<a class="dropdown-item" id="id2c3" href="javascript:;" title="Persönlichen Kalender konfigurieren">
+							<span>Persönlicher Kalender</span>
+						</a>
+					</li>
+					<li role="menuitem">
+						
+					</li>
+					<li role="menuitem">
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div style="display: inline" id="id2eb">
+			
+	<section class="noti-badge-container" aria-live="polite" id="id2ec" aria-label="Keine neuen Nachrichten">
+		<a id="id290" style="display:none" data-wicket-placeholder=""></a>
+	</section>
+	<form id="id28c" style="display:none" data-wicket-placeholder=""></form>
+
+		</div>
+
+		
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle btn-sm" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/?language=de" title="Benutzerhandbuch OPAL">Benutzerhandbuch OPAL</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch%20OPAL/Erste%20Schritte/Ansprechpartner//?language=de" title="Kontakt &amp; Ansprechpartner">Kontakt & Ansprechpartner</a></li>
+			<li role="menuitem"><a class="dropdown-item" id="id2c4" href="javascript:;" title="Problem melden"><span>Problem melden</span></a></li>
+		</ul>
+	</div>
+
+		
+
+		<a class="btn btn-sm" id="id2c5" href="javascript:;" title="Abmelden">
+			<span class="fonticon icon-logout" aria-hidden="true"></span>
+			<span class="visually-hidden">Abmelden</span>
+		</a>
+
+	</nav>
+
+		</div>
+	</div>
+
+			
+
+			<div id="sidr">
+				<div id="id2ed">
+			
+		<nav id="main-nav" class="nav-container" role="navigation" aria-label="Hauptnavigation">
+			<div class="nav-search-placeholder" id="searchfieldlock"></div>
+			<form class="nav-search" role="search" id="id2b4" method="post" action="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="navigationSearchButton:btn" onclick=" var b=document.getElementById('id2b5'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+                <label class="visually-hidden" id="id28a" for="id28b">Suche</label>
+				<div id="id2ee" style="display:none" data-wicket-placeholder=""></div>
+				<input class="form-control" type="search" tabindex="-1" value="" name="navigationSearch" id="id28b" placeholder="Suche" aria-labelledby="id28a"/>
+				
+			
+			<button class="btn only" type="button" name="navigationSearchButton:btn" id="id2b5" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</form>
+ 			<ul class="nav mainnav list-unstyled" id="id2ef">
+				<li class="home nav-tab">
+					<a href="/opal/home" title="Startseite">
+						
+						<span>Startseite</span>
+                        
+					</a>
+					
+				</li><li class="learn nav-tab">
+					<a href="/opal/auth/resource/courses" title="Lehren &amp; Lernen">
+						
+						<span>Lehren &amp; Lernen</span>
+                        
+					</a>
+					
+				</li><li class="courses nav-tab">
+					<a href="/opal/auth/repository/catalog/360449" title="Kursangebote">
+						
+						<span>Kursangebote</span>
+                        
+					</a>
+					
+				</li>
+			</ul>
+			<strong class="nav-header">Geöffnete Inhalte</strong>
+ 			<ul class="nav subnav list-unstyled" id="id2f0">
+				<li class="active dynamic-tab">
+					<a href="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110" title="N021 Mathematik 1 - EIB, STB" aria-current="page">
+						
+						<span>N021 Mathematik 1 - EI...</span>
+                        
+					</a>
+					<button class="btn-close only" id="id2b6" type="button" title="Tab schließen">
+						<span class="fonticon icon-cross3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Tab schließen</span>
+					</button>
+				</li>
+			</ul>
+			<strong class="nav-header">Persönliches</strong>
+			
+				<ul class="nav adnav list-unstyled">
+					<li>
+						<a id="id2b7" href="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-notificationsLinkContainer-notificationsLink">
+							<span class="fonticon icon-bell" aria-hidden="true"></span>
+							Neuigkeiten
+                            <span class="badge text-bg-secondary">0</span>
+						</a>
+					</li>
+					<li>
+						<a id="id2b8" href="javascript:;" title="Profil anzeigen">
+							<span class="fonticon icon-user" aria-hidden="true"></span>
+							Test User
+						</a>
+					</li>
+					<li>
+						<a id="id2b9" href="javascript:;" title="Zu den Einstellungen">
+							<span class="fonticon icon-gear" aria-hidden="true"></span>
+							Einstellungen
+						</a>
+					</li>
+					<li><a id="id2ba" href="javascript:;" title="Problem melden"><span class="fonticon icon-envelop-filled" aria-hidden="true"></span>Problem melden</a></li>
+					<li><a id="id2bb" href="javascript:;" title="Abmelden"><span aria-hidden="true" class="fonticon icon-logout"></span>Abmelden</a></li>
+				</ul>
+			
+		</nav>
+		<div class="clearfix"></div>
+	
+		</div>
+			</div>
+
+		
+		</header>
+	
+	
+			<section id="main-content" role="main">
+				
+			
+			
+		
+		
+				
+	<div id="id2f1">
+	<header class="fluid-container main-header">
+		<div class="row">
+		<div class="col-md-4">
+			<div>
+				
+	
+	<h1>
+		
+			
+            
+			N021 Mathematik 1 - EIB, STB
+			
+		
+	</h1>
+
+			</div>
+		</div>
+		<div class="main-header-additional col-md-8">
+			<div class="row">
+				<div class="additional-center col-md-6">
+					<div class="btn-group">
+						
+					</div>
+				</div>
+				<div class="additional-right col-md-6">
+					<div class="btn-toolbar">
+						<div class="btn-group">
+							
+			
+	<form class="main-header-search" role="search" id="id2e3" method="post" action="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.-headerPanel-rightContainer-innerRightContainer-additional-1-view-1-searchForm"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="searchButton:btn" onclick=" var b=document.getElementById('id2e4'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+		<label class="visually-hidden" id="id2b2" for="id2b3">Inhalte durchsuchen</label>
+		<div class="input-group">
+			<input class="form-control" type="search" value="" name="searchField" id="id2b3" placeholder="Inhalte durchsuchen" aria-labelledby="id2b2"/>
+			
+			
+			
+			<button class="btn" type="submit" name="searchButton:btn" id="id2e4" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+		</div>
+	</form>
+
+		
+						</div><div class="btn-group">
+							
+			
+			<button class="btn" type="button" id="id2e5" title="Als Favorit markieren">
+				<span aria-hidden="true" class="fonticon icon-star"></span>
+				
+				<span class="visually-hidden">Als Favorit markieren</span>
+				
+			</button>
+		
+		
+    <button class="btn dropdown-toggle course-actions-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="id2f2" title="Weitere Kurs-Aktionen">
+		<span aria-hidden="true"></span>
+        <span class="visually-hidden">Weitere Kurs-Aktionen</span>
+	</button>
+	<ul class="dropdown-menu dropdown-menu-right" role="menu">
+		<li>
+			<a class="dropdown-item" href="javascript:;" id="id2e6" title="Kurs als Startseite setzen">
+				<span aria-hidden="true" class="fonticon icon-home"></span>
+				<span>Kurs als Startseite setzen</span>
+			</a>
+			
+		</li>
+	</ul>
+
+						</div><div class="btn-group">
+							
+						</div><div class="btn-group">
+							
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Lehren/Kursbausteine/Ordner/?language=de" title="Kursbaustein Ordner">Kursbaustein Ordner</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Lernen/Arbeit in Kursen/?language=de" title="Arbeit in Kursen">Arbeit in Kursen</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Lernen/Arbeit in Kursen/Lerninhalte und Kursbausteine/?language=de" title="Lerninhalte und Kursbausteine">Lerninhalte und Kursbausteine</a></li>
+			
+		</ul>
+	</div>
+
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+	</header>
+	
+		<p id="id2f3" style="display:none" data-wicket-placeholder=""></p>
+	
+</div>
+	<div id="id2f4">
+</div>
+	<div id="id2f5">
+</div>
+	<div id="id2f6">
+</div>
+	<div id="id2f7">
+</div>
+	<div id="id2f8" style="display:none" data-wicket-placeholder=""></div>
+	<div id="id2f9" class="fluid-container">
+		<div class="rowcontainer row" id="id2fa">
+			<div class="menu-container col-sm-2 open" id="id289" aria-hidden="false">
+				
+	<div></div>
+	<nav role="navigation" class="menu menu-course" id="side-menu" aria-label="Bausteine des Kurses">
+			<div id="id2c8"></div>
+		</nav><nav role="navigation" class="menu menu-groups" id="id2fc" aria-label="Gruppen des Kurses">
+			<div id="id2c9"></div>
+		</nav>
+
+			</div>
+			<div class="content-container col-sm-10" id="id2fd">
+				
+					<div class="hide-course-tree">
+						<button class="btn" type="button" id="id2e2" aria-expanded="true" aria-controls="id289">
+								<span class="visually-hidden">Anzeige des Kursmenüs</span>
+							<span class="fonticon icon-arrow-left-small" aria-hidden="true" id="id2fe"></span>
+						</button>
+					</div>
+				
+				<div id="id2ff" class="course-node bc">
+					<div id="id300" class="resource-header">
+	<header class="fluid-container main-header">
+		<div class="row">
+		<div class="col-md-6">
+			<div>
+				
+	
+	<h2>
+		<button class="btn-link" type="button" id="id2e0" aria-expanded="true" aria-controls="id2b1">
+			<span aria-hidden="true" id="id301" class="fonticon icon-arrow-down"></span>
+            
+			<span>Kursmaterialien</span>
+			<span aria-hidden="true" class="fonticon icon-lock"></span>
+		</button>
+	</h2>
+
+			</div>
+		</div>
+		<div class="main-header-additional col-md-6">
+			<div class="row">
+				<div class="additional-center col-md-0">
+					
+				</div>
+				<div class="additional-right col-md-12">
+					<div class="btn-toolbar">
+						<div class="btn-group">
+							
+			
+			<button class="btn" type="button" id="id2e1" title="Abonnieren">
+				<span aria-hidden="true" class="fonticon icon-envelop"></span>
+				
+				<span>Abonnieren</span>
+				
+			</button>
+		
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+			<div class="clearfix"></div>
+			<div class="main-header-desc-container" id="id2b1" aria-hidden="false">
+				<div class="box box-access">
+	<span aria-hidden="true" class="fonticon icon-lock"></span>
+	<div class="box-access-content">
+		<p>Sie dürfen <strong>Dateien herunterladen</strong>.</p><p>Sie können unter folgenden Bedingungen <strong>Dateien herunterladen</strong>:</p><ul><li><strong>Mitglieder der Gruppen:</strong> "EIB-1", "EIB-2", "EIB-3", "STB" und "Studentische Hilfskräfte und Tutoren"</li></ul>
+	</div>
+</div>
+			</div>
+		
+		</div>
+	</header>
+	
+</div>
+					<div id="id302">
+</div>
+					<div class="content-container-inner" id="id303">
+			
+		
+	
+			
+	
+
+		
+	
+	<div id="id304">
+			
+	
+
+	
+			
+		<div id="id305" style="display:none" data-wicket-placeholder=""></div>
+	
+		
+	
+
+	
+
+	
+
+	
+		<div id="id306">
+			
+		
+		<div class="folder">
+			<div id="id2df">
+			
+	
+		<nav aria-label="Brotkrümel">
+			
+			<ol class="breadcrumb" id="id307">
+				<li class="breadcrumb-item">
+					<a href="javascript:;" id="id2ca" aria-current="page"><span>Kursmaterialien</span></a>
+				</li>
+			</ol>
+		
+		</nav>
+	
+	<div class="table-panel" id="id2de">
+		
+		<form id="id2cb" method="post" action="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm">
+			<div class="table-header form-inline">
+				<div class="table-header-functions">
+					
+					<div class="btn-group">
+						
+					</div>
+					<div class="btn-group" id="id308">
+						
+							<button class="btn btn-sm" name="tableMultiActionContainer:tableMultiActionRepeater:1:tableMultiAction" id="tableMultiAction_VFSItemTable_23777table.multi.download" disabled="disabled" title="Gewählte Dateien herunterladen.">
+								<span class="fonticon icon-fonticon icon-download" aria-hidden="true"></span>
+								<span class="visually-hidden">Gewählte Dateien herunterladen.</span>
+							</button>
+						
+					</div>
+					
+				</div>
+				<div class="table-header-additional">
+					<div style="display:inline" id="id309">
+			
+			<a class="btn btn-sm" id="id30a" href="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-downloadTableContainer-btn&amp;antiCache=1793113043090" title="Tabelle herunterladen">
+				<span aria-hidden="true" class="fonticon icon-table-download"></span>
+				
+				<span class="visually-hidden">Tabelle herunterladen</span>
+				
+			</a>
+		
+		</div>
+					<div class="btn-group">
+						<div class="btn-group dropdown keep-open" id="id30b">
+							<button class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" name="adaptTableContainer:adaptTable" id="id2cc" title="Einträge auswählen - Optionen">
+                                <span class="visually-hidden">Einträge auswählen - Optionen</span>
+								<span class="fonticon icon-gear" aria-hidden="true"></span>
+							</button>
+							<ul class="list-unstyled dropdown-menu dropdown-menu-right" role="menu" onclick="event.stopPropagation();" id="id30c">
+								<li role="menuitemcheckbox">
+									<div class="checkbox">
+										<input type="checkbox" id="id296" name="adaptTableContainer:adaptTableOptionsCheckGroup" value="check0" checked="checked" aria-labelledby="id295"/>
+										<label id="id295" for="id296">Dateityp</label>
+									</div>
+								</li><li role="menuitemcheckbox">
+									<div class="checkbox">
+										<input type="checkbox" id="id298" name="adaptTableContainer:adaptTableOptionsCheckGroup" value="check1" checked="checked" aria-labelledby="id297"/>
+										<label id="id297" for="id298">Größe</label>
+									</div>
+								</li><li role="menuitemcheckbox">
+									<div class="checkbox">
+										<input type="checkbox" id="id29a" name="adaptTableContainer:adaptTableOptionsCheckGroup" value="check2" checked="checked" aria-labelledby="id299"/>
+										<label id="id299" for="id29a">Erstellt am</label>
+									</div>
+								</li><li role="menuitemcheckbox">
+									<div class="checkbox">
+										<input type="checkbox" id="id29c" name="adaptTableContainer:adaptTableOptionsCheckGroup" value="check3" checked="checked" aria-labelledby="id29b"/>
+										<label id="id29b" for="id29c">Zuletzt geändert</label>
+									</div>
+								</li><li role="menuitemcheckbox">
+									<div class="checkbox">
+										<input type="checkbox" id="id29e" name="adaptTableContainer:adaptTableOptionsCheckGroup" value="check4" aria-labelledby="id29d"/>
+										<label id="id29d" for="id29e">Lizenz</label>
+									</div>
+								</li>
+								<li class="dropdown-menu-functions">
+									<button class="btn btn-sm" name="adaptTableContainer:adaptTableOptionsCheckGroup:confirmButton" id="id2cd">
+										<span>Speichern</span>
+									</button>
+									<button class="btn btn-sm" name="adaptTableContainer:adaptTableOptionsCheckGroup:cancelButton" id="id2ce">
+										<span>Abbrechen</span>
+									</button>
+								</li>
+							</ul>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+			</div>
+			<div id="id292" style="display:none" data-wicket-placeholder=""></div>
+			<div id="id30d">
+				
+				<div id="id30e">
+					<table>
+						<caption class="visually-hidden">Ordner, Spaltenüberschriften mit Button sind sortierbar.</caption>
+						<thead>
+						<tr>
+							<th class="table-select" data-header="th.checks">
+								<input type="checkbox" name="contentContainer:tableContainer:selectAllComlumnHeader:selectAllCheckbox" id="id294" title="Alle sichtbaren Einträge auswählen" aria-labelledby="id293" onclick="selectAll(&#039;id294&#039;,&#039;id291&#039;);enableButtons([&quot;tableMultiAction_VFSItemTable_23777table.multi.download&quot;, &quot;tableMultiAction_VFSItemTable_23777copy&quot;, &quot;tableMultiAction_VFSItemTable_23777move&quot;, &quot;tableMultiAction_VFSItemTable_23777delete&quot;], &#039;id291&#039;);onlyHideIfNotNeeded(&quot;id292&quot;, &#039;id291&#039;);"/><label class="visually-hidden" id="id293" for="id294">Alle sichtbaren Einträge auswählen</label>
+								
+							</th>
+							
+								
+			
+	<th id="id30f" data-header="table.folder.type" class="table-sort accept">
+		<button id="id2cf" type="button">
+			Dateityp
+			<span class="fonticon" aria-hidden="true"></span>
+		</button>
+	</th>
+
+		
+							
+								
+			
+	<th id="id310" data-header="table.folder.name" class="table-sort accept">
+		<button id="id2d0" type="button">
+			Name
+			<span class="fonticon" aria-hidden="true"></span>
+		</button>
+	</th>
+
+		
+							
+								
+			
+	<th id="id311" data-header="table.folder.size" class="table-sort accept">
+		<button id="id2d1" type="button">
+			Größe
+			<span class="fonticon" aria-hidden="true"></span>
+		</button>
+	</th>
+
+		
+							
+								
+			
+	<th id="id312" data-header="table.folder.creationDate" class="table-sort accept">
+		<button id="id2d2" type="button">
+			Erstellt am
+			<span class="fonticon" aria-hidden="true"></span>
+		</button>
+	</th>
+
+		
+							
+								
+			
+	<th id="id313" data-header="table.folder.lastModified" class="table-sort accept">
+		<button id="id2d3" type="button">
+			Zuletzt geändert
+			<span class="fonticon" aria-hidden="true"></span>
+		</button>
+	</th>
+
+		
+							
+								
+							
+						</tr>
+						</thead>
+						<tbody id="id291" onclick="enableButtons([&quot;tableMultiAction_VFSItemTable_23777table.multi.download&quot;, &quot;tableMultiAction_VFSItemTable_23777copy&quot;, &quot;tableMultiAction_VFSItemTable_23777move&quot;, &quot;tableMultiAction_VFSItemTable_23777delete&quot;], &#039;id291&#039;);onlyHideIfNotNeeded(&quot;id292&quot;, &#039;id291&#039;);">
+						
+							<tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2a0" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check5" aria-labelledby="id29f"/>
+									<label class="visually-hidden" id="id29f" for="id2a0">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2d4" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Belegaufgaben" data-file-name="Belegaufgaben">
+                
+				<span>Belegaufgaben</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 06.10.2017 um 08:49 Uhr</span>
+	
+
+		</td><td>
+			
+	<span>am 27.10.2026 um 12:44 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2a2" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check6" aria-labelledby="id2a1"/>
+									<label class="visually-hidden" id="id2a1" for="id2a2">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2d5" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Pr%C3%BCfungsvorbereitung" data-file-name="Prüfungsvorbereitung">
+                
+				<span>Prüfungsvorbereitung</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 20.07.2026 um 14:29 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2a4" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check7" aria-labelledby="id2a3"/>
+									<label class="visually-hidden" id="id2a3" for="id2a4">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2d6" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Seminarmaterialien+EIB1" data-file-name="Seminarmaterialien EIB1">
+                
+				<span>Seminarmaterialien EIB1</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 27.10.2026 um 13:19 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2a6" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check8" aria-labelledby="id2a5"/>
+									<label class="visually-hidden" id="id2a5" for="id2a6">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2d7" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Seminarmaterialien+EIB2" data-file-name="Seminarmaterialien EIB2">
+                
+				<span>Seminarmaterialien EIB2</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 15.10.2020 um 13:48 Uhr</span>
+	
+
+		</td><td>
+			
+	<span>am 27.10.2026 um 11:26 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2a8" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check9" aria-labelledby="id2a7"/>
+									<label class="visually-hidden" id="id2a7" for="id2a8">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2d8" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Seminarmaterialien+EIB3" data-file-name="Seminarmaterialien EIB3">
+                
+				<span>Seminarmaterialien EIB3</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 03.11.2020 um 19:26 Uhr</span>
+	
+
+		</td><td>
+			
+	<span>am 02.09.2026 um 12:34 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2aa" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check10" aria-labelledby="id2a9"/>
+									<label class="visually-hidden" id="id2a9" for="id2aa">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2d9" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Seminarmaterialien+STB" data-file-name="Seminarmaterialien STB">
+                
+				<span>Seminarmaterialien STB</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 03.11.2020 um 19:26 Uhr</span>
+	
+
+		</td><td>
+			
+	<span>am 02.09.2026 um 12:34 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2ac" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check11" aria-labelledby="id2ab"/>
+									<label class="visually-hidden" id="id2ab" for="id2ac">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2da" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Vorbereitung+Ableitungstest" data-file-name="Vorbereitung Ableitungstest">
+                
+				<span>Vorbereitung Ableitungstest</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 18.12.2017 um 16:01 Uhr</span>
+	
+
+		</td><td>
+			
+	<span>am 12.10.2026 um 14:12 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2ae" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check12" aria-labelledby="id2ad"/>
+									<label class="visually-hidden" id="id2ad" for="id2ae">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon icon-folder" aria-hidden="true" title="Ordner"></span>
+    <span class="visually-hidden">Ordner</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2db" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Vorlesungsmaterialien" data-file-name="Vorlesungsmaterialien">
+                
+				<span>Vorlesungsmaterialien</span>
+			</a>
+		
+		</td><td>
+			
+	<span></span>
+	
+
+		</td><td>
+			
+	<span>am 06.10.2017 um 08:48 Uhr</span>
+	
+
+		</td><td>
+			
+	<span>am 26.10.2026 um 09:17 Uhr</span>
+	
+
+		</td>
+							</tr><tr>
+								<td class="table-check">
+									<input type="checkbox" id="id2b0" name="contentContainer:tableContainer:multiSelect:multiSelectGroup" value="check13" aria-labelledby="id2af"/>
+									<label class="visually-hidden" id="id2af" for="id2b0">Diesen Eintrag auswählen</label>
+								</td>
+								<td>
+			
+	<span class="fonticon pdf" aria-hidden="true" title="PDF-Dokument"></span>
+    <span class="visually-hidden">PDF-Dokument</span>
+	
+    
+    
+	
+
+		</td><td>
+			
+			<a id="id2dc" href="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110/Ergebnisse_Test_2026.pdf" data-file-name="Ergebnisse_Test_2026.pdf">
+                
+				<span>Ergebnisse_Test_2026.pdf</span>
+			</a>
+		
+		</td><td>
+			
+	<span>169,7KB</span>
+	
+
+		</td><td>
+			
+	<span>am 09.10.2026 um 11:47 Uhr</span>
+	
+
+		</td><td>
+			
+	<span>am 09.10.2026 um 11:47 Uhr</span>
+	
+
+		</td>
+							</tr>
+						
+						</tbody>
+					</table>
+
+					<div class="table-footer">
+						
+	<small>9 Einträge</small>
+	<nav class="pager" aria-label="Tabellennavigation">
+		<ul class="pagination">
+			<li>
+				<a id="id314" title="Gehe zur ersten Seite" aria-label="Gehe zur ersten Seite" aria-disabled="true">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+            <li class="d-none">
+				<a id="id315" title="Gehe zur vorherigen Seite" aria-label="Gehe zur vorherigen Seite" aria-disabled="true">&nbsp;</a>
+			</li>
+			<li class="page active">
+				<a href="/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110?10-1.-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-nodePanel-folderPanel-contentPanel-wrapper-tableForm-contentContainer-tableContainer-pager-navigation-0-pageLink" id="id2dd" title="Aktuelle Seite, Seite 1" aria-label="Aktuelle Seite, Seite 1" aria-current="true">
+					<span>1</span>
+				</a>
+			</li>
+            <li class="d-none">
+				<a id="id316" title="Gehe zur nächsten Seite" aria-label="Gehe zur nächsten Seite" aria-disabled="true">&nbsp;</a>
+			</li>
+			<li>
+				<a id="id317" title="Gehe zur letzten Seite" aria-label="Gehe zur letzten Seite" aria-disabled="true">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+		
+	</nav>
+
+					</div>
+				</div>
+
+				
+				
+
+				
+			</div>
+		</form>
+	</div>
+	<div id="id318" style="display:none" data-wicket-placeholder=""></div>
+
+		</div>
+		</div>
+	
+	
+		</div>
+	
+
+
+		</div>
+
+	
+		</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		
+		
+	
+	
+	
+
+			</section>
+			<div class="clearfix"></div>
+		
+</div>
+<div class="clearfix"></div>
+<footer class="page-footer" role="contentinfo">
+			
+	<ul class="list-unstyled page-footer-links">
+		
+		<li>
+			<a href="https://www.htwk-leipzig.de/de/hochschule/kontakt/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer" title="Informationen zum Datenschutz">
+				Datenschutz
+			</a>
+		</li>
+		<li>
+			<a id="id2c6" href="javascript:;" title="Nutzungsbedingungen">
+				Nutzungsbedingungen
+			</a>
+		</li>
+		<li>
+			<a href="https://www.htwk-leipzig.de/hochschule/kontakt/impressum/" target="_blank" rel="noopener noreferrer" title="Impressum">
+				Impressum
+			</a>
+		</li>
+		<li>
+			<a id="id2c7" href="javascript:;" title="Informationen zur Barrierefreiheit">
+				Barrierefreiheit
+			</a>
+		</li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/STATHS/Betriebsstatus%20Hochschulsysteme" target="_blank" rel="noopener noreferrer" title="Informationen zum Betriebsstatus">
+				Betriebsstatus
+			</a>
+		</li>
+		<li id="id319" style="display:none" data-wicket-placeholder=""></li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/Releasenotes/Releases%20OPAL/" target="_blank" rel="noopener noreferrer">
+				<span>Über OPAL 2026.10.1</span>
+				<span> | N12</span>
+			</a>
+		</li>
+		<li class="footer-bps">
+			<a href="https://www.bps-system.de" target="_blank" rel="noopener noreferrer" title="Homepage der BPS Bildungsportal Sachsen GmbH">
+				Powered by BPS
+			</a>
+		</li>
+	</ul>
+
+		</footer>
+
+<div id="dialogs">
+	
+</div>
+
+
+</body>
+</html>

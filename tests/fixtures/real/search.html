@@ -1,0 +1,2392 @@
+<!--
+ BPS Bildungsportal Sachsen GmbH
+ Dresdner Straße 76
+ 09130 Chemnitz
+ Germany
+
+ Copyright (c) 2005-2024 by BPS Bildungsportal Sachsen GmbH
+ http://www.bps-system.de
+
+ All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="pragma" content="no-cache"/>
+	<meta http-equiv="expires" content="0"/>
+	<meta http-equiv="pragma-directive" content="no-cache"/>
+	<meta http-equiv="cache-directive" content="no-cache"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="referrer" content="no-referrer">
+	<meta charset="utf-8">
+
+	
+
+	<!--[if lt IE 9]>
+	<script>
+/*<![CDATA[*/
+
+		document.createElement('section');
+		document.createElement('nav');
+		document.createElement('header');
+		document.createElement('footer');
+		document.createElement('article');
+		document.createElement('aside');
+	
+/*]]>*/
+</script>
+	<![endif]-->
+
+	<title id="id1a2">Suche - OPAL</title>
+<link rel="shortcut icon" href="/opal/raw/20261013/themes/opal_new/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/opal/raw/20261013/themes/opal_new/favicon.ico" type="image/x-icon" />
+<meta name="description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="keywords" content="OPAL, eLearning, Lernplattform, LMS, Learning Management System, LCMS, Learning Content Management System, Open Source, elearning, JAVA, IMS, QTI, SCORM, Content package, Kollaboration, Usability, Performanz, Skalierbarkeit" />
+<meta name="DC.creator" content="BPS Bildungsportal Sachsen GmbH" />
+<meta name="DC.subject" content="OPAL - Online Learning And Training" />
+<meta name="DC.description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="DC.contributor" content="" />
+<meta name="DC.date" content="2026-10-13" scheme="DCTERMS.W3CDTF" />
+<meta name="DC.type" content="Interactive Resource" scheme="DCTERMS.DCMIType" />
+<meta name="DC.identifier" content="https://bildungsportal.sachsen.de/opal" scheme="DCTERMS.URI" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dropzone/dropzone.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/bar/bar.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/powertip/css/jquery.powertip.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tree/themes/default/style.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/css/jquery-ui/smoothness/jquery-ui-1.12.1.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dragtable/dragtable-default.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tag-it/css/jquery.tagit.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/pnotify/PNotifyBrightTheme.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opal_new/layout.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opal_new/responsive.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opal_new/retina.css" media="(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)" />
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.resource.DynamicJQueryResourceReference/jquery/jquery-2.2.4-ver-F9EE266EF993962AD59E804AD9DEBE66.js"></script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery-ver-04D5389C5F00ED98AD39E57EBB5AA818.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/script.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/dropzone/dropzone.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/bar/bar.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/bootstrap/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/powertip/jquery.powertip.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/tree/jstree.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery.are-you-sure.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/ays-beforeunload-shim.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript" id="dragtable" defer="defer" src="/opal/raw/20261013/js/dragtable/jquery.dragtable.js"></script>
+<script type="text/javascript" id="tagit" defer="defer" src="/opal/raw/20261013/js/tag-it/js/tag-it.min.js"></script>
+<script type="text/javascript" id="notify" defer="defer" src="/opal/raw/20261013/js/pnotify/PNotify.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="auth/search?4";
+/*]]>*/
+</script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.extensions.yui.YuiLib/yuiloader/yuiloader-min-ver-46DDAFD8F3A8FB80745533D246937157.js"></script>
+<script type="text/javascript" src="/opal/raw/20261013/js/jQuery/jquery.visible.min.js"></script>
+<script type="text/javascript" src="https://cdn.bps-system.de/live/opal/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm-navigationSearchButton-btn","m":"POST","c":"id184","f":"id183","sc":"navigationSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-dynamicTabs-0-closeLink","c":"id185","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-dynamicTabs-1-closeLink","c":"id186","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-logoutLink","c":"id187","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm-headerSearchButton-btn","m":"POST","c":"id189","f":"id188","sc":"headerSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-profileLink","c":"id18a","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-help-br-brLink","c":"id18b","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-footer-disclaimer","c":"id18c","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-footer-privacy","c":"id18d","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-footer-imprint","c":"id18e","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-html-body-footer-accessibilityContainer-accessibility","c":"id18f","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-help-br-brLink","c":"id190","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+$('#ide9').on('keydown', e => {if (e.keyCode === 13){$(e.currentTarget.form).trigger('submit'); return false;}});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-searchFilter-filtersContainer-filtersView-1-filterButton","m":"POST","c":"idfc","f":"id191","sc":"searchFilter:filtersContainer:filtersView:1:filterButton","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-searchFilter-filtersContainer-filtersView-2-filterButton","m":"POST","c":"idfe","f":"id191","sc":"searchFilter:filtersContainer:filtersView:2:filterButton","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-searchFilter-filtersContainer-filtersView-3-filterButton","m":"POST","c":"id100","f":"id191","sc":"searchFilter:filtersContainer:filtersView:3:filterButton","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectInstitutionsContainer-selectInstitutionsButton","c":"id192","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+(function() {  window.clearAllCheckboxes = function(formId, event) {    var root = document.getElementById(formId);    if (!root && event && event.target) {
+      root = event.target.closest('.dropdown-menu') || event.target.closest('.popover') || event.target.closest('.dropdown') || null;
+    }    if (!root) return false;    var changed = false;
+    var checkboxes = root.querySelectorAll('input[type="checkbox"]');    for (var i = 0; i < checkboxes.length; i++) {      var cb = checkboxes[i];      var wasChecked = cb.checked === true;      if (wasChecked) { changed = true; }      cb.checked = false;      if (wasChecked) {        var evt = new Event('change', { bubbles: true });        cb.dispatchEvent(evt);      }    }    return changed;
+  };  window.setDefaultCheckboxes = function(formId, defaultValues, event, selectFirstWhenEmptyParam) {    var root = document.getElementById(formId);    if (!root && event && event.target) {
+      root = event.target.closest('.dropdown-menu') || event.target.closest('.popover') || event.target.closest('.dropdown') || null;
+    }    if (!root) return false;    var changed = false;
+    var checkboxes = root.querySelectorAll('input[type="checkbox"]');    var selectFirstWhenEmpty = (selectFirstWhenEmptyParam === undefined) ? true : !!selectFirstWhenEmptyParam;
+    var defaultMissing = !defaultValues || defaultValues.length === 0;
+    var firstSelected = false;
+    for (var i = 0; i < checkboxes.length; i++) {      var checkbox = checkboxes[i];      var value = checkbox.value;      var key = checkbox.getAttribute('data-key') || value;
+      var newChecked;
+      if (defaultMissing && selectFirstWhenEmpty) {
+        // pick the first enabled checkbox
+        if (!firstSelected && !checkbox.disabled) { newChecked = true; firstSelected = true; } else { newChecked = false; }
+      } else {
+        newChecked = defaultValues.indexOf(key) !== -1;
+      }
+      if (checkbox.checked !== newChecked) { changed = true;
+        checkbox.checked = newChecked;
+        var evt = new Event('change', { bubbles: true });
+        checkbox.dispatchEvent(evt);
+      }
+    }
+    return changed;
+  };  window.showRemoveFiltersMessage = function(alertId, changed) {    var alertContainer = document.getElementById(alertId);    if (!alertContainer) return;    if (changed) {
+      alertContainer.innerHTML = '<span>Filter wurden erfolgreich entfernt.<\/span>';
+      alertContainer.className = 'box box-success';
+    } else {
+      alertContainer.innerHTML = '<span>Filter wurden bereits entfernt.<\/span>';
+      alertContainer.className = 'box box-info';
+    }
+  };
+  window.showResetToDefaultMessage = function(alertId, changed) {    var alertContainer = document.getElementById(alertId);    if (!alertContainer) return;    if (changed) {
+      alertContainer.innerHTML = '<span>Auf Standardeinstellung zurückgesetzt.<\/span>';
+      alertContainer.className = 'box box-success';
+    } else {
+      alertContainer.innerHTML = '<span>Filter ist bereits auf Standardeinstellung.<\/span>';
+      alertContainer.className = 'box box-info';
+    }
+  };
+  window.keepDropdownOpen = function(event) {    if (event) { event.preventDefault(); event.stopPropagation(); }    var dropdownParent = findDropdownParent(event ? event.target : null);    if (dropdownParent) {      var menu = dropdownParent.querySelector('.dropdown-menu');      var toggle = dropdownParent.querySelector('[aria-controls], [data-bs-toggle=dropdown], [data-toggle=dropdown], .dropdown-toggle');      setTimeout(function() {        // Ensure open for Bootstrap 4/5
+        dropdownParent.classList.add('show');        if (menu) { menu.classList.add('show'); menu.setAttribute('aria-hidden','false'); }        if (toggle) { toggle.setAttribute('aria-expanded', 'true'); toggle.setAttribute('aria-expand', 'true'); }        // Backward compatibility with Bootstrap 3
+        if (!dropdownParent.classList.contains('open')) { dropdownParent.classList.add('open'); }      }, 0);    }  };  function findDropdownParent(element) {    while (element) {      if (element.classList && element.classList.contains('dropdown')) {        return element;      }      element = element.parentElement;    }    return null;  }})();;
+$('#id101').on('click', function(e) { e.stopPropagation(); });;
+$('#id103').on('click', function(e) { e.stopPropagation(); });;
+$('#id105').on('click', function(e) { e.stopPropagation(); });;
+$('#id107').on('click', function(e) { e.stopPropagation(); });;
+$('#id109').on('click', function(e) { e.stopPropagation(); });;
+$('#id10b').on('click', function(e) { e.stopPropagation(); });;
+$('#id10d').on('click', function(e) { e.stopPropagation(); });;
+$('#id10f').on('click', function(e) { e.stopPropagation(); });;
+$('#id111').on('click', function(e) { e.stopPropagation(); });;
+$('#id113').on('click', function(e) { e.stopPropagation(); });;
+$('#id115').on('click', function(e) { e.stopPropagation(); });;
+$('#id117').on('click', function(e) { e.stopPropagation(); });;
+$('#id119').on('click', function(e) { e.stopPropagation(); });;
+$('#id11b').on('click', function(e) { e.stopPropagation(); });;
+$('#id11d').on('click', function(e) { e.stopPropagation(); });;
+$('#id11f').on('click', function(e) { e.stopPropagation(); });;
+$('#id121').on('click', function(e) { e.stopPropagation(); });;
+$('#id123').on('click', function(e) { e.stopPropagation(); });;
+$('#id125').on('click', function(e) { e.stopPropagation(); });;
+$('#id127').on('click', function(e) { e.stopPropagation(); });;
+$('#id129').on('click', function(e) { e.stopPropagation(); });;
+$('#id12b').on('click', function(e) { e.stopPropagation(); });;
+$('#id12d').on('click', function(e) { e.stopPropagation(); });;
+$('#id12f').on('click', function(e) { e.stopPropagation(); });;
+$('#id131').on('click', function(e) { e.stopPropagation(); });;
+$('#id133').on('click', function(e) { e.stopPropagation(); });;
+$('#id135').on('click', function(e) { e.stopPropagation(); });;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectInstitutionsContainer-selectInstitutionFormPanel-selectInstitutionForm-form-fields-fields-2-field-container-fields-fields-0-field-btn","m":"POST","c":"id194","f":"id193","sc":"selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:2:field:container:fields:fields:0:field:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}jQuery('.dirky').removeClass('dirky');}],"pre":[function(attrs){if(Dropzone){var passed=true;var instances=Dropzone.instances;var i,ins;if(instances.length>0){for(i=0;i<instances.length;i++){ins=instances[i];if($(ins.element).parents('#'+attrs.f).length){passed=ins.passCheck==undefined||ins.passCheck();if(passed){if(ins.needProcessing()){passed=false;ins.wicketAttrs=attrs;ins.processQueue();}}else if(ins.displayErrorMessage){ins.displayErrorMessage();}}}}return passed;}else{return true;}}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectInstitutionsContainer-selectInstitutionFormPanel-selectInstitutionForm-form-fields-fields-2-field-container-fields-fields-1-field-btn","c":"id195","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+{var changeHandling = function() { var cls = 'btn-highlight'; var btnById = $('#id194'); if (btnById.length > 0) { if (btnById.hasClass(cls)) { return; } if (btnById.is(':visible')) { btnById.removeClass().addClass('btn').addClass(cls); return; } } var btn = $('#id193 button.btn'); btn = btn.not('.btn-sm, .btn-xs, .btn-big, .upload-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = btn.filter(':first'); if (btn.length == 0) { var dia = $('#id193').parents('.ui-dialog'); if (dia.length > 0) { btn = dia.find('button.ui-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = dia.find('.ui-dialog-buttonset button.ui-button:not(.ui-button-disabled)').filter(':first'); if (btn.length > 0) { btn.removeClass().addClass('ui-button'); } } } if (btn.length > 0 && btn.is(':visible')) { btn.addClass(cls); }};$('#id193 input:not(.ui-autocomplete-input),#id193 select,#id193 textarea').on('keydown change', changeHandling);$('#id193 :not(td,th)>input:checkbox').on('change', changeHandling);$('#id193 input:radio').on('change', changeHandling);};
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectResTypeContainer-selectResTypesButton","c":"id196","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+$('#id138').on('click', function(e) { e.stopPropagation(); });;
+$('#id13b').on('click', function(e) { e.stopPropagation(); });;
+$('#id13d').on('click', function(e) { e.stopPropagation(); });;
+$('#id13f').on('click', function(e) { e.stopPropagation(); });;
+$('#id141').on('click', function(e) { e.stopPropagation(); });;
+$('#id143').on('click', function(e) { e.stopPropagation(); });;
+$('#id145').on('click', function(e) { e.stopPropagation(); });;
+$('#id147').on('click', function(e) { e.stopPropagation(); });;
+$('#id149').on('click', function(e) { e.stopPropagation(); });;
+$('#id14b').on('click', function(e) { e.stopPropagation(); });;
+$('#id14d').on('click', function(e) { e.stopPropagation(); });;
+$('#id14f').on('click', function(e) { e.stopPropagation(); });;
+$('#id151').on('click', function(e) { e.stopPropagation(); });;
+$('#id153').on('click', function(e) { e.stopPropagation(); });;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectResTypeContainer-selectResTypeFormPanel-selectResTypeForm-form-fields-fields-4-field-container-fields-fields-0-field-btn","m":"POST","c":"id198","f":"id197","sc":"selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:4:field:container:fields:fields:0:field:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}jQuery('.dirky').removeClass('dirky');}],"pre":[function(attrs){if(Dropzone){var passed=true;var instances=Dropzone.instances;var i,ins;if(instances.length>0){for(i=0;i<instances.length;i++){ins=instances[i];if($(ins.element).parents('#'+attrs.f).length){passed=ins.passCheck==undefined||ins.passCheck();if(passed){if(ins.needProcessing()){passed=false;ins.wicketAttrs=attrs;ins.processQueue();}}else if(ins.displayErrorMessage){ins.displayErrorMessage();}}}}return passed;}else{return true;}}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectResTypeContainer-selectResTypeFormPanel-selectResTypeForm-form-fields-fields-4-field-container-fields-fields-1-field-btn","c":"id199","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+{var changeHandling = function() { var cls = 'btn-highlight'; var btnById = $('#id198'); if (btnById.length > 0) { if (btnById.hasClass(cls)) { return; } if (btnById.is(':visible')) { btnById.removeClass().addClass('btn').addClass(cls); return; } } var btn = $('#id197 button.btn'); btn = btn.not('.btn-sm, .btn-xs, .btn-big, .upload-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = btn.filter(':first'); if (btn.length == 0) { var dia = $('#id197').parents('.ui-dialog'); if (dia.length > 0) { btn = dia.find('button.ui-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = dia.find('.ui-dialog-buttonset button.ui-button:not(.ui-button-disabled)').filter(':first'); if (btn.length > 0) { btn.removeClass().addClass('ui-button'); } } } if (btn.length > 0 && btn.is(':visible')) { btn.addClass(cls); }};$('#id197 input:not(.ui-autocomplete-input),#id197 select,#id197 textarea').on('keydown change', changeHandling);$('#id197 :not(td,th)>input:checkbox').on('change', changeHandling);$('#id197 input:radio').on('change', changeHandling);};
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectSemesterContainer-selectSemesterButton","c":"id19a","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+$('#id156').on('click', function(e) { e.stopPropagation(); });;
+$('#id158').on('click', function(e) { e.stopPropagation(); });;
+$('#id15a').on('click', function(e) { e.stopPropagation(); });;
+$('#id15c').on('click', function(e) { e.stopPropagation(); });;
+$('#id15e').on('click', function(e) { e.stopPropagation(); });;
+$('#id160').on('click', function(e) { e.stopPropagation(); });;
+$('#id162').on('click', function(e) { e.stopPropagation(); });;
+$('#id164').on('click', function(e) { e.stopPropagation(); });;
+$('#id166').on('click', function(e) { e.stopPropagation(); });;
+$('#id168').on('click', function(e) { e.stopPropagation(); });;
+$('#id16a').on('click', function(e) { e.stopPropagation(); });;
+$('#id16c').on('click', function(e) { e.stopPropagation(); });;
+$('#id16e').on('click', function(e) { e.stopPropagation(); });;
+$('#id171').on('click', function(e) { e.stopPropagation(); });;
+$('#id173').on('click', function(e) { e.stopPropagation(); });;
+$('#id175').on('click', function(e) { e.stopPropagation(); });;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectSemesterContainer-selectSemesterFormPanel-selectSemesterForm-form-fields-fields-4-field-container-fields-fields-0-field-btn","m":"POST","c":"id19c","f":"id19b","sc":"selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:4:field:container:fields:fields:0:field:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}jQuery('.dirky').removeClass('dirky');}],"pre":[function(attrs){if(Dropzone){var passed=true;var instances=Dropzone.instances;var i,ins;if(instances.length>0){for(i=0;i<instances.length;i++){ins=instances[i];if($(ins.element).parents('#'+attrs.f).length){passed=ins.passCheck==undefined||ins.passCheck();if(passed){if(ins.needProcessing()){passed=false;ins.wicketAttrs=attrs;ins.processQueue();}}else if(ins.displayErrorMessage){ins.displayErrorMessage();}}}}return passed;}else{return true;}}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectSemesterContainer-selectSemesterFormPanel-selectSemesterForm-form-fields-fields-4-field-container-fields-fields-1-field-btn","c":"id19d","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+{var changeHandling = function() { var cls = 'btn-highlight'; var btnById = $('#id19c'); if (btnById.length > 0) { if (btnById.hasClass(cls)) { return; } if (btnById.is(':visible')) { btnById.removeClass().addClass('btn').addClass(cls); return; } } var btn = $('#id19b button.btn'); btn = btn.not('.btn-sm, .btn-xs, .btn-big, .upload-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = btn.filter(':first'); if (btn.length == 0) { var dia = $('#id19b').parents('.ui-dialog'); if (dia.length > 0) { btn = dia.find('button.ui-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = dia.find('.ui-dialog-buttonset button.ui-button:not(.ui-button-disabled)').filter(':first'); if (btn.length > 0) { btn.removeClass().addClass('ui-button'); } } } if (btn.length > 0 && btn.is(':visible')) { btn.addClass(cls); }};$('#id19b input:not(.ui-autocomplete-input),#id19b select,#id19b textarea').on('keydown change', changeHandling);$('#id19b :not(td,th)>input:checkbox').on('change', changeHandling);$('#id19b input:radio').on('change', changeHandling);};
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectCourseTypeContainer-selectCourseTypeButton","c":"id19e","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+$('#id178').on('click', function(e) { e.stopPropagation(); });;
+$('#id17a').on('click', function(e) { e.stopPropagation(); });;
+$('#id17c').on('click', function(e) { e.stopPropagation(); });;
+$('#id17e').on('click', function(e) { e.stopPropagation(); });;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectCourseTypeContainer-selectCourseTypeFormPanel-selectCourseTypeForm-form-fields-fields-2-field-container-fields-fields-0-field-btn","m":"POST","c":"id1a0","f":"id19f","sc":"selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:2:field:container:fields:fields:0:field:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}jQuery('.dirky').removeClass('dirky');}],"pre":[function(attrs){if(Dropzone){var passed=true;var instances=Dropzone.instances;var i,ins;if(instances.length>0){for(i=0;i<instances.length;i++){ins=instances[i];if($(ins.element).parents('#'+attrs.f).length){passed=ins.passCheck==undefined||ins.passCheck();if(passed){if(ins.needProcessing()){passed=false;ins.wicketAttrs=attrs;ins.processQueue();}}else if(ins.displayErrorMessage){ins.displayErrorMessage();}}}}return passed;}else{return true;}}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm-selectCourseTypeContainer-selectCourseTypeFormPanel-selectCourseTypeForm-form-fields-fields-2-field-container-fields-fields-1-field-btn","c":"id1a1","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+{var changeHandling = function() { var cls = 'btn-highlight'; var btnById = $('#id1a0'); if (btnById.length > 0) { if (btnById.hasClass(cls)) { return; } if (btnById.is(':visible')) { btnById.removeClass().addClass('btn').addClass(cls); return; } } var btn = $('#id19f button.btn'); btn = btn.not('.btn-sm, .btn-xs, .btn-big, .upload-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = btn.filter(':first'); if (btn.length == 0) { var dia = $('#id19f').parents('.ui-dialog'); if (dia.length > 0) { btn = dia.find('button.ui-button'); if (btn.length > 0 && btn.hasClass(cls)) { return; } btn = dia.find('.ui-dialog-buttonset button.ui-button:not(.ui-button-disabled)').filter(':first'); if (btn.length > 0) { btn.removeClass().addClass('ui-button'); } } } if (btn.length > 0 && btn.is(':visible')) { btn.addClass(cls); }};$('#id19f input:not(.ui-autocomplete-input),#id19f select,#id19f textarea').on('keydown change', changeHandling);$('#id19f :not(td,th)>input:checkbox').on('change', changeHandling);$('#id19f input:radio').on('change', changeHandling);};
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+if (typeof(Wicket) === 'undefined') {
+	window.Wicket = {};
+}
+if (typeof(Wicket.DateTimeInit) === 'undefined') {
+	Wicket.DateTimeInit = {};
+}
+
+Wicket.DateTimeInit.CalendarInits = [];
+Wicket.DateTimeInit.CalendarInitFinished = false;
+Wicket.DateTimeInit.CalendarI18n = {};
+Wicket.DateTimeInit.CalendarAdd = function(initFn) {
+	if (Wicket.DateTimeInit.CalendarInitFinished) {
+		// when a DatePicker is added via ajax, the loader is already finished, so
+		// we call the init function directly.
+		initFn();
+	} else {
+		// when page is rendered, all calendar components will be initialized after
+		// the required js libraries have been loaded.
+		Wicket.DateTimeInit.CalendarInits.push(initFn);
+	}
+};
+
+Wicket.DateTimeInit.YuiLoader = new YAHOO.util.YUILoader({
+	base: "/opal/wicket/resource/org.apache.wicket.extensions.yui.YuiLib/",
+	
+	allowRollup: true,
+	require: ["wicket-date"],
+	onSuccess: function() {
+		Wicket.DateTimeInit.CalendarInitFinished = true;
+		while (Wicket.DateTimeInit.CalendarInits.length > 0) {
+			Wicket.DateTimeInit.CalendarInits.pop()();
+		}
+	}
+});
+Wicket.DateTimeInit.YuiLoader.addModule({
+	name: "wicket-date",
+	type: "js",
+	requires: ["calendar"],
+	fullpath: "/opal/wicket/resource/org.apache.wicket.extensions.yui.calendar.DatePicker/wicket-date-ver-4ECE0484DEF436BA1D3B0B1DC2FF01C0.js"
+});
+Wicket.DateTimeInit.YuiLoader.insert();
+;
+Wicket.DateTimeInit.CalendarI18n["de"]={MONTHS_SHORT:["Jan.","Feb.","M\u00E4rz","Apr.","Mai","Juni","Juli","Aug.","Sept.","Okt.","Nov.","Dez."],MONTHS_LONG:["Januar","Februar","M\u00E4rz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],WEEKDAYS_MEDIUM:["So.","Mo.","Di.","Mi.","Do.","Fr.","Sa."],WEEKDAYS_LONG:["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"],START_WEEKDAY:0,WEEKDAYS_1CHAR:["S","M","D","M","D","F","S"],WEEKDAYS_SHORT:["So","Mo","Di","Mi","Do","Fr","Sa"]};;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+Wicket.DateTimeInit.CalendarAdd(function() {
+	Wicket.DateTime.init2("id181", "id181", {close:true}, "dd.MM.yyyy",
+			true, true, true, true, Wicket.DateTimeInit.CalendarI18n["de"], true, "");
+	YAHOO.wicket.id181DpJs.cfg.setProperty("navigator",true,false); YAHOO.wicket.id181DpJs.render();
+});
+;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+Wicket.DateTimeInit.CalendarAdd(function() {
+	Wicket.DateTime.init2("id182", "id182", {close:true}, "dd.MM.yyyy",
+			true, true, true, true, Wicket.DateTimeInit.CalendarI18n["de"], true, "");
+	YAHOO.wicket.id182DpJs.cfg.setProperty("navigator",true,false); YAHOO.wicket.id182DpJs.render();
+});
+;
+Wicket.Ajax.ajax({"u":"/opal/auth/search?4-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm","m":"POST","c":"id191","f":"id191","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"submit","pd":true});;
+$('.content-container').removeClass (function (index, className) {    return (className.match (/\bep-map(\S+|\b)/g) || []).join(' ');});;
+Wicket.Event.subscribe('/ajax/call/complete',function(){try{MathJax.Hub.Queue(['Typeset',MathJax.Hub,'wrap']);}catch(e){}});;
+$('body').on('click',function(t){var i=$(t.target);'popover'!==i.data('toggle')&&0===i.parents('[autohide],.popover').length&&$('[autohide]').each(function(){var t=$(this),i=t.attr('autohide');i?$('#'+i).is(':visible')&&this.click():t.attr('aria-describedby')&&this.click()})});;
+window.addEventListener("message", function(e) {if (e.data.message === "close-dialog") {	var target = jQuery("iframe[name='" + e.data.payload + "']");	var container = target.parents(".fancybox-container");	var id = container.attr("id");	jQuery.fancybox.close(id)}}, false);;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "load", function(event) { 
+var element = document.getElementById('id137'); if (element != null) {element.removeAttribute('required');};
+var element = document.getElementById('id13a'); if (element != null) {element.removeAttribute('required');};
+var element = document.getElementById('id155'); if (element != null) {element.removeAttribute('required');};
+var element = document.getElementById('id170'); if (element != null) {element.removeAttribute('required');};
+var element = document.getElementById('id177'); if (element != null) {element.removeAttribute('required');};
+var element = document.getElementById('id180'); if (element != null) {element.removeAttribute('required');};
+var element = document.getElementById('id181'); if (element != null) {element.removeAttribute('required');};
+var element = document.getElementById('id182'); if (element != null) {element.removeAttribute('required');};
+{document.getElementById('ide9').focus();};
+try{alterNodeJumps();}catch(e){};
+;});
+/*]]>*/
+</script>
+</head>
+<body class="user-role-guest lang-de">
+<div id="clickblocker" class="clickblocker" style="display:none;" onclick="$.sidr('close','sidr');"></div>
+<div id="veil" class="veil"></div>
+<div class="skip-links-container">
+	<a class="skip-link" href="#main-nav">Zur Navigation</a>
+	<a class="skip-link" href="#main-content">Zum Inhalt</a>
+	
+	
+</div>
+<div id="wrap" class="search page">
+	
+	<header role="banner" class="page-header-container" id="id1a3">
+			
+	
+
+	<div class="d-flex justify-content-between page-header">
+
+		<div class="header-logo-container">
+			<a class="logo" rel="direct" href="/opal/home" title="Startseite">
+                <span class="visually-hidden">OPAL</span>
+			</a>
+		</div>
+		<div class="header-functions" id="id1a4">
+			
+	<nav class="d-flex align-items-center gap-1 header-functions-user" aria-label="Header-Navigation">
+		<form class="header-functions-search" role="search" id="id188" method="post" action="/opal/auth/search?4-1.-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm" aria-label="Lernplattform"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="headerSearchButton:btn" onclick=" var b=document.getElementById('id189'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+			<label class="visually-hidden" id="idf8" for="idf9">Suche</label>
+			<div class="input-group input-group-sm">
+				<input class="form-control" type="search" value="" name="headerSearchField" id="idf9" placeholder="Suche" aria-labelledby="idf8"/>
+				<div>
+			
+		<div id="id1a5" style="display:none" data-wicket-placeholder=""></div>
+	
+		</div>
+				
+			
+			<button class="btn btn-sm" type="button" name="headerSearchButton:btn" id="id189" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</div>
+		</form>
+
+		<div class="btn-group">
+			<a class="btn btn-sm" id="id18a" href="javascript:;" title="Login">
+				<span class="fonticon login" aria-hidden="true"></span>
+				<span class="header-functions-user-name">Login</span>
+			</a>
+
+			
+		</div>
+
+		
+
+		
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle btn-sm" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/?language=de" title="Benutzerhandbuch OPAL">Benutzerhandbuch OPAL</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch%20OPAL/Erste%20Schritte/Ansprechpartner//?language=de" title="Kontakt &amp; Ansprechpartner">Kontakt & Ansprechpartner</a></li>
+			<li role="menuitem"><a class="dropdown-item" id="id18b" href="javascript:;" title="Problem melden"><span>Problem melden</span></a></li>
+		</ul>
+	</div>
+
+		
+
+		
+
+	</nav>
+
+		</div>
+	</div>
+
+			
+
+			<div id="sidr">
+				<div id="id1a6">
+			
+		<nav id="main-nav" class="nav-container" role="navigation" aria-label="Hauptnavigation">
+			<div class="nav-search-placeholder" id="searchfieldlock"></div>
+			<form class="nav-search" role="search" id="id183" method="post" action="/opal/auth/search?4-1.-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="navigationSearchButton:btn" onclick=" var b=document.getElementById('id184'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+                <label class="visually-hidden" id="idf4" for="idf5">Suche</label>
+				<div id="id1a7" style="display:none" data-wicket-placeholder=""></div>
+				<input class="form-control" type="search" tabindex="-1" value="" name="navigationSearch" id="idf5" placeholder="Suche" aria-labelledby="idf4"/>
+				
+			
+			<button class="btn only" type="button" name="navigationSearchButton:btn" id="id184" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</form>
+ 			<ul class="nav mainnav list-unstyled" id="id1a8">
+				<li class="home nav-tab">
+					<a href="/opal/home" title="Startseite">
+						
+						<span>Startseite</span>
+                        
+					</a>
+					
+				</li><li class="courses nav-tab">
+					<a href="/opal/auth/repository/catalog/360449" title="Kursangebote">
+						
+						<span>Kursangebote</span>
+                        
+					</a>
+					
+				</li>
+			</ul>
+			<strong class="nav-header">Geöffnete Inhalte</strong>
+ 			<ul class="nav subnav list-unstyled" id="id1a9">
+				<li class="active dynamic-tab">
+					<a href="/opal/auth/search" title="Suchergebnisse" aria-current="page">
+						
+						<span>Suche</span>
+                        
+					</a>
+					<button class="btn-close only" id="id185" type="button" title="Tab schließen">
+						<span class="fonticon icon-cross3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Tab schließen</span>
+					</button>
+				</li><li class="dynamic-tab">
+					<a href="/opal/auth/search" title="Suchergebnisse">
+						
+						<span>Suche</span>
+                        
+					</a>
+					<button class="btn-close only" id="id186" type="button" title="Tab schließen">
+						<span class="fonticon icon-cross3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Tab schließen</span>
+					</button>
+				</li>
+			</ul>
+			<strong class="nav-header">Persönliches</strong>
+			
+				<ul class="nav adnav list-unstyled">
+					<li id="id1aa" style="display:none" data-wicket-placeholder=""></li>
+					<li id="id1ab" style="display:none" data-wicket-placeholder=""></li>
+					<li id="id1ac" style="display:none" data-wicket-placeholder=""></li>
+					<li id="id1ad" style="display:none" data-wicket-placeholder=""></li>
+					<li><a id="id187" href="javascript:;" title="Login"><span aria-hidden="true" class="fonticon icon-user"></span>Login</a></li>
+				</ul>
+			
+		</nav>
+		<div class="clearfix"></div>
+	
+		</div>
+			</div>
+
+		
+		</header>
+	
+	
+			<section id="main-content" role="main">
+				
+			
+			
+		
+		
+				
+	<div id="id1ae">
+</div>
+	<div id="id1af">
+</div>
+	<div id="id1b0">
+</div>
+	<div id="id1b1">
+</div>
+	<div id="id1b2">
+</div>
+	<div id="id1b3" style="display:none" data-wicket-placeholder=""></div>
+	<div id="id1b4" class="fluid-container">
+		<div class="rowcontainer" id="id1b5">
+			<div class="menu-container" id="id1b6">
+				
+
+			</div>
+			<div class="content-container" id="id1b8">
+				
+				<div id="id1b9" class="">
+					<div id="id1ba">
+</div>
+					<div id="id1bb">
+</div>
+					<div class="content-container-inner" id="id1bc">
+			
+		
+
+	<header class="main-header">
+		<div class="row">
+			<div class="col-sm-8">
+				<h1>Suche</h1>
+			</div>
+			<div class="col-sm-4 main-header-additional">
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Erste Schritte/Inhalte suchen und finden/?language=de" title="Suche">Suche</a></li>
+			<li role="menuitem"><a class="dropdown-item" id="id190" href="javascript:;" title="Problem melden"><span>Problem melden</span></a></li>
+		</ul>
+	</div>
+
+		</div>
+		</div>
+	</header>
+
+	<div class="main-content">
+		<form id="id191" method="post" action="/opal/auth/search?4-1.-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPanel-searchForm"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:2:field:container:fields:fields:0:field:btn" onclick=" var b=document.getElementById('id1a0'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+			<div id="id1bd" style="display:none" data-wicket-placeholder=""></div>
+			<div class="d-flex align-items-center form-inline">
+				<label class="visually-hidden" id="ide8" for="ide9">Suche</label>
+				<input class="form-control search-field" autofocus="" value="" name="search" id="ide9" type="search" placeholder="Suche" aria-labelledby="ide8">
+				<div class="search-filter" id="id1be">
+			
+			<strong id="idec">Suchen in</strong>
+			<div role="group" id="id1bf" aria-labelledby="idec">
+				
+					<button class="btn btn-highlight" name="searchFilter:filtersContainer:filtersView:1:filterButton" id="idfc" aria-labelledby="idfb"><span class="fonticon icon-checkbox-checked" aria-hidden="true"></span><span id="idfb" for="idfc"> Titel</span></button>
+				
+					<button class="btn btn-highlight" name="searchFilter:filtersContainer:filtersView:2:filterButton" id="idfe" aria-labelledby="idfd"><span class="fonticon icon-checkbox-checked" aria-hidden="true"></span><span id="idfd" for="idfe"> Beschreibung</span></button>
+				
+					<button class="btn btn-highlight" name="searchFilter:filtersContainer:filtersView:3:filterButton" id="id100" aria-labelledby="idff"><span class="fonticon icon-checkbox-checked" aria-hidden="true"></span><span id="idff" for="id100"> Verantwortliche</span></button>
+				
+			</div>
+		
+		</div>
+			</div>
+			<div class="filter-container">
+				<div class="dropdown filter-semester" id="id1c0">
+					<button class="btn btn-badge dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="selectSemesterContainer:selectSemesterButton" id="id19a" title="Filter nach Semester" aria-expand="false" aria-controls="idf2">
+						<span>Semester: Alle</span>
+						
+					</button>
+					<div class="list-unstyled dropdown-menu dropdown-menu-left" aria-hidden="true" id="idf2" style="min-width: 300px;">
+			
+	
+			
+	<div id="id19b" class="popover-body">
+		<div id="id1c1" style="display:none" data-wicket-placeholder=""></div>
+		
+		
+			
+		<div id="id1c3" class="reset-container">
+            
+			
+				
+		
+			
+	<!-- Buttons container -->
+	<div class="reset-container" id="id1c7">
+		<button type="button" class="btn-link" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:0:field:container:sgfSub:fields:fields:0:field:buttonsContainer:removeFiltersLink" id="id1c8" onclick="var __ch=clearAllCheckboxes(&#039;idf1&#039;, event); showRemoveFiltersMessage(&#039;id1c9&#039;, __ch); keepDropdownOpen(event); return false;" formnovalidate="formnovalidate">
+			<span id="id1ca">Filter entfernen</span>
+		</button>
+		
+		
+	</div>
+
+	<!-- Alert container for messages -->
+	<div role="alert" class="boxd-none" id="id1c9">
+		<span></span>
+	</div>
+
+		
+	
+			
+		</div>
+	
+		
+			
+		
+			<div id="id1cc">
+				
+				
+					
+			
+		<div class="form-group  checkbox" id="id1cd">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id157" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check0" aria-labelledby="id156"/>
+		<label class="form-check-label" id="id156" for="id157">Wintersemester 2027 / 2028</label>
+	
+				<div class="" id="id1ce" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1cf">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id159" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check1" aria-labelledby="id158"/>
+		<label class="form-check-label" id="id158" for="id159">Sommersemester 2027</label>
+	
+				<div class="" id="id1d0" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1d1">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id15b" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check2" aria-labelledby="id15a"/>
+		<label class="form-check-label" id="id15a" for="id15b">Wintersemester 2026 / 2027</label>
+	
+				<div class="" id="id1d2" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1d3">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id15d" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check3" aria-labelledby="id15c"/>
+		<label class="form-check-label" id="id15c" for="id15d">Sommersemester 2026</label>
+	
+				<div class="" id="id1d4" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1d5">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id15f" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check4" aria-labelledby="id15e"/>
+		<label class="form-check-label" id="id15e" for="id15f">Wintersemester 2025 / 2026</label>
+	
+				<div class="" id="id1d6" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1d7">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id161" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check5" aria-labelledby="id160"/>
+		<label class="form-check-label" id="id160" for="id161">Sommersemester 2025</label>
+	
+				<div class="" id="id1d8" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1d9">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id163" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check6" aria-labelledby="id162"/>
+		<label class="form-check-label" id="id162" for="id163">Wintersemester 2024 / 2025</label>
+	
+				<div class="" id="id1da" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1db">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id165" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check7" aria-labelledby="id164"/>
+		<label class="form-check-label" id="id164" for="id165">Sommersemester 2024</label>
+	
+				<div class="" id="id1dc" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1dd">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id167" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check8" aria-labelledby="id166"/>
+		<label class="form-check-label" id="id166" for="id167">Wintersemester 2023 / 2024</label>
+	
+				<div class="" id="id1de" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1df">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id169" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check9" aria-labelledby="id168"/>
+		<label class="form-check-label" id="id168" for="id169">Sommersemester 2023</label>
+	
+				<div class="" id="id1e0" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1e1">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id16b" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check10" aria-labelledby="id16a"/>
+		<label class="form-check-label" id="id16a" for="id16b">Wintersemester 2022 / 2023</label>
+	
+				<div class="" id="id1e2" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1e3">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id16d" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check11" aria-labelledby="id16c"/>
+		<label class="form-check-label" id="id16c" for="id16d">Sommersemester 2022</label>
+	
+				<div class="" id="id1e4" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1e5">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id16f" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:1:field:checkGroup" value="check12" aria-labelledby="id16e"/>
+		<label class="form-check-label" id="id16e" for="id16f">Ältere Semester</label>
+	
+				<div class="" id="id1e6" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+			</div>
+		
+	
+		
+			
+		<hr/>
+	
+		
+			
+		
+			<div id="id1e9">
+				
+				
+					
+			
+		<div class="form-group  checkbox" id="id1ea">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id172" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:3:field:checkGroup" value="check13" aria-labelledby="id171"/>
+		<label class="form-check-label" id="id171" for="id172">semesterübergreifend</label>
+	
+				<div class="" id="id1eb" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1ec">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id174" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:3:field:checkGroup" value="check14" aria-labelledby="id173"/>
+		<label class="form-check-label" id="id173" for="id174">Wintersemester</label>
+	
+				<div class="" id="id1ed" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id1ee">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id176" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:3:field:checkGroup" value="check15" aria-labelledby="id175"/>
+		<label class="form-check-label" id="id175" for="id176">Sommersemester</label>
+	
+				<div class="" id="id1ef" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+			</div>
+		
+	
+		
+			
+		<div class="btn-container" id="id1f1">
+			
+		
+			
+			
+			<button class="btn" type="submit" name="selectSemesterContainer:selectSemesterFormPanel:selectSemesterForm:form:fields:fields:4:field:container:fields:fields:0:field:btn" id="id19c" title="Übernehmen">
+				
+				
+				<span>Übernehmen</span>
+				
+			</button>
+		
+		
+		
+			
+			
+			<button class="btn" type="button" id="id19d" title="Schließen">
+				
+				
+				<span>Schließen</span>
+				
+			</button>
+		
+		
+		
+	
+		</div>
+	
+		
+	
+	</div>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+		
+
+		</div>
+				</div>
+				<div class="dropdown" id="id1f3">
+					<button class="btn btn-badge dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="selectCourseTypeContainer:selectCourseTypeButton" id="id19e" title="Filter nach Kurstyp" aria-controls="idf3">
+						<span>Kurstyp: Alle</span>
+						
+						<span class="caret" aria-hidden="true"></span>
+					</button>
+					<div class="list-unstyled dropdown-menu dropdown-menu-left" aria-hidden="true" id="idf3" style="min-width: 220px;">
+			
+	
+			
+	<div id="id19f" class="popover-body">
+		<div id="id1f4" style="display:none" data-wicket-placeholder=""></div>
+		
+		
+			
+		<div id="id1f6" class="reset-container">
+            
+			
+				
+		
+			
+	<!-- Buttons container -->
+	<div class="reset-container" id="id1fa">
+		<button type="button" class="btn-link" name="selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:0:field:container:sgfSub:fields:fields:0:field:buttonsContainer:removeFiltersLink" id="id1fb" onclick="var __ch=clearAllCheckboxes(&#039;form&#039;, event); showRemoveFiltersMessage(&#039;id1fc&#039;, __ch); keepDropdownOpen(event); return false;" formnovalidate="formnovalidate">
+			<span id="id1fd">Filter entfernen</span>
+		</button>
+		
+		
+	</div>
+
+	<!-- Alert container for messages -->
+	<div role="alert" class="boxd-none" id="id1fc">
+		<span></span>
+	</div>
+
+		
+	
+			
+		</div>
+	
+		
+			
+		
+			<div id="id1ff">
+				
+				
+					
+			
+		<div class="form-group  checkbox" id="id200">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id179" name="selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:1:field:checkGroup" value="check16" aria-labelledby="id178"/>
+		<label class="form-check-label" id="id178" for="id179">Lehrveranstaltung</label>
+	
+				<div class="" id="id201" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id202">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id17b" name="selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:1:field:checkGroup" value="check17" aria-labelledby="id17a"/>
+		<label class="form-check-label" id="id17a" for="id17b">Weiterbildung</label>
+	
+				<div class="" id="id203" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id204">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id17d" name="selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:1:field:checkGroup" value="check18" aria-labelledby="id17c"/>
+		<label class="form-check-label" id="id17c" for="id17d">Orientierungsangebot</label>
+	
+				<div class="" id="id205" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id206">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id17f" name="selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:1:field:checkGroup" value="check19" aria-labelledby="id17e"/>
+		<label class="form-check-label" id="id17e" for="id17f">Sonstiges</label>
+	
+				<div class="" id="id207" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+			</div>
+		
+	
+		
+			
+		<div class="btn-container" id="id209">
+			
+		
+			
+			
+			<button class="btn" type="submit" name="selectCourseTypeContainer:selectCourseTypeFormPanel:selectCourseTypeForm:form:fields:fields:2:field:container:fields:fields:0:field:btn" id="id1a0" title="Übernehmen">
+				
+				
+				<span>Übernehmen</span>
+				
+			</button>
+		
+		
+		
+			
+			
+			<button class="btn" type="button" id="id1a1" title="Abbrechen">
+				
+				
+				<span>Abbrechen</span>
+				
+			</button>
+		
+		
+		
+	
+		</div>
+	
+		
+	
+	</div>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+		
+
+		</div>
+				</div>
+				<div class="dropdown filter-institution" id="id20b">
+					<button class="btn btn-badge dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="selectInstitutionsContainer:selectInstitutionsButton" id="id192" title="Filter nach Institution" aria-expand="false" aria-controls="idee">
+						<span>Institution: Alle</span>
+						
+					</button>
+					<div class="list-unstyled dropdown-menu dropdown-menu-left" aria-hidden="true" id="idee">
+			
+	
+			
+	<div id="id193" class="popover-body">
+		<div id="id20c" style="display:none" data-wicket-placeholder=""></div>
+		
+		
+			
+		<div id="id20e" class="reset-container">
+            
+			
+				
+		
+			
+	<!-- Buttons container -->
+	<div class="reset-container" id="id212">
+		<button type="button" class="btn-link" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:0:field:container:sgfSub:fields:fields:0:field:buttonsContainer:removeFiltersLink" id="id213" onclick="var __ch=clearAllCheckboxes(&#039;ided&#039;, event); showRemoveFiltersMessage(&#039;id214&#039;, __ch); keepDropdownOpen(event); return false;" formnovalidate="formnovalidate">
+			<span id="id215">Filter entfernen</span>
+		</button>
+		<span aria-hidden="true" id="id216"> | </span>
+		<button type="button" class="btn-link" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:0:field:container:sgfSub:fields:fields:0:field:buttonsContainer:resetToDefaultLink" id="id217" onclick="var __ch=setDefaultCheckboxes(&#039;ided&#039;, [], event, false); showResetToDefaultMessage(&#039;id214&#039;, __ch); keepDropdownOpen(event); return false;" formnovalidate="formnovalidate">
+			<span id="id218">Auf Standard zurücksetzen</span>
+		</button>
+	</div>
+
+	<!-- Alert container for messages -->
+	<div role="alert" class="boxd-none" id="id214">
+		<span></span>
+	</div>
+
+		
+	
+			
+		</div>
+	
+		
+			
+		
+			<div id="id21a">
+				
+				
+					
+			
+		<div class="form-group  checkbox" id="id21b">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id102" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check20" aria-labelledby="id101" data-key="BA Dresden"/>
+		<label class="form-check-label" id="id101" for="id102">BA Dresden</label>
+	
+				<div class="" id="id21c" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id21d">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id104" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check21" aria-labelledby="id103" data-key="BA Glauchau"/>
+		<label class="form-check-label" id="id103" for="id104">BA Glauchau</label>
+	
+				<div class="" id="id21e" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id21f">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id106" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check22" aria-labelledby="id105" data-key="BA Leipzig"/>
+		<label class="form-check-label" id="id105" for="id106">BA Leipzig</label>
+	
+				<div class="" id="id220" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id221">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id108" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check23" aria-labelledby="id107" data-key="BA Riesa"/>
+		<label class="form-check-label" id="id107" for="id108">BA Riesa</label>
+	
+				<div class="" id="id222" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id223">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id10a" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check24" aria-labelledby="id109" data-key="BA-Plauen"/>
+		<label class="form-check-label" id="id109" for="id10a">BA-Plauen</label>
+	
+				<div class="" id="id224" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id225">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id10c" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check25" aria-labelledby="id10b" data-key="BPS GmbH"/>
+		<label class="form-check-label" id="id10b" for="id10c">BPS GmbH</label>
+	
+				<div class="" id="id226" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id227">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id10e" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check26" aria-labelledby="id10d" data-key="BSZ Gastgewerbe DD"/>
+		<label class="form-check-label" id="id10d" for="id10e">BSZ Gastgewerbe DD</label>
+	
+				<div class="" id="id228" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id229">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id110" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check27" aria-labelledby="id10f" data-key="Berufsakademie Sachsen"/>
+		<label class="form-check-label" id="id10f" for="id110">Berufsakademie Sachsen</label>
+	
+				<div class="" id="id22a" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id22b">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id112" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check28" aria-labelledby="id111" data-key="Duale Hochschule Sachsen"/>
+		<label class="form-check-label" id="id111" for="id112">Duale Hochschule Sachsen</label>
+	
+				<div class="" id="id22c" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id22d">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id114" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check29" aria-labelledby="id113" data-key="HFM Dresden"/>
+		<label class="form-check-label" id="id113" for="id114">HFM Dresden</label>
+	
+				<div class="" id="id22e" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id22f">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id116" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check30" aria-labelledby="id115" data-key="HS Mittweida"/>
+		<label class="form-check-label" id="id115" for="id116">HS Mittweida</label>
+	
+				<div class="" id="id230" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id231">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id118" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check31" aria-labelledby="id117" data-key="Hochschule Zittau/Görlitz"/>
+		<label class="form-check-label" id="id117" for="id118">HS Zittau / Görlitz</label>
+	
+				<div class="" id="id232" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id233">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id11a" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check32" aria-labelledby="id119" data-key="HTW Dresden"/>
+		<label class="form-check-label" id="id119" for="id11a">HTW Dresden</label>
+	
+				<div class="" id="id234" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id235">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id11c" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check33" aria-labelledby="id11b" data-key="HTWK Leipzig"/>
+		<label class="form-check-label" id="id11b" for="id11c">HTWK Leipzig</label>
+	
+				<div class="" id="id236" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id237">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id11e" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check34" aria-labelledby="id11d" data-key="Hochschuldidaktik Sachsen"/>
+		<label class="form-check-label" id="id11d" for="id11e">Hochschuldidaktik Sachsen</label>
+	
+				<div class="" id="id238" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id239">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id120" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check35" aria-labelledby="id11f" data-key="IHI Zittau"/>
+		<label class="form-check-label" id="id11f" for="id120">IHI Zittau</label>
+	
+				<div class="" id="id23a" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id23b">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id122" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check36" aria-labelledby="id121" data-key="Palucca Hochschule für Tanz Dresden"/>
+		<label class="form-check-label" id="id121" for="id122">Palucca Hochschule für Tanz Dresden</label>
+	
+				<div class="" id="id23c" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id23d">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id124" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check37" aria-labelledby="id123" data-key="Staatliche Studienakademie Bautzen"/>
+		<label class="form-check-label" id="id123" for="id124">Staatliche Studienakademie Bautzen</label>
+	
+				<div class="" id="id23e" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id23f">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id126" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check38" aria-labelledby="id125" data-key="Sächsische Landesbibliothek – Staats- und Universitätsbibliothek Dresden"/>
+		<label class="form-check-label" id="id125" for="id126">Sächsische Landesbibliothek – Staats- und Universitätsbibliothek Dresden</label>
+	
+				<div class="" id="id240" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id241">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id128" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check39" aria-labelledby="id127" data-key="Sächsische Verwaltungs- und Wirtschafts-Akademie"/>
+		<label class="form-check-label" id="id127" for="id128">Sächsische Verwaltungs- und Wirtschafts-Akademie</label>
+	
+				<div class="" id="id242" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id243">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id12a" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check40" aria-labelledby="id129" data-key="Sächsisches Staatsministerium für Wissenschaft, Kultur und Tourismus"/>
+		<label class="form-check-label" id="id129" for="id12a">Sächsisches Staatsministerium für Wissenschaft, Kultur und Tourismus</label>
+	
+				<div class="" id="id244" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id245">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id12c" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check41" aria-labelledby="id12b" data-key="TU Bergakademie Freiberg"/>
+		<label class="form-check-label" id="id12b" for="id12c">TU Bergakademie Freiberg</label>
+	
+				<div class="" id="id246" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id247">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id12e" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check42" aria-labelledby="id12d" data-key="TU Chemnitz"/>
+		<label class="form-check-label" id="id12d" for="id12e">TU Chemnitz</label>
+	
+				<div class="" id="id248" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id249">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id130" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check43" aria-labelledby="id12f" data-key="TU Dresden"/>
+		<label class="form-check-label" id="id12f" for="id130">TU Dresden</label>
+	
+				<div class="" id="id24a" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id24b">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id132" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check44" aria-labelledby="id131" data-key="Testinstititution der BPS VHO"/>
+		<label class="form-check-label" id="id131" for="id132">Testinstititution der BPS VHO</label>
+	
+				<div class="" id="id24c" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id24d">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id134" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check45" aria-labelledby="id133" data-key="Leipzig University;Universität Leipzig"/>
+		<label class="form-check-label" id="id133" for="id134">Universität Leipzig</label>
+	
+				<div class="" id="id24e" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id24f">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id136" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:1:field:checkGroup" value="check46" aria-labelledby="id135" data-key="FH-Zwickau"/>
+		<label class="form-check-label" id="id135" for="id136">Westsächsische Hochschule Zwickau</label>
+	
+				<div class="" id="id250" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+			</div>
+		
+	
+		
+			
+		<div class="btn-container" id="id252">
+			
+		
+			
+			
+			<button class="btn" type="submit" name="selectInstitutionsContainer:selectInstitutionFormPanel:selectInstitutionForm:form:fields:fields:2:field:container:fields:fields:0:field:btn" id="id194" title="Übernehmen">
+				
+				
+				<span>Übernehmen</span>
+				
+			</button>
+		
+		
+		
+			
+			
+			<button class="btn" type="button" id="id195" title="Schließen">
+				
+				
+				<span>Schließen</span>
+				
+			</button>
+		
+		
+		
+	
+		</div>
+	
+		
+	
+	</div>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+		
+
+		</div>
+				</div>
+				<div class="dropdown filer-type" id="id254">
+					<button class="btn btn-badge dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="selectResTypeContainer:selectResTypesButton" id="id196" title="Filter nach Inhaltstyp" aria-expand="false" aria-controls="idf0">
+						<span>Inhaltstyp: Kurs</span>
+						<span class="badge text-bg-secondary" id="id255">1</span>
+					</button>
+					<div class="list-unstyled dropdown-menu dropdown-menu-left" aria-hidden="true" id="idf0" style="min-width: 220px;">
+			
+	
+			
+	<div id="id197" class="popover-body">
+		<div id="id256" style="display:none" data-wicket-placeholder=""></div>
+		
+		
+			
+		<div id="id258" class="reset-container">
+            
+			
+				
+		
+			
+	<!-- Buttons container -->
+	<div class="reset-container" id="id25c">
+		<button type="button" class="btn-link" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:0:field:container:sgfSub:fields:fields:0:field:buttonsContainer:removeFiltersLink" id="id25d" onclick="var __ch=clearAllCheckboxes(&#039;idef&#039;, event); showRemoveFiltersMessage(&#039;id25e&#039;, __ch); keepDropdownOpen(event); return false;" formnovalidate="formnovalidate">
+			<span id="id25f">Filter entfernen</span>
+		</button>
+		<span aria-hidden="true" id="id260"> | </span>
+		<button type="button" class="btn-link" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:0:field:container:sgfSub:fields:fields:0:field:buttonsContainer:resetToDefaultLink" id="id261" onclick="var __ch=setDefaultCheckboxes(&#039;idef&#039;, [&#039;CourseModule&#039;], event, true); showResetToDefaultMessage(&#039;id25e&#039;, __ch); keepDropdownOpen(event); return false;" formnovalidate="formnovalidate">
+			<span id="id262">Auf Standard zurücksetzen</span>
+		</button>
+	</div>
+
+	<!-- Alert container for messages -->
+	<div role="alert" class="boxd-none" id="id25e">
+		<span></span>
+	</div>
+
+		
+	
+			
+		</div>
+	
+		
+			
+		
+			<div id="id264">
+				
+				
+					
+			
+		<div class="form-group  checkbox" id="id265">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id139" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:1:field:checkGroup" value="check47" checked="checked" aria-labelledby="id138" data-key="CourseModule"/>
+		<label class="form-check-label" id="id138" for="id139">Kurs</label>
+	
+				<div class="" id="id266" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+			</div>
+		
+	
+		
+			
+		<hr/>
+	
+		
+			
+		
+			<div id="id269">
+				
+				
+					
+			
+		<div class="form-group  checkbox" id="id26a">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id13c" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check48" aria-labelledby="id13b" data-key="group"/>
+		<label class="form-check-label" id="id13b" for="id13c">Gruppe</label>
+	
+				<div class="" id="id26b" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id26c">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id13e" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check49" aria-labelledby="id13d" data-key="FileResource.TEST"/>
+		<label class="form-check-label" id="id13d" for="id13e">Test</label>
+	
+				<div class="" id="id26d" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id26e">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id140" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check50" aria-labelledby="id13f" data-key="FileResource.SURVEY"/>
+		<label class="form-check-label" id="id13f" for="id140">Fragebogen</label>
+	
+				<div class="" id="id26f" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id270">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id142" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check51" aria-labelledby="id141" data-key="FileResource.SCORMCP"/>
+		<label class="form-check-label" id="id141" for="id142">SCORM-Inhalt</label>
+	
+				<div class="" id="id271" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id272">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id144" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check52" aria-labelledby="id143" data-key="FileResource.H5PCP"/>
+		<label class="form-check-label" id="id143" for="id144">H5P-Inhalt</label>
+	
+				<div class="" id="id273" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id274">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id146" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check53" aria-labelledby="id145" data-key="FileResource.WIKI"/>
+		<label class="form-check-label" id="id145" for="id146">Wiki</label>
+	
+				<div class="" id="id275" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id276">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id148" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check54" aria-labelledby="id147" data-key="FileResource.PODCAST"/>
+		<label class="form-check-label" id="id147" for="id148">Podcast</label>
+	
+				<div class="" id="id277" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id278">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id14a" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check55" aria-labelledby="id149" data-key="FileResource.BLOG"/>
+		<label class="form-check-label" id="id149" for="id14a">Blog</label>
+	
+				<div class="" id="id279" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id27a">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id14c" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check56" aria-labelledby="id14b" data-key="FileResource.IMSCP"/>
+		<label class="form-check-label" id="id14b" for="id14c">CP-Lerninhalt</label>
+	
+				<div class="" id="id27b" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id27c">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id14e" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check57" aria-labelledby="id14d" data-key="EPStructuredMapTemplate"/>
+		<label class="form-check-label" id="id14d" for="id14e">Portfoliovorlage</label>
+	
+				<div class="" id="id27d" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id27e">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id150" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check58" aria-labelledby="id14f" data-key="FileResource.MEDIATHEK"/>
+		<label class="form-check-label" id="id14f" for="id150">Mediathek</label>
+	
+				<div class="" id="id27f" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id280">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id152" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check59" aria-labelledby="id151" data-key="FileResource.FLASHCARDSET"/>
+		<label class="form-check-label" id="id151" for="id152">Lernkartei</label>
+	
+				<div class="" id="id281" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+					
+			
+		<div class="form-group  checkbox" id="id282">
+            
+			
+			
+				
+		<input type="checkbox" class="form-check-input" id="id154" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:3:field:checkGroup" value="check60" aria-labelledby="id153" data-key="FileResource.SHAREDFOLDER"/>
+		<label class="form-check-label" id="id153" for="id154">Ressourcenordner</label>
+	
+				<div class="" id="id283" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				
+			</div>
+		
+	
+		
+			
+		<div class="btn-container" id="id285">
+			
+		
+			
+			
+			<button class="btn" type="submit" name="selectResTypeContainer:selectResTypeFormPanel:selectResTypeForm:form:fields:fields:4:field:container:fields:fields:0:field:btn" id="id198" title="Übernehmen">
+				
+				
+				<span>Übernehmen</span>
+				
+			</button>
+		
+		
+		
+			
+			
+			<button class="btn" type="button" id="id199" title="Schließen">
+				
+				
+				<span>Schließen</span>
+				
+			</button>
+		
+		
+		
+	
+		</div>
+	
+		
+	
+	</div>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+		
+
+		</div>
+				</div>
+			</div>
+			<div class="advanced-search" id="id287">
+			
+	<a href="javascript:void(0);" onclick="var box=$(&#039;#idea&#039;);var cont = $(&#039;#ideb&#039;);cont.slideToggle(&#039;slow&#039;, function(){if(cont.is(&#039;:visible&#039;)){box.removeClass(&#039;box-closed&#039;).addClass(&#039;box-opened&#039;);} else {box.removeClass(&#039;box-opened&#039;).addClass(&#039;box-closed&#039;);}});return false;">
+		<span id="idea" class="box-closed"></span>
+		<span>Weitere Filter</span>
+	</a>
+	<div class="box box-light" id="ideb" style="display:none">
+		<div class="form-group">
+            <label class="col-form-label">Erstellungsdatum</label>
+			<div class="form-inline">
+				<span>Zwischen</span>
+				
+			
+		<div class="form-group" id="id288">
+            
+			
+			
+				
+		<input type="text" class="form-control" value="" name="advancedSearch:advSearchContainer:creationDateContainer:creationDateFrom:container:inputContainer:field" id="id181"/>
+<span class="yui-skin-sam">&nbsp;<span style="display:none;position:absolute;z-index: 99999;" id="id181Dp"></span><img style="cursor: pointer; border: none;" id="id181Icon" src="/opal/wicket/resource/org.apache.wicket.extensions.yui.calendar.DatePicker/icon1-ver-A9D71378ED9162B2DB5DE040C09D5BDE.gif" alt="" title=""/></span>
+		
+	
+				<div class="" id="id289" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+				<span>und</span>
+				
+			
+		<div class="form-group" id="id28a">
+            
+			
+			
+				
+		<input type="text" class="form-control" value="" name="advancedSearch:advSearchContainer:creationDateContainer:creationDateUntil:container:inputContainer:field" id="id182"/>
+<span class="yui-skin-sam">&nbsp;<span style="display:none;position:absolute;z-index: 99999;" id="id182Dp"></span><img style="cursor: pointer; border: none;" id="id182Icon" src="/opal/wicket/resource/org.apache.wicket.extensions.yui.calendar.DatePicker/icon1-ver-A9D71378ED9162B2DB5DE040C09D5BDE.gif" alt="" title=""/></span>
+		
+	
+				<div class="" id="id28b" style="display:none" aria-live="polite" role="alert">
+  
+</div>
+                
+			
+		</div>
+	
+		
+			</div>
+		</div>
+
+		<div class="form-group">
+            <label class="col-form-label">
+				
+					<input type="checkbox" name="advancedSearch:advSearchContainer:license:licenseFilter">
+					<span>OER Lizenz</span>
+				
+			</label>
+		</div>
+	</div>
+
+		</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-highlight">
+					Suche
+				</button>
+			</div>
+		</form>
+		
+		<div id="id28c" style="display:none" data-wicket-placeholder=""></div>
+		<div id="id28d" style="display:none" data-wicket-placeholder=""></div>
+		
+	</div>
+
+	
+		</div>
+					<div class="custom-content" id="id28e">
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		
+		
+	
+	
+	
+
+			</section>
+			<div class="clearfix"></div>
+		
+</div>
+<div class="clearfix"></div>
+<footer class="page-footer" role="contentinfo">
+			
+	<ul class="list-unstyled page-footer-links">
+		
+		<li>
+			<a id="id18d" href="javascript:;" title="Informationen zum Datenschutz">
+				Datenschutz
+			</a>
+		</li>
+		<li>
+			<a id="id18c" href="javascript:;" title="Nutzungsbedingungen">
+				Nutzungsbedingungen
+			</a>
+		</li>
+		<li>
+			<a id="id18e" href="javascript:;" title="Impressum">
+				Impressum
+			</a>
+		</li>
+		<li>
+			<a id="id18f" href="javascript:;" title="Informationen zur Barrierefreiheit">
+				Barrierefreiheit
+			</a>
+		</li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/STATHS/Betriebsstatus%20Hochschulsysteme" target="_blank" rel="noopener noreferrer" title="Informationen zum Betriebsstatus">
+				Betriebsstatus
+			</a>
+		</li>
+		<li id="id28f" style="display:none" data-wicket-placeholder=""></li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/Releasenotes/Releases%20OPAL/" target="_blank" rel="noopener noreferrer">
+				<span>Über OPAL 2026.10.1</span>
+				<span> | N5</span>
+			</a>
+		</li>
+		<li class="footer-bps">
+			<a href="https://www.bps-system.de" target="_blank" rel="noopener noreferrer" title="Homepage der BPS Bildungsportal Sachsen GmbH">
+				Powered by BPS
+			</a>
+		</li>
+	</ul>
+
+		</footer>
+
+<div id="dialogs">
+	
+</div>
+
+
+</body>
+</html>

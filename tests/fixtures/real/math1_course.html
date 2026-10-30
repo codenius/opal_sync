@@ -1,0 +1,822 @@
+<!--
+ BPS Bildungsportal Sachsen GmbH
+ Dresdner Straße 76
+ 09130 Chemnitz
+ Germany
+
+ Copyright (c) 2005-2024 by BPS Bildungsportal Sachsen GmbH
+ http://www.bps-system.de
+
+ All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="pragma" content="no-cache"/>
+	<meta http-equiv="expires" content="0"/>
+	<meta http-equiv="pragma-directive" content="no-cache"/>
+	<meta http-equiv="cache-directive" content="no-cache"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="referrer" content="no-referrer">
+	<meta charset="utf-8">
+
+	
+
+	<!--[if lt IE 9]>
+	<script>
+/*<![CDATA[*/
+
+		document.createElement('section');
+		document.createElement('nav');
+		document.createElement('header');
+		document.createElement('footer');
+		document.createElement('article');
+		document.createElement('aside');
+	
+/*]]>*/
+</script>
+	<![endif]-->
+
+	<title id="id262">N021 Mathematik 1 - EIB, STB - OPAL</title>
+<link rel="shortcut icon" href="/opal/raw/20261013/themes/opalmobil_htwk/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/opal/raw/20261013/themes/opalmobil_htwk/favicon.ico" type="image/x-icon" />
+<meta name="description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="keywords" content="OPAL, eLearning, Lernplattform, LMS, Learning Management System, LCMS, Learning Content Management System, Open Source, elearning, JAVA, IMS, QTI, SCORM, Content package, Kollaboration, Usability, Performanz, Skalierbarkeit" />
+<meta name="DC.creator" content="BPS Bildungsportal Sachsen GmbH" />
+<meta name="DC.subject" content="OPAL - Online Learning And Training" />
+<meta name="DC.description" content="OPAL, die Lernplattform zum Lehren und Lernen für Lehrkräfte und Studierende der sächsischen Universitäten, Hochschulen und Berufsakademien." />
+<meta name="DC.contributor" content="" />
+<meta name="DC.date" content="2026-10-13" scheme="DCTERMS.W3CDTF" />
+<meta name="DC.type" content="Interactive Resource" scheme="DCTERMS.DCMIType" />
+<meta name="DC.identifier" content="https://bildungsportal.sachsen.de/opal" scheme="DCTERMS.URI" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/_noversion_/js/qtip/jquery.qtip.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dropzone/dropzone.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/bar/bar.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/powertip/css/jquery.powertip.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tree/themes/default/style.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/css/jquery-ui/smoothness/jquery-ui-1.12.1.min.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/dragtable/dragtable-default.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/tag-it/css/jquery.tagit.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/js/pnotify/PNotifyBrightTheme.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opalmobil_htwk/layout.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opalmobil_htwk/responsive.css" />
+<link rel="stylesheet" type="text/css" href="/opal/raw/20261013/themes/opalmobil_htwk/retina.css" media="(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)" />
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/script.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/dropzone/dropzone.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/bar/bar.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/bootstrap/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/powertip/jquery.powertip.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/tree/jstree.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery.are-you-sure.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/ays-beforeunload-shim.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/jQuery/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript" id="dragtable" defer="defer" src="/opal/raw/20261013/js/dragtable/jquery.dragtable.js"></script>
+<script type="text/javascript" id="tagit" defer="defer" src="/opal/raw/20261013/js/tag-it/js/tag-it.min.js"></script>
+<script type="text/javascript" id="notify" defer="defer" src="/opal/raw/20261013/js/pnotify/PNotify.js"></script>
+<script type="text/javascript" defer="defer" src="/opal/raw/20261013/js/app/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.resource.DynamicJQueryResourceReference/jquery/jquery-2.2.4-ver-F9EE266EF993962AD59E804AD9DEBE66.js"></script>
+<script type="text/javascript" src="/opal/wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery-ver-04D5389C5F00ED98AD39E57EBB5AA818.js"></script>
+<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="auth/RepositoryEntry/12416188466?9";
+/*]]>*/
+</script>
+<script type="text/javascript" src="/opal/raw/20261013/js/jQuery/jquery.visible.min.js"></script>
+<script type="text/javascript" id="fcqt" src="/opal/raw/_noversion_/js/qtip/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="https://cdn.bps-system.de/live/opal/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm-navigationSearchButton-btn","m":"POST","c":"id246","f":"id245","sc":"navigationSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-dynamicTabs-0-closeLink","c":"id247","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-notificationsLinkContainer-notificationsLink","c":"id248","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-profileLinkContainer-profileLink","c":"id249","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-settingsLinkContainer-settingsLink","c":"id24a","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-reportLinkContainer-reportLink","c":"id24b","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-logoutLink","c":"id24c","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm-headerSearchButton-btn","m":"POST","c":"id24e","f":"id24d","sc":"headerSearchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-profileLink","c":"id24f","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsProfile","c":"id250","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsSettings","c":"id251","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsDisplaySettings","c":"id252","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsNews","c":"id253","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-optionsContainer-optionsCalendar","c":"id254","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-help-br-brLink","c":"id255","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-logoutLink","c":"id256","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-footer-disclaimer","c":"id257","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-html-body-footer-accessibilityContainer-accessibility","c":"id258","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+$(function(){var to_path=function(node){return node.id + ":" + node.parents.join(":")};var wrap=function(e,b){if(!b&&e.selected){var t,n=e.selected,r=e.instance,a=n.length,o=[];for(t=0;a>t;t++)o.push(to_path(r.get_node(n[t])));return JSON.stringify(o)}return"[\"" + to_path(e) + "\"]"};var callback=function (name,selected,extra) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-fluidContainer-rowContainer-treeContainer-treePanel-view-1-tree","c":"id259","i":"veil","dep":[function(attrs){return extra;}]};
+var params = [{"name":"name","value":name},{"name":"selected","value":selected}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var load=function (cb,selected) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466?9-1.1-fluidContainer-rowContainer-treeContainer-treePanel-view-1-tree","c":"id259","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){cb(data);}],"wr":false,"dt":"json"};
+var params = [{"name":"selected","value":to_path(selected)}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var initial_data=[{"id":"id94324488563383","text":"<span class=\"jstree-title\">N021 Mathematik 1 - EIB, STB<\/span>","icon":"fonticon icon-root","state":{"opened":true,"selected":true},"children":[{"id":"id94324488563885","text":"<span class=\"jstree-title\">Mitteilungen<\/span>","parent":"id94324488563383","icon":"fonticon icon-info","li_attr":{"class":"node-info"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563885","title":"Mitteilungen","class":"node-info"}},{"id":"id94324488563659","text":"<span class=\"jstree-title\">Einschreibung in den Kurs<\/span>","parent":"id94324488563383","icon":"fonticon icon-en","li_attr":{"class":"node-en"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563659","title":"Einschreibung in den Kurs","class":"node-en"}},{"id":"id94407379535985","text":"<span class=\"jstree-title\">Unterlagen<\/span>","parent":"id94324488563383","icon":"fonticon icon-st","children":[{"id":"id94390817219110","text":"<span class=\"jstree-title\">Kursmaterialien<\/span>","parent":"id94407379535985","icon":"fonticon icon-bc","li_attr":{"class":"node-bc"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94390817219110","title":"Kursmaterialien","class":"node-bc"}}],"li_attr":{"class":"node-st"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94407379535985","title":"Unterlagen","class":"node-st"}},{"id":"id1728268292543639005","text":"<span class=\"jstree-title\">Lernstandserhebung Sachsen<\/span><span class=\"fonticon icon-radio-unchecked assess-open\" title=\"Bewertung offen\" aria-hidden=\"true\"><\/span><span class=\"visually-hidden\">Bewertung offen<\/span>","parent":"id94324488563383","icon":"fonticon icon-iqtest","li_attr":{"class":"node-iqtest"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/1728268292543639005","title":"Lernstandserhebung Sachsen","class":"node-iqtest"}},{"id":"id102729773845819","text":"<span class=\"jstree-title\">Belegabgabe<\/span>","parent":"id94324488563383","icon":"fonticon icon-st","children":[{"id":"id102729774067957","text":"<span class=\"jstree-title\">EIB2 / EIK2<\/span>","parent":"id102729773845819","icon":"fonticon icon-bc","li_attr":{"class":"node-bc"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/102729774067957","title":"EIB2 / EIK2","class":"node-bc"}}],"li_attr":{"class":"node-st"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/102729773845819","title":"Belegabgabe","class":"node-st"}},{"id":"id102790542717191","text":"<span class=\"jstree-title\">Belegr&uuml;ckgabe<\/span><span class=\"fonticon icon-radio-unchecked assess-open\" title=\"Bewertung offen\" aria-hidden=\"true\"><\/span><span class=\"visually-hidden\">Bewertung offen<\/span>","parent":"id94324488563383","icon":"fonticon icon-ta","li_attr":{"class":"node-ta"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/102790542717191","title":"Belegrückgabe","class":"node-ta"}},{"id":"id1760409360283989009","text":"<span class=\"jstree-title\">Kontakt zu Prof. Grundel<\/span>","parent":"id94324488563383","icon":"fonticon icon-co","li_attr":{"class":"node-co"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/1760409360283989009","title":"Kontakt zu Prof. Grundel","class":"node-co"}},{"id":"id94324488563663","text":"<span class=\"jstree-title\">Kontakt zu Dr. Peltri<\/span>","parent":"id94324488563383","icon":"fonticon icon-co","li_attr":{"class":"node-co"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563663","title":"Kontakt zu Dr. Peltri","class":"node-co"}}],"li_attr":{"class":"node-root"},"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563383","title":"N021 Mathematik 1 - EIB, STB","class":"node-root"}}];var tree="id259";$("#" + tree).on("changed.jstree", function(e,data){"select_node"===data.action&&data.event&&($("div.jstree").each(function(e,a){$(a).jstree("deselect_all",!0)}),data.instance.select_node(data.selected,!0),data.instance.open_node(data.node),callback("select_node",wrap(data)));}).on("ready.jstree", function(e,data){var save=data.instance.save_state;data.instance.save_state=function(){var open=this.get_state().core.open;callback("save_action", null, function(attrs){attrs.ep.push({"name":"open","value":open})}, true);save.call(this);};}).jstree({"core":{"multiple":false,"animation":250,"data":function(node,datacb){if(node.id==="#"){datacb(initial_data)}else{load(datacb,node)}},"themes":{"icons":true,"dots":false,"responsive":false}},"plugins":["state"],"state":{"key":"courses-12416188466","filter":function(e){delete e.core.selected;var t,n=e.core.open;for(t=0;t<n.length;t++){var r=this.get_node(n[t]);r&&0!=r.children.length||delete n[t]}return e}}});});;
+$(function(){var to_path=function(node){return node.id + ":" + node.parents.join(":")};var wrap=function(e,b){if(!b&&e.selected){var t,n=e.selected,r=e.instance,a=n.length,o=[];for(t=0;a>t;t++)o.push(to_path(r.get_node(n[t])));return JSON.stringify(o)}return"[\"" + to_path(e) + "\"]"};var callback=function (name,selected,extra) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-fluidContainer-rowContainer-treeContainer-treePanel-view-2-tree","c":"id25a","i":"veil","dep":[function(attrs){return extra;}]};
+var params = [{"name":"name","value":name},{"name":"selected","value":selected}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var load=function (cb,selected) {
+var attrs = {"u":"/opal/auth/RepositoryEntry/12416188466?9-1.1-fluidContainer-rowContainer-treeContainer-treePanel-view-2-tree","c":"id25a","i":"veil","sh":[function(attrs, jqXHR, data, textStatus){cb(data);}],"wr":false,"dt":"json"};
+var params = [{"name":"selected","value":to_path(selected)}];
+attrs.ep = params.concat(attrs.ep || []);
+Wicket.Ajax.ajax(attrs);
+}
+var initial_data=[{"id":"idgroups","text":"<span class=\"jstree-title\">Gruppen<\/span>","icon":"fonticon icon-group","children":[{"id":"id12416155747","text":"<span class=\"jstree-title\">EIB-2<\/span>","parent":"idgroups","icon":"fonticon icon-group","children":true,"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/BusinessGroup/12416155747","title":"EIB-2"}}],"a_attr":{"href":"https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466/BusinessGroup/Overview","title":"Gruppen"}}];var tree="id25a";$("#" + tree).on("changed.jstree", function(e,data){"select_node"===data.action&&data.event&&($("div.jstree").each(function(e,a){$(a).jstree("deselect_all",!0)}),data.instance.select_node(data.selected,!0),data.instance.open_node(data.node),callback("select_node",wrap(data)));}).on("ready.jstree", function(e,data){var save=data.instance.save_state;data.instance.save_state=function(){var open=this.get_state().core.open;callback("save_action", null, function(attrs){attrs.ep.push({"name":"open","value":open})}, true);save.call(this);};}).jstree({"core":{"multiple":false,"animation":250,"data":function(node,datacb){if(node.id==="#"){datacb(initial_data)}else{load(datacb,node)}},"themes":{"icons":true,"dots":false,"responsive":false}},"plugins":["state"],"state":{"key":"groups-12416188466","filter":function(e){delete e.core.selected;var t,n=e.core.open;for(t=0;t<n.length;t++){var r=this.get_node(n[t]);r&&0!=r.children.length||delete n[t]}return e}}});});;
+{
+
+const MIN_WIDTH = 200;
+let xDown, contiDownWidth, outerContiWidth;
+const resize = e => {
+const newWidth = Math.max(
+Math.min(
+contiDownWidth + e.clientX - xDown,
+outerContiWidth - MIN_WIDTH
+), MIN_WIDTH
+);
+
+	const newWidthPercent = (newWidth / outerContiWidth) * 100;
+$('#id23a').css('width', newWidthPercent + '%');
+};
+const gutter = $('<div><\/div>')
+.addClass('gutter-horizontal')
+.css({
+'touch-action': 'none',
+'user-select': 'none',
+'position': 'absolute',
+'top': 0,
+'right': 0,
+'bottom': 0,
+'transform': 'translateX(100%)'
+})
+.on('pointerup', e => $(e.currentTarget).off('pointermove', resize))
+.on('pointerdown', e => {
+xDown = e.clientX;
+contiDownWidth = $('#id23a').outerWidth();
+outerContiWidth = $('#id23a').parent().width();
+$(e.currentTarget).on('pointermove', resize);
+e.currentTarget.setPointerCapture(e.originalEvent.pointerId);
+return false;
+})
+.appendTo('#id23a');
+$('#id23a').css({
+'position': 'relative',
+'margin-right': gutter.css('width')
+}).parent().css({
+'display': 'flex',
+'flex-wrap': 'nowrap'
+});
+$('#id23a').next().css('flex', 1);
+};
+$('.content-container').removeClass (function (index, className) {    return (className.match (/\bep-map(\S+|\b)/g) || []).join(' ');});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPreviewPanel-previewElementContainer-previewContentAuthors-0-author-link","c":"id25b","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPreviewPanel-previewElementContainer-previewContentAuthors-1-author-link","c":"id25c","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-fluidContainer-rowContainer-outerContentContainer-hideButtonContainer-hideButton","c":"id25d","i":"veil","e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-headerPanel-rightContainer-innerRightContainer-additional-1-view-1-searchForm-searchButton-btn","m":"POST","c":"id25f","f":"id25e","sc":"searchButton:btn","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');},function(attrs){const e=$('#id244:hidden');if(e.length){e.show().focus();return false;}}],"e":"click","pd":true});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-headerPanel-rightContainer-innerRightContainer-additional-2-view-1-btn","c":"id260","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-headerPanel-rightContainer-innerRightContainer-additional-2-view-2-container-view-1-link","c":"id261","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}],"e":"click"});;
+Wicket.Event.subscribe('/ajax/call/complete',function(){try{MathJax.Hub.Queue(['Typeset',MathJax.Hub,'wrap']);}catch(e){}});;
+$('body').on('click',function(t){var i=$(t.target);'popover'!==i.data('toggle')&&0===i.parents('[autohide],.popover').length&&$('[autohide]').each(function(){var t=$(this),i=t.attr('autohide');i?$('#'+i).is(':visible')&&this.click():t.attr('aria-describedby')&&this.click()})});;
+window.addEventListener("message", function(e) {if (e.data.message === "close-dialog") {	var target = jQuery("iframe[name='" + e.data.payload + "']");	var container = target.parents(".fancybox-container");	var id = container.attr("id");	jQuery.fancybox.close(id)}}, false);;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "load", function(event) { 
+try{alterNodeJumps();}catch(e){};
+Wicket.Timer.set('id263.0', function(){Wicket.Ajax.ajax({"u":"/opal/auth/RepositoryEntry/12416188466?9-1.0-","i":"veil","bh":[function(attrs){jQuery(':focus').blur();try{tinyMCE.triggerSave(true,true);}catch(e){}try{if(Dropzone){var instances=Dropzone.instances,i,ins,files;if(instances.length>0)for(i=0;i<instances.length;i++)if(ins=instances[i],files=ins.getActiveFiles(),files.length>0){for(i=0;i<files.length;i++)ins.cancelUpload(files[i]);ins.disable()}}}catch(e){}}],"pre":[function(attrs){var form=jQuery('form');if(!form.hasClass('dirky')){return true;}if(!confirm('Sie haben nicht gespeicherte Änderungen! Möchten Sie trotzdem fortfahren?')){return false;}jQuery('.dirky').removeClass('dirky');}]});}, 1000);;
+;});
+/*]]>*/
+</script>
+</head>
+<body class="user-role-learner lang-de">
+<div id="clickblocker" class="clickblocker" style="display:none;" onclick="$.sidr('close','sidr');"></div>
+<div id="veil" class="veil"></div>
+<div class="skip-links-container">
+	<a class="skip-link" href="#main-nav">Zur Navigation</a>
+	<a class="skip-link" href="#main-content">Zum Inhalt</a>
+	<a class="skip-link" href="#side-menu">Zum Kursmenü</a>
+	
+</div>
+<div id="wrap" class="course page">
+	
+	<header role="banner" class="page-header-container" id="id264">
+			
+	
+
+	<div class="d-flex justify-content-between page-header">
+
+		<div class="header-logo-container">
+			<a class="logo" rel="direct" href="/opal/home" title="Startseite">
+                <span class="visually-hidden">OPAL</span>
+			</a>
+		</div>
+		<div class="header-functions" id="id265">
+			
+	<nav class="d-flex align-items-center gap-1 header-functions-user" aria-label="Header-Navigation">
+		<form class="header-functions-search" role="search" id="id24d" method="post" action="/opal/auth/RepositoryEntry/12416188466?9-1.-html-body-wrapper-header-nonmobileHeader-headerFunction-nav-headerSearchForm" aria-label="Lernplattform"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="headerSearchButton:btn" onclick=" var b=document.getElementById('id24e'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+			<label class="visually-hidden" id="id240" for="id241">Suche</label>
+			<div class="input-group input-group-sm">
+				<input class="form-control" type="search" value="" name="headerSearchField" id="id241" placeholder="Suche" aria-labelledby="id240"/>
+				<div>
+			
+		<div id="id266" style="display:none" data-wicket-placeholder=""></div>
+	
+		</div>
+				
+			
+			<button class="btn btn-sm" type="button" name="headerSearchButton:btn" id="id24e" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</div>
+		</form>
+
+		<div class="btn-group">
+			<a class="btn btn-sm" id="id24f" href="javascript:;" title="Profil anzeigen (Test User)">
+				<span class="fonticon icon-user" aria-hidden="true"></span>
+				<span class="header-functions-user-name">Test User</span>
+			</a>
+
+			<div class="dropdown btn-group">
+				<button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-trigger="focus" title="Weitere Optionen">
+					<span class="visually-hidden">Optionen</span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right" role="menu">
+					<li role="menuitem">
+						<a class="dropdown-item" id="id250" href="javascript:;" title="Profileinstellungen öffnen">
+							<span>Profil</span>
+						</a>
+					</li>
+					
+						<li role="menuitem">
+							<a class="dropdown-item" id="id251" href="javascript:;" title="Systemeinstellungen öffnen">
+								<span>Einstellungen</span>
+							</a>
+						</li>
+						<li role="menuitem">
+							<a class="dropdown-item" id="id252" href="javascript:;" title="Anzeigeeinstellungen öffnen">
+								<span>Anzeige</span>
+							</a>
+						</li>
+						
+						<li class="dropdown-divider" aria-hidden="true"></li>
+					
+					
+						<li role="menuitem">
+							<a class="dropdown-item" id="id253" href="javascript:;" title="Neuigkeiten und Abonnements konfigurieren">
+								<span>Neuigkeiten</span>
+							</a>
+						</li>
+						<li class="dropdown-divider" aria-hidden="true"></li>
+					
+					<li role="menuitem">
+						<a class="dropdown-item" id="id254" href="javascript:;" title="Persönlichen Kalender konfigurieren">
+							<span>Persönlicher Kalender</span>
+						</a>
+					</li>
+					<li role="menuitem">
+						
+					</li>
+					<li role="menuitem">
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div style="display: inline" id="id267">
+			
+	<section class="noti-badge-container" aria-live="polite" id="id268" aria-label="Keine neuen Nachrichten">
+		<a id="id242" style="display:none" data-wicket-placeholder=""></a>
+	</section>
+	<form id="id23e" style="display:none" data-wicket-placeholder=""></form>
+
+		</div>
+
+		
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle btn-sm" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/?language=de" title="Benutzerhandbuch OPAL">Benutzerhandbuch OPAL</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch%20OPAL/Erste%20Schritte/Ansprechpartner//?language=de" title="Kontakt &amp; Ansprechpartner">Kontakt & Ansprechpartner</a></li>
+			<li role="menuitem"><a class="dropdown-item" id="id255" href="javascript:;" title="Problem melden"><span>Problem melden</span></a></li>
+		</ul>
+	</div>
+
+		
+
+		<a class="btn btn-sm" id="id256" href="javascript:;" title="Abmelden">
+			<span class="fonticon icon-logout" aria-hidden="true"></span>
+			<span class="visually-hidden">Abmelden</span>
+		</a>
+
+	</nav>
+
+		</div>
+	</div>
+
+			
+
+			<div id="sidr">
+				<div id="id269">
+			
+		<nav id="main-nav" class="nav-container" role="navigation" aria-label="Hauptnavigation">
+			<div class="nav-search-placeholder" id="searchfieldlock"></div>
+			<form class="nav-search" role="search" id="id245" method="post" action="/opal/auth/RepositoryEntry/12416188466?9-1.-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationSearchForm"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="navigationSearchButton:btn" onclick=" var b=document.getElementById('id246'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+                <label class="visually-hidden" id="id23c" for="id23d">Suche</label>
+				<div id="id26a" style="display:none" data-wicket-placeholder=""></div>
+				<input class="form-control" type="search" tabindex="-1" value="" name="navigationSearch" id="id23d" placeholder="Suche" aria-labelledby="id23c"/>
+				
+			
+			<button class="btn only" type="button" name="navigationSearchButton:btn" id="id246" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+			</form>
+ 			<ul class="nav mainnav list-unstyled" id="id26b">
+				<li class="home nav-tab">
+					<a href="/opal/home" title="Startseite">
+						
+						<span>Startseite</span>
+                        
+					</a>
+					
+				</li><li class="learn nav-tab">
+					<a href="/opal/auth/resource/courses" title="Lehren &amp; Lernen">
+						
+						<span>Lehren &amp; Lernen</span>
+                        
+					</a>
+					
+				</li><li class="courses nav-tab">
+					<a href="/opal/auth/repository/catalog/360449" title="Kursangebote">
+						
+						<span>Kursangebote</span>
+                        
+					</a>
+					
+				</li>
+			</ul>
+			<strong class="nav-header">Geöffnete Inhalte</strong>
+ 			<ul class="nav subnav list-unstyled" id="id26c">
+				<li class="active dynamic-tab">
+					<a href="/opal/auth/RepositoryEntry/12416188466/CourseNode/94324488563383" title="N021 Mathematik 1 - EIB, STB" aria-current="page">
+						
+						<span>N021 Mathematik 1 - EI...</span>
+                        
+					</a>
+					<button class="btn-close only" id="id247" type="button" title="Tab schließen">
+						<span class="fonticon icon-cross3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Tab schließen</span>
+					</button>
+				</li>
+			</ul>
+			<strong class="nav-header">Persönliches</strong>
+			
+				<ul class="nav adnav list-unstyled">
+					<li>
+						<a id="id248" href="/opal/auth/RepositoryEntry/12416188466?9-1.-html-body-wrapper-header-naviContainer-navigation-navigationContainer-navigationPersonalContainer-notificationsLinkContainer-notificationsLink">
+							<span class="fonticon icon-bell" aria-hidden="true"></span>
+							Neuigkeiten
+                            <span class="badge text-bg-secondary">0</span>
+						</a>
+					</li>
+					<li>
+						<a id="id249" href="javascript:;" title="Profil anzeigen">
+							<span class="fonticon icon-user" aria-hidden="true"></span>
+							Test User
+						</a>
+					</li>
+					<li>
+						<a id="id24a" href="javascript:;" title="Zu den Einstellungen">
+							<span class="fonticon icon-gear" aria-hidden="true"></span>
+							Einstellungen
+						</a>
+					</li>
+					<li><a id="id24b" href="javascript:;" title="Problem melden"><span class="fonticon icon-envelop-filled" aria-hidden="true"></span>Problem melden</a></li>
+					<li><a id="id24c" href="javascript:;" title="Abmelden"><span aria-hidden="true" class="fonticon icon-logout"></span>Abmelden</a></li>
+				</ul>
+			
+		</nav>
+		<div class="clearfix"></div>
+	
+		</div>
+			</div>
+
+		
+		</header>
+	
+	
+			<section id="main-content" role="main">
+				
+			
+			
+		
+		
+				
+	<div id="id26d">
+	<header class="fluid-container main-header">
+		<div class="row">
+		<div class="col-md-4">
+			<div>
+				
+	
+	<h1>
+		
+			
+            
+			N021 Mathematik 1 - EIB, STB
+			
+		
+	</h1>
+
+			</div>
+		</div>
+		<div class="main-header-additional col-md-8">
+			<div class="row">
+				<div class="additional-center col-md-6">
+					<div class="btn-group">
+						
+					</div>
+				</div>
+				<div class="additional-right col-md-6">
+					<div class="btn-toolbar">
+						<div class="btn-group">
+							
+			
+	<form class="main-header-search" role="search" id="id25e" method="post" action="/opal/auth/RepositoryEntry/12416188466?9-1.-headerPanel-rightContainer-innerRightContainer-additional-1-view-1-searchForm"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden" class="hidden-fields"><input type="text" tabindex="-1" autocomplete="off"/><input type="submit" tabindex="-1" name="searchButton:btn" onclick=" var b=document.getElementById('id25f'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+		<label class="visually-hidden" id="id243" for="id244">Inhalte durchsuchen</label>
+		<div class="input-group">
+			<input class="form-control" type="search" value="" name="searchField" id="id244" placeholder="Inhalte durchsuchen" aria-labelledby="id243"/>
+			
+			
+			
+			<button class="btn" type="submit" name="searchButton:btn" id="id25f" title="Suchen">
+				<span aria-hidden="true" class="fonticon icon-search"></span>
+				
+				<span class="visually-hidden">Suchen</span>
+				
+			</button>
+		
+		
+		</div>
+	</form>
+
+		
+						</div><div class="btn-group">
+							
+			
+			<button class="btn" type="button" id="id260" title="Als Favorit markieren">
+				<span aria-hidden="true" class="fonticon icon-star"></span>
+				
+				<span class="visually-hidden">Als Favorit markieren</span>
+				
+			</button>
+		
+		
+    <button class="btn dropdown-toggle course-actions-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="id26e" title="Weitere Kurs-Aktionen">
+		<span aria-hidden="true"></span>
+        <span class="visually-hidden">Weitere Kurs-Aktionen</span>
+	</button>
+	<ul class="dropdown-menu dropdown-menu-right" role="menu">
+		<li>
+			<a class="dropdown-item" href="javascript:;" id="id261" title="Kurs als Startseite setzen">
+				<span aria-hidden="true" class="fonticon icon-home"></span>
+				<span>Kurs als Startseite setzen</span>
+			</a>
+			
+		</li>
+	</ul>
+
+						</div><div class="btn-group">
+							
+						</div><div class="btn-group">
+							
+			
+	<div class="btn-group help">
+        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" title="Hilfe">
+			<span class="fonticon icon-help" aria-hidden="true"></span>
+            <span class="visually-hidden">Hilfe</span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			<li class="dropdown-header">Hilfe</li>
+			<li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Lernen/Arbeit in Kursen/?language=de" title="Arbeit in Kursen">Arbeit in Kursen</a></li><li role="menuitem"><a class="dropdown-item" target="_blank" href="https://help.bps-system.de/wiki/bin/view/LMS/Benutzerhandbuch OPAL/Lernen/Arbeit in Kursen/Lerninhalte und Kursbausteine/?language=de" title="Lerninhalte und Kursbausteine">Lerninhalte und Kursbausteine</a></li>
+			
+		</ul>
+	</div>
+
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+	</header>
+	
+		<p id="id26f" style="display:none" data-wicket-placeholder=""></p>
+	
+</div>
+	<div id="id270">
+</div>
+	<div id="id271">
+</div>
+	<div id="id272">
+</div>
+	<div id="id273">
+</div>
+	<div id="id274" style="display:none" data-wicket-placeholder=""></div>
+	<div id="id275" class="fluid-container">
+		<div class="rowcontainer row" id="id276">
+			<div class="menu-container col-sm-2 open" id="id23a" aria-hidden="false">
+				
+	<div></div>
+	<nav role="navigation" class="menu menu-course" id="side-menu" aria-label="Bausteine des Kurses">
+			<div id="id259"></div>
+		</nav><nav role="navigation" class="menu menu-groups" id="id278" aria-label="Gruppen des Kurses">
+			<div id="id25a"></div>
+		</nav>
+
+			</div>
+			<div class="content-container col-sm-10" id="id279">
+				
+					<div class="hide-course-tree">
+						<button class="btn" type="button" id="id25d" aria-expanded="true" aria-controls="id23a">
+								<span class="visually-hidden">Anzeige des Kursmenüs</span>
+							<span class="fonticon icon-arrow-left-small" aria-hidden="true" id="id27a"></span>
+						</button>
+					</div>
+				
+				<div id="id27b" class="course-node root">
+					<div id="id27c">
+</div>
+					<div id="id27d">
+			
+	<div class="content-preview content-preview-horizontal resource-details">
+		<div id="id27e" style="display:none" data-wicket-placeholder=""></div>
+		<div class="content-preview-img">
+			<img aria-hidden="true" src="/opal/auth/RepositoryEntry/12416188466?9--fluidContainer-rowContainer-outerContentContainer-contentContainer-contentPreviewPanel-previewElementContainer-previewImageContainer-img&amp;antiCache=1793112902429" alt="Titelbild des Kurses" title="N021 Mathematik 1 - EIB, STB"/>
+		</div>
+		<div class="content-preview-main">
+			<small>HTWK Leipzig | semesterübergreifend</small>
+			<strong class="content-preview-title">N021 Mathematik 1 - EIB, STB</strong>
+			<span class="content-preview-author">Verantwortliche/r:</span>
+			
+				<span class="content-preview-author">
+			
+			<a href="javascript:;" id="id25b" title="Profil anzeigen (Sara Grundel)">Sara Grundel</a>
+		
+		</span>
+				<span class="content-preview-sep">|</span>
+			
+				<span class="content-preview-author">
+			
+			<a href="javascript:;" id="id25c" title="Profil anzeigen (Gregor Peltri)">Gregor Peltri</a>
+		
+		</span>
+				
+			
+			<div class="content-preview-desc" id="id27f">
+				<span><div class="course-subtitle"><p>1010/N021</p></div><div class="course-desc"><p>f&uuml;r die Studieng&auml;nge EIB, EIK, STB</p></div><div class="repo-desc"></div></span>
+				
+			</div>
+			<div class="content-preview-info">
+				<a href="javascript:void(0);" onclick="$(&#039;#id23b&#039;).slideToggle();return false;">
+					<span>Weitere Informationen anzeigen</span>
+				</a>
+				<div style="display: none;" id="id23b">
+					<span id="id280">
+			
+	
+			
+	<dl class="row">
+		
+			<dt class="col-sm-3">Erstellt am</dt>
+			
+				<dd class="col-sm-9">29.09.2016 um 15:52 Uhr</dd>
+			
+			
+			
+		
+			<dt class="col-sm-3">Kurstyp</dt>
+			
+				<dd class="col-sm-9">Lehrveranstaltung</dd>
+			
+			
+			
+		
+			<dt class="col-sm-3">Anwesende Kursteilnehmer</dt>
+			
+				<dd class="col-sm-9">30</dd>
+			
+			
+			
+		
+	</dl>
+
+		
+	
+			
+	<dl class="row">
+		
+			<dt class="col-sm-3">Link zum Kurs</dt>
+			
+				<dd class="col-sm-9">
+	<a href="/opal/auth/RepositoryEntry/12416188466">https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/12416188466</a>
+</dd>
+			
+			
+			
+		
+	</dl>
+
+		
+	
+			
+	<dl class="row">
+		
+			<dt class="col-sm-3">Katalogeinträge</dt>
+			
+				<dd class="col-sm-9">
+	<ul class="list-unstyled" id="id281">
+		<li>
+			<a href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/18333040665">
+				<span>Kursangebote/Hochschule für Technik, Wirtschaft und Kultur Leipzig/Fakultät Wirtschaftswissenschaft und Wirtschaftsingenieurwesen/Bachelor/Wirtschaftsingenieurwesen/Studiengang Wirtschaftsingenieurwesen  Elektrotechnik Bachelor (STB)/1. Fachsemester</span>
+			</a>
+		</li><li>
+			<a href="https://bildungsportal.sachsen.de/opal/auth/repository/catalog/20012662804">
+				<span>Kursangebote/Hochschule für Technik, Wirtschaft und Kultur Leipzig/Fakultät Ingenieurwissenschaften/Lehrmaterialien Bachelor/EIB/1. Semester</span>
+			</a>
+		</li>
+	</ul>
+</dd>
+			
+			
+			
+		
+	</dl>
+
+		
+	
+			
+	<dl class="row">
+		
+			<dt class="col-sm-3">Anzahl der Aufrufe</dt>
+			
+				<dd class="col-sm-9">187207</dd>
+			
+			
+			
+		
+			<dt class="col-sm-3">Letzter Zugriff durch Verantwortlichen</dt>
+			
+				<dd class="col-sm-9">27.10.2026 um 11:25 Uhr</dd>
+			
+			
+			
+		
+	</dl>
+
+		
+
+		</span>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+
+		</div>
+					<div class="content-container-inner" id="id282">
+			
+		
+	
+			
+	
+
+		
+	
+	<div>
+			
+	
+
+	
+			
+		<div id="id283" style="display:none" data-wicket-placeholder=""></div>
+	
+		
+	
+
+	
+
+	
+
+	
+		<div id="id284"><div><div class="blumenkringelwarte">Lade Bewertungsübersicht</div></div></div>
+		<div id="id285" style="display:none" data-wicket-placeholder=""></div>
+		
+		<div id="id286"><div><div class="blumenkringelwarte">Lade Übersicht</div></div></div>
+	
+
+
+		</div>
+
+	
+		</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		
+		
+	
+	
+	
+
+			</section>
+			<div class="clearfix"></div>
+		
+</div>
+<div class="clearfix"></div>
+<footer class="page-footer" role="contentinfo">
+			
+	<ul class="list-unstyled page-footer-links">
+		
+		<li>
+			<a href="https://www.htwk-leipzig.de/de/hochschule/kontakt/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer" title="Informationen zum Datenschutz">
+				Datenschutz
+			</a>
+		</li>
+		<li>
+			<a id="id257" href="javascript:;" title="Nutzungsbedingungen">
+				Nutzungsbedingungen
+			</a>
+		</li>
+		<li>
+			<a href="https://www.htwk-leipzig.de/hochschule/kontakt/impressum/" target="_blank" rel="noopener noreferrer" title="Impressum">
+				Impressum
+			</a>
+		</li>
+		<li>
+			<a id="id258" href="javascript:;" title="Informationen zur Barrierefreiheit">
+				Barrierefreiheit
+			</a>
+		</li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/STATHS/Betriebsstatus%20Hochschulsysteme" target="_blank" rel="noopener noreferrer" title="Informationen zum Betriebsstatus">
+				Betriebsstatus
+			</a>
+		</li>
+		<li id="id287" style="display:none" data-wicket-placeholder=""></li>
+		<li>
+			<a href="https://help.bps-system.de/wiki/bin/view/Releasenotes/Releases%20OPAL/" target="_blank" rel="noopener noreferrer">
+				<span>Über OPAL 2026.10.1</span>
+				<span> | N12</span>
+			</a>
+		</li>
+		<li class="footer-bps">
+			<a href="https://www.bps-system.de" target="_blank" rel="noopener noreferrer" title="Homepage der BPS Bildungsportal Sachsen GmbH">
+				Powered by BPS
+			</a>
+		</li>
+	</ul>
+
+		</footer>
+
+<div id="dialogs">
+	
+</div>
+
+
+</body>
+</html>

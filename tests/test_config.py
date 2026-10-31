@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from opal_sync.config import load_config, save_config
+from opal_sync.config import AppConfig, load_config, save_config
 
 
 def test_load_config_reads_include_exclude_and_course_paths(tmp_path):
@@ -144,6 +144,25 @@ log_level = "INFO"
     assert config.general.log_file == tmp_path / "opal-sync.log"
     assert config.general.db_file == tmp_path / "state.db"
     assert config.auth.session.cookie_file == tmp_path / "session.json"
+
+
+def test_existing_config_uses_dataclass_defaults_for_omitted_values(tmp_path):
+    config_path = tmp_path / "config.toml"
+    config_path.write_text("", encoding="utf-8")
+
+    config = load_config(config_path)
+    defaults = AppConfig()
+
+    assert config.auth.university == defaults.auth.university
+    assert config.auth.username == defaults.auth.username
+    assert config.auth.password == defaults.auth.password
+    assert (
+        config.auth.session.session_ttl_hours
+        == defaults.auth.session.session_ttl_hours
+    )
+    assert config.auth.session.max_retry_auth == defaults.auth.session.max_retry_auth
+    assert config.sync == defaults.sync
+    assert config.courses == defaults.courses
 
 
 def test_legacy_interval_setting_is_ignored_and_not_saved(tmp_path):

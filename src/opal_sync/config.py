@@ -46,7 +46,7 @@ class GeneralConfig:
 @dataclass
 class SessionConfig:
     cookie_file: Path = Path("session.json")
-    session_ttl_hours: int = 8
+    session_ttl_hours: int = 1
     max_retry_auth: int = 3
 
 
@@ -72,9 +72,9 @@ class AuthConfig:
 class SyncConfig:
     include_extensions: List[str] = field(default_factory=list)
     exclude_extensions: List[str] = field(default_factory=list)
-    max_file_size_mb: int = 500
+    max_file_size_mb: int = 50
     parallel_downloads: int = 3
-    request_delay_seconds: float = 1.0
+    request_delay_seconds: float = 0.5
     delete_removed: bool = False
 
 
@@ -86,19 +86,11 @@ class CoursesFilterConfig:
 
 
 @dataclass
-class NotificationConfig:
-    enabled: bool = True
-    on_new_files: bool = True
-    on_errors: bool = True
-
-
-@dataclass
 class AppConfig:
     general: GeneralConfig = field(default_factory=GeneralConfig)
     auth: AuthConfig = field(default_factory=AuthConfig)
     sync: SyncConfig = field(default_factory=SyncConfig)
     courses: CoursesFilterConfig = field(default_factory=CoursesFilterConfig)
-    notifications: NotificationConfig = field(default_factory=NotificationConfig)
     config_file_path: Optional[Path] = None
 
     @property
@@ -114,7 +106,9 @@ class AppConfig:
             )
             return (base_dir / db_file).resolve()
         base_dir = self.config_file_path.parent if self.config_file_path else Path.cwd()
-        return (base_dir / "state.db").resolve()
+        default_db_file = GeneralConfig().db_file
+        assert default_db_file is not None
+        return (base_dir / default_db_file).resolve()
 
 
 def _resolve_config_path(value: Any, base_dir: Path) -> Path:
@@ -145,31 +139,40 @@ def load_config(config_path: Optional[Path] = None) -> AppConfig:
     if not path.is_file():
         cfg = AppConfig()
         cfg.config_file_path = path
-        cfg.general.sync_directory = _resolve_config_path(".", base_dir)
-        cfg.general.log_file = _resolve_config_path("opal-sync.log", base_dir)
-        cfg.general.db_file = _resolve_config_path("state.db", base_dir)
-        cfg.auth.session.cookie_file = _resolve_config_path("session.json", base_dir)
+        cfg.general.sync_directory = _resolve_config_path(
+            cfg.general.sync_directory, base_dir
+        )
+        if cfg.general.log_file is not None:
+            cfg.general.log_file = _resolve_config_path(cfg.general.log_file, base_dir)
+        if cfg.general.db_file is not None:
+            cfg.general.db_file = _resolve_config_path(cfg.general.db_file, base_dir)
+        cfg.auth.session.cookie_file = _resolve_config_path(
+            cfg.auth.session.cookie_file, base_dir
+        )
         return cfg
 
     with open(path, "rb") as f:
         data: Dict[str, Any] = tomllib.load(f)
 
     gen_raw = data.get("general", {})
-    log_file_raw = gen_raw.get("log_file")
+    general_defaults = GeneralConfig()
+    log_file_raw = gen_raw.get("log_file", general_defaults.log_file)
     if log_file_raw is None:
-        log_file_raw = "opal-sync.log"
+        log_file_raw = general_defaults.log_file
     elif isinstance(log_file_raw, str) and not log_file_raw.strip():
         log_file_raw = None
 
-    db_file_raw = gen_raw.get("db_file")
+    db_file_raw = gen_raw.get("db_file", general_defaults.db_file)
     if db_file_raw is None:
-        db_file_raw = "state.db"
+        db_file_raw = general_defaults.db_file
     elif isinstance(db_file_raw, str) and not db_file_raw.strip():
         db_file_raw = None
 
     general = GeneralConfig(
-        sync_directory=_resolve_config_path(gen_raw.get("sync_directory", "."), base_dir),
-        log_level=gen_raw.get("log_level", "INFO"),
+        sync_directory=_resolve_config_path(
+            gen_raw.get("sync_directory", general_defaults.sync_directory), base_dir
+        ),
+        log_level=gen_raw.get("log_level", general_defaults.log_level),
         log_file=(
             _resolve_config_path(log_file_raw, base_dir)
             if log_file_raw not in (None, "")
@@ -184,50 +187,67 @@ def load_config(config_path: Optional[Path] = None) -> AppConfig:
 
     auth_raw = data.get("auth", {})
     sess_raw = auth_raw.get("session", {})
+    auth_defaults = AuthConfig()
+    session_defaults = auth_defaults.session
     session = SessionConfig(
         cookie_file=_resolve_config_path(
-            sess_raw.get("cookie_file", "session.json"),
+            sess_raw.get("cookie_file", session_defaults.cookie_file),
             base_dir,
         ),
-        session_ttl_hours=int(sess_raw.get("session_ttl_hours", 8)),
-        max_retry_auth=int(sess_raw.get("max_retry_auth", 3)),
+        session_ttl_hours=int(
+            sess_raw.get("session_ttl_hours", session_defaults.session_ttl_hours)
+        ),
+        max_retry_auth=int(
+            sess_raw.get("max_retry_auth", session_defaults.max_retry_auth)
+        ),
     )
     auth = AuthConfig(
-        university=auth_raw.get("university", "htwk-leipzig"),
-        username=auth_raw.get("username", ""),
-        password=auth_raw.get("password"),
+        university=auth_raw.get("university", auth_defaults.university),
+        username=auth_raw.get("username", auth_defaults.username),
+        password=auth_raw.get("password", auth_defaults.password),
         session=session,
     )
 
     sync_raw = data.get("sync", {})
+    sync_defaults = SyncConfig()
     sync = SyncConfig(
         include_extensions=[
-            ext.lower() for ext in sync_raw.get("include_extensions", [])
+            ext.lower()
+            for ext in sync_raw.get(
+                "include_extensions", sync_defaults.include_extensions
+            )
         ],
         exclude_extensions=[
-            ext.lower() for ext in sync_raw.get("exclude_extensions", [])
+            ext.lower()
+            for ext in sync_raw.get(
+                "exclude_extensions", sync_defaults.exclude_extensions
+            )
         ],
-        max_file_size_mb=int(sync_raw.get("max_file_size_mb", 500)),
-        parallel_downloads=int(sync_raw.get("parallel_downloads", 3)),
-        request_delay_seconds=float(sync_raw.get("request_delay_seconds", 1.0)),
-        delete_removed=bool(sync_raw.get("delete_removed", False)),
+        max_file_size_mb=int(
+            sync_raw.get("max_file_size_mb", sync_defaults.max_file_size_mb)
+        ),
+        parallel_downloads=int(
+            sync_raw.get("parallel_downloads", sync_defaults.parallel_downloads)
+        ),
+        request_delay_seconds=float(
+            sync_raw.get("request_delay_seconds", sync_defaults.request_delay_seconds)
+        ),
+        delete_removed=bool(
+            sync_raw.get("delete_removed", sync_defaults.delete_removed)
+        ),
     )
 
     courses_raw = data.get("courses", {})
+    courses_defaults = CoursesFilterConfig()
     courses = CoursesFilterConfig(
-        include=courses_raw.get("include", []),
-        exclude=courses_raw.get("exclude", []),
+        include=courses_raw.get("include", courses_defaults.include),
+        exclude=courses_raw.get("exclude", courses_defaults.exclude),
         paths={
             str(course_name): str(course_path)
-            for course_name, course_path in courses_raw.get("paths", {}).items()
+            for course_name, course_path in courses_raw.get(
+                "paths", courses_defaults.paths
+            ).items()
         },
-    )
-
-    notif_raw = data.get("notifications", {})
-    notifications = NotificationConfig(
-        enabled=bool(notif_raw.get("enabled", True)),
-        on_new_files=bool(notif_raw.get("on_new_files", True)),
-        on_errors=bool(notif_raw.get("on_errors", True)),
     )
 
     return AppConfig(
@@ -235,7 +255,6 @@ def load_config(config_path: Optional[Path] = None) -> AppConfig:
         auth=auth,
         sync=sync,
         courses=courses,
-        notifications=notifications,
         config_file_path=path,
     )
 
@@ -280,11 +299,6 @@ def save_config(config: AppConfig, path: Optional[Path] = None) -> Path:
             "include": config.courses.include,
             "exclude": config.courses.exclude,
             "paths": config.courses.paths,
-        },
-        "notifications": {
-            "enabled": config.notifications.enabled,
-            "on_new_files": config.notifications.on_new_files,
-            "on_errors": config.notifications.on_errors,
         },
     }
 

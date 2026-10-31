@@ -15,11 +15,64 @@ def test_cli_help():
     result = runner.invoke(app, ["--help"])
     assert result.exit_code == 0
     assert "Automated synchronization client for OPAL" in result.output
+    assert "opal_sync" in result.output
+    assert "from any directory" in result.output
     assert "login" in result.output
     assert "setup" in result.output
     assert "sync" in result.output
     assert "courses" in result.output
     assert "status" in result.output
+
+
+def test_cli_without_command_without_config_suggests_setup(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    result = runner.invoke(app, [])
+
+    assert result.exit_code == 2
+    assert "Error" in result.output
+    assert "No config detected." in result.output
+    assert "To get started, run opal_sync setup." in result.output
+    assert "Getting started" in result.output
+    assert "Usage:" in result.output
+    assert "Commands" in result.output
+
+
+def test_cli_without_command_with_config_suggests_sync(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "config.toml").write_text("")
+
+    result = runner.invoke(app, [])
+
+    assert result.exit_code == 2
+    assert "No config detected." not in result.output
+    assert "opal_sync sync" in result.output
+    assert "Usage:" in result.output
+
+
+def test_root_level_invalid_option_shows_setup_card_and_help(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    result = runner.invoke(app, ["--config", ".\\opal sync"])
+
+    assert result.exit_code == 2
+    assert "No such option: --config" in result.output
+    assert "No config detected." in result.output
+    assert "opal_sync setup" in result.output
+    assert "Usage:" in result.output
+    assert "Commands" in result.output
+
+
+def test_root_level_invalid_option_with_config_suggests_sync(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "config.toml").write_text("")
+
+    result = runner.invoke(app, ["--config", ".\\opal sync"])
+
+    assert result.exit_code == 2
+    assert "No such option: --config" in result.output
+    assert "No config detected." not in result.output
+    assert "opal_sync sync" in result.output
+    assert "Usage:" in result.output
 
 
 def test_cli_config_show(tmp_path):
@@ -460,7 +513,24 @@ def test_cli_status(tmp_path):
     assert "s12345" in result.output
 
 
-def test_sync_lists_only_excluded_and_oversized_files_before_summary(monkeypatch):
+def test_sync_without_config_suggests_setup(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    result = runner.invoke(app, ["sync"])
+
+    assert result.exit_code == 1
+    assert "No config file found" in result.output
+    assert "No config detected." in result.output
+    assert "Getting started" in result.output
+    assert "opal_sync setup" in result.output
+    assert "Usage:" not in result.output
+
+
+def test_sync_lists_only_excluded_and_oversized_files_before_summary(
+    tmp_path, monkeypatch
+):
+    config_path = tmp_path / "config.toml"
+    config_path.write_text("")
     class FakeEngine:
         config = AppConfig()
 
@@ -497,7 +567,9 @@ def test_sync_lists_only_excluded_and_oversized_files_before_summary(monkeypatch
         Console(file=output, force_terminal=True, color_system="standard"),
     )
     monkeypatch.setattr("opal_sync.cli.get_configured_engine", lambda _path: FakeEngine())
-    result = runner.invoke(app, ["sync", "--list-skipped-files"])
+    result = runner.invoke(
+        app, ["sync", "--config", str(config_path), "--list-skipped-files"]
+    )
     rendered = output.getvalue()
 
     assert result.exit_code == 0
@@ -509,7 +581,11 @@ def test_sync_lists_only_excluded_and_oversized_files_before_summary(monkeypatch
     )
 
 
-def test_sync_displays_connection_error_in_panel_and_returns_failure(monkeypatch):
+def test_sync_displays_connection_error_in_panel_and_returns_failure(
+    tmp_path, monkeypatch
+):
+    config_path = tmp_path / "config.toml"
+    config_path.write_text("")
     class FakeEngine:
         config = AppConfig()
 
@@ -523,7 +599,7 @@ def test_sync_displays_connection_error_in_panel_and_returns_failure(monkeypatch
             )
 
     monkeypatch.setattr("opal_sync.cli.get_configured_engine", lambda _path: FakeEngine())
-    result = runner.invoke(app, ["sync"])
+    result = runner.invoke(app, ["sync", "--config", str(config_path)])
 
     assert result.exit_code == 1
     assert "Sync failed" in result.output

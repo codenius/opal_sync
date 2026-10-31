@@ -10,21 +10,22 @@ db_file = "state.db"
 
 [auth]
 university = "htwk-leipzig"                  # Maps to WAYF value 7
-username = "s12345"                          # HTWK login (e.g. s-number / Matrikelnummer)
+username = "mmustermann"                     # i.e. HTWK login for Max Mustermann
 # Password is stored in the operating system's credential store via keyring
 # Set interactively with: opal-sync login
 
 [auth.session]
 cookie_file = "session.json"
-session_ttl_hours = 8
+session_ttl_hours = 1
 max_retry_auth = 3
 
 [sync]
 include_extensions = []                     # Empty means include all extensions
 exclude_extensions = []                     # Include matches override exclusions
-max_file_size_mb = 500
+max_file_size_mb = 50
 parallel_downloads = 3
-request_delay_seconds = 1.0
+request_delay_seconds = 0.5
+delete_removed = false
 
 [courses]
 # If both lists are empty, all enrolled courses are synced.

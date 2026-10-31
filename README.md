@@ -26,14 +26,38 @@ been published as a ready-to-install Windows installer or as a PyPI package.
    py -m pip install .
    ```
 
-If the `opal-sync` command is not recognized after installation, close and
-reopen PowerShell. You can also run it as a Python module:
+The installed commands are `opal_sync` and `opal-sync`. If they are not
+recognized after installation, close and reopen PowerShell and make sure
+Python's Scripts directory is on `PATH`. You can also run the app as a Python
+module:
 
 ```powershell
 py -m opal_sync --help
 ```
 
 ## First-time setup
+
+Run the interactive setup command:
+
+```powershell
+opal_sync setup
+```
+
+Setup asks you to sign in, choose where to save course folders and files, and
+select courses to include or exclude. The default destination is the current
+directory, except when setup is launched from your home directory, where it
+defaults to a `opal_sync` subfolder. The configuration, database, log, and
+OPAL session file are also stored in the chosen destination. Setup then offers
+to run the initial sync. Your password is stored using the operating system's
+credential store through Python `keyring`, not in the config file.
+
+At interactive prompts, values shown in square brackets are defaults; press
+Enter to accept them.
+
+The generated `config.toml` can be edited later to change course filters or
+other settings.
+
+## Manual configuration
 
 The default configuration file is named `config.toml` in the current working
 directory. The easiest setup is to copy `config.example.toml` to
@@ -49,50 +73,43 @@ folder or other settings. Relative paths such as `downloads`, `state.db`, and
 The default `sync_directory = "."` means downloaded course folders go into
 that same directory.
 
-You can keep the config elsewhere and pass its location to commands with
-`--config`, for example:
+When running outside the config directory, pass `--config` to each command.
+Log in and sync:
 
 ```powershell
-opal-sync login --config "C:\Users\YourName\OPAL\config.toml"
-```
-
-Log in once:
-
-```powershell
-opal-sync login
+opal_sync login --config "C:\Users\YourName\OPAL\config.toml"
+opal_sync sync --config "C:\Users\YourName\OPAL\config.toml"
 ```
 
 Enter your institution, username, and password when prompted. After successful
 login, the password is stored using the operating system's credential store
 through Python `keyring`; the config file does not need to contain your
-password. OPAL session cookies are kept in the configured `cookie_file`.
-
-Then start a sync:
-
-```powershell
-opal-sync sync
-```
+password.
 
 ## Common commands
 
 ```text
-opal-sync login                   Sign in to OPAL
-opal-sync sync                    Download or update course files
-opal-sync sync --dry-run          Preview actions without downloading files
-opal-sync sync --course "Math"    Sync courses whose name matches "Math"
-opal-sync sync --list-skipped-files
+opal_sync setup                   Guided first-time setup
+opal_sync login                   Sign in to OPAL
+opal_sync sync                    Download or update course files
+opal_sync sync --course "Math"    Sync courses whose name matches "Math"
+opal_sync sync --list-skipped-files
                                   Show files skipped by extension or size filters
-opal-sync sync --force            Request downloads even when files look unchanged
-opal-sync courses                 Show cached courses
-opal-sync courses --refresh       Refresh the course list from OPAL
-opal-sync status                  Show sync and storage status
-opal-sync log                     Show recent sync activity
-opal-sync logout                  Clear saved credentials and session cookies
-opal-sync config --path           Show the active config file location
+opal_sync sync --force            Request downloads even when files look unchanged
+opal_sync courses                 Show cached courses
+opal_sync courses --refresh       Refresh the course list from OPAL
+opal_sync status                  Show sync and storage status
+opal_sync log                     Show recent sync activity
+opal_sync logout                  Clear saved credentials and session cookies
+opal_sync config --path           Show the active config file location
 ```
 
-If you keep `config.toml` in a different folder from the one where you run the
-command, add `--config "full\path\to\config.toml"` to that command.
+Run commands from the sync directory to use its `config.toml` automatically.
+From another directory, pass the config file explicitly:
+
+```powershell
+opal_sync sync --config "C:\Users\YourName\OPAL\config.toml"
+```
 
 ## Configuration
 
@@ -125,8 +142,8 @@ Settings not specified in `config.toml` use the defaults shown above. The
 
 ## Troubleshooting
 
-- **The command cannot find my config:** check the current working directory,
-  or pass the config file explicitly with `--config`.
+- **The command cannot find my config:** run it from the sync directory, or
+  pass the config file explicitly with `--config`.
 - **Login fails:** confirm you selected the right institution and can sign in
   to OPAL in a browser. Run `opal-sync login` again if your credentials need
   to be updated.

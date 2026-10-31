@@ -27,6 +27,20 @@ def test_parse_content_disposition():
     assert ":" not in clean
 
 
+def test_exclude_filter_wins_when_course_matches_both_lists():
+    config = AppConfig()
+    config.courses.include = ["Mathematics"]
+    config.courses.exclude = ["Mathematics"]
+
+    class FakeDatabase:
+        def set_sync_directory(self, _directory):
+            pass
+
+    engine = SyncEngine(config, db=FakeDatabase())
+
+    assert not engine.is_course_allowed("Mathematics")
+
+
 def test_determine_sync_action(tmp_path):
     target_path = tmp_path / "test.pdf"
     file_entry = FileEntry(

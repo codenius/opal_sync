@@ -20,6 +20,61 @@ class ShibbolethAuthError(Exception):
     pass
 
 
+def extract_login_error(html: str) -> Optional[str]:
+    """Extract a concise authentication error message from an IdP response."""
+    soup = BeautifulSoup(html, "html.parser")
+    selectors = (
+        '[role="alert"]',
+        ".alert-danger",
+        ".error",
+        ".errors",
+        ".loginError",
+        ".login-error",
+        ".feedbackPanelERROR",
+        ".form-error",
+    )
+    for selector in selectors:
+        for element in soup.select(selector):
+            message = re.sub(r"\s+", " ", element.get_text(" ", strip=True)).strip()
+            if message:
+                return message[:500]
+
+    text = re.sub(r"\s+", " ", soup.get_text(" ", strip=True)).strip()
+    patterns = (
+        r"Anmeldung fehlgeschlagen[^.!?]*(?:[.!?]|$)",
+        r"(?:Benutzername|Passwort)[^.!?]*(?:falsch|ungültig|ungueltig)[^.!?]*(?:[.!?]|$)",
+        r"(?:Benutzername oder Passwort)[^.!?]*(?:[.!?]|$)",
+        r"(?:invalid username or password)[^.!?]*(?:[.!?]|$)",
+        r"(?:authentication failed)[^.!?]*(?:[.!?]|$)",
+    )
+    for pattern in patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(0)[:500]
+    return None
+
+
+def _is_credential_rejection(html: str) -> bool:
+    text = BeautifulSoup(html, "html.parser").get_text(" ", strip=True).casefold()
+    return bool(
+        extract_login_error(html)
+        or (
+            "j_username" in html
+            and "j_password" in html
+        )
+        or any(
+            phrase in text
+            for phrase in (
+                "anmeldung fehlgeschlagen",
+                "passwort ist falsch",
+                "benutzername oder passwort",
+                "invalid username or password",
+                "authentication failed",
+            )
+        )
+    )
+
+
 def extract_form_details(html: str, form_selector: Optional[str] = None) -> Tuple[str, Dict[str, str]]:
     """Extract action URL and hidden/default input values from an HTML form."""
     soup = BeautifulSoup(html, "html.parser")
@@ -147,8 +202,12 @@ async def login_shibboleth(
         raise ShibbolethAuthError(f"Credential submission failed (HTTP {resp.status_code})")
 
     # Check for authentication errors on IdP page
-    if "Passwort ist falsch" in resp.text or "Benutzername oder Passwort" in resp.text or "Anmeldung fehlgeschlagen" in resp.text:
-        raise ShibbolethAuthError("Invalid username or password for HTWK login.")
+    login_error = extract_login_error(resp.text)
+    if _is_credential_rejection(resp.text):
+        message = f": {login_error}" if login_error else ""
+        raise ShibbolethAuthError(
+            f"Invalid username or password for HTWK login{message}"
+        )
 
     # Check for SAMLResponse in form
     soup = BeautifulSoup(resp.text, "html.parser")
@@ -157,6 +216,11 @@ async def login_shibboleth(
     saml_form = soup.find("form")
 
     if not saml_input or not saml_form:
+        if _is_credential_rejection(resp.text):
+            message = f": {login_error}" if login_error else ""
+            raise ShibbolethAuthError(
+                f"Invalid username or password for HTWK login{message}"
+            )
         raise ShibbolethAuthError(
             "IdP did not return a SAMLResponse assertion. Check your credentials or HTWK account state."
         )

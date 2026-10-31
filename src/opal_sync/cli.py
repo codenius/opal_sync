@@ -1,7 +1,14 @@
 import asyncio
+import os
 from pathlib import Path
 from typing import Optional
 import typer
+from prompt_toolkit import Application
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.layout import Layout
+from prompt_toolkit.layout.controls import FormattedTextControl
+from prompt_toolkit.layout.containers import Window
+from prompt_toolkit.styles import Style
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
@@ -10,7 +17,7 @@ from rich.text import Text
 from opal_sync.auth.credentials import delete_credentials, get_credentials, store_credentials
 from opal_sync.auth.session import SessionManager
 from opal_sync.auth.shibboleth import login_shibboleth, ShibbolethAuthError
-from opal_sync.config import UNIVERSITY_MAP, AppConfig, load_config, save_config
+from opal_sync.config import AppConfig, load_config, save_config
 from opal_sync.models.course import Course
 from opal_sync.scraper.courses import fetch_my_courses
 from opal_sync.storage.db import Database
@@ -33,12 +40,298 @@ def get_configured_engine(config_path: Optional[Path] = None) -> SyncEngine:
     return SyncEngine(config=config)
 
 
+def _prompt_university_username(value: Optional[str] = None) -> str:
+    username = value
+    while not username or not username.strip():
+        username = typer.prompt("University username")
+        if not username.strip():
+            console.print("[yellow]University username cannot be empty. Please try again.[/yellow]")
+    return username.strip()
+
+
+def _prompt_university_password() -> str:
+    console.print("[dim]Password characters are hidden while you type.[/dim]")
+    return typer.prompt("University Password", hide_input=True)
+
+
+def _username_was_not_found(error: ShibbolethAuthError) -> bool:
+    message = str(error).casefold()
+    return any(
+        phrase in message
+        for phrase in (
+            "benutzername wurde nicht gefunden",
+            "username was not found",
+            "username not found",
+        )
+    )
+
+
+def _authenticate_user(
+    config: AppConfig,
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    university: Optional[str] = None,
+    show_header: bool = True,
+) -> list[dict[str, object]]:
+    """Prompt for login and return authenticated session cookies."""
+    setup_logger(config.general.log_level)
+    if show_header:
+        console.print(
+            Panel.fit(
+                "[bold blue]OPAL Bildungsportal[/bold blue]\n"
+                "[dim]Sign in to continue[/dim]",
+                title="OPAL Sync",
+                border_style="cyan",
+            )
+        )
+
+    if not university:
+        university = typer.prompt(
+            "Select university",
+            default=config.auth.university or "htwk-leipzig",
+        )
+    config.auth.university = university.strip().lower()
+    try:
+        wayf_value = config.auth.wayf_value
+    except ValueError as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        raise typer.Exit(code=1)
+
+    config.auth.username = _prompt_university_username(username)
+    if not password:
+        password = _prompt_university_password()
+
+    async def _do_login() -> tuple[bool, list[dict[str, object]]]:
+        import httpx
+
+        async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
+            success = await login_shibboleth(
+                client=client,
+                username=config.auth.username,
+                password=password,
+                wayf_value=wayf_value,
+            )
+            cookies = [
+                {
+                    "name": cookie.name,
+                    "value": cookie.value,
+                    "domain": cookie.domain,
+                    "path": cookie.path,
+                    "secure": cookie.secure,
+                }
+                for cookie in client.cookies.jar
+            ]
+            return success, cookies
+
+    auth_logger = get_logger()
+    previous_log_level = auth_logger.level
+    auth_logger.setLevel("WARNING")
+    try:
+        while True:
+            try:
+                with console.status("[bold green]Contacting Shibboleth IdP and verifying credentials...[/bold green]"):
+                    success, cookies = asyncio.run(_do_login())
+                break
+            except ShibbolethAuthError as e:
+                console.print(f"\n[bold red]Authentication failed:[/bold red] {e}")
+                if _username_was_not_found(e):
+                    config.auth.username = _prompt_university_username()
+                    password = _prompt_university_password()
+                else:
+                    password = _prompt_university_password()
+            except Exception as e:
+                console.print(f"\n[bold red]Network or connection error:[/bold red] {e}")
+                raise typer.Exit(code=1)
+    finally:
+        auth_logger.setLevel(previous_log_level)
+
+    if not success:
+        console.print("\n[bold red]Authentication failed.[/bold red]")
+        raise typer.Exit(code=1)
+
+    store_credentials(config.auth.username, password)
+    console.print("\n[bold green]✓ Login successful![/bold green]")
+    console.print(
+        f"Credentials saved securely in the OS credential store for user: "
+        f"[cyan]{config.auth.username}[/cyan]"
+    )
+    return cookies
+
+
+def _course_filters_from_positions(
+    courses: list[Course], positions: list[int]
+) -> tuple[list[str], list[str]]:
+    included_names = [
+        course.name for course, position in zip(courses, positions) if position == 1
+    ]
+    excluded_names = [
+        course.name for course, position in zip(courses, positions) if position == -1
+    ]
+    return included_names, excluded_names
+
+
+def _course_sync_states(positions: list[int]) -> list[bool]:
+    has_include_filter = 1 in positions
+    return [
+        position == 1 or (position == 0 and not has_include_filter)
+        for position in positions
+    ]
+
+
+def _select_course_filters(
+    courses: list[Course],
+    current_include: list[str],
+    current_exclude: list[str],
+) -> tuple[list[str], list[str]]:
+    """Interactively place courses in excluded, unset, or included positions."""
+    include_patterns = [pattern.casefold() for pattern in current_include]
+    exclude_patterns = [pattern.casefold() for pattern in current_exclude]
+    positions = []
+    for course in courses:
+        name = course.name.casefold()
+        if any(pattern in name for pattern in exclude_patterns):
+            positions.append(-1)
+        elif any(pattern in name for pattern in include_patterns):
+            positions.append(1)
+        else:
+            positions.append(0)
+    selected_index = 0
+    key_bindings = KeyBindings()
+
+    def render_courses():
+        fragments = [
+            (
+                "class:hint",
+                "↑/↓ select   ← Exclude   Include →   Enter continue\n\n",
+            )
+        ]
+        sync_states = _course_sync_states(positions)
+        for index, course in enumerate(courses):
+            position_value = positions[index]
+            cursor = "›" if index == selected_index else " "
+            indentation = (position_value + 1) * 4
+            status = "✓ " if sync_states[index] else "× "
+            color = "class:included" if sync_states[index] else "class:excluded"
+            selected = " class:selected" if index == selected_index else ""
+            fragments.append(
+                (
+                    color + selected,
+                    f"{cursor} {' ' * indentation}{status}{course.name}\n",
+                )
+            )
+        return fragments
+
+    @key_bindings.add("up")
+    def move_up(event):
+        nonlocal selected_index
+        selected_index = (selected_index - 1) % len(courses)
+        event.app.invalidate()
+
+    @key_bindings.add("down")
+    def move_down(event):
+        nonlocal selected_index
+        selected_index = (selected_index + 1) % len(courses)
+        event.app.invalidate()
+
+    @key_bindings.add("left")
+    def move_left(event):
+        positions[selected_index] = max(-1, positions[selected_index] - 1)
+        event.app.invalidate()
+
+    @key_bindings.add("right")
+    def move_right(event):
+        positions[selected_index] = min(1, positions[selected_index] + 1)
+        event.app.invalidate()
+
+    @key_bindings.add("enter")
+    def finish_selection(event):
+        event.app.exit()
+
+    @key_bindings.add("c-c")
+    def abort_selection(event):
+        event.app.exit(exception=KeyboardInterrupt())
+
+    application = Application(
+        layout=Layout(Window(FormattedTextControl(render_courses), wrap_lines=True)),
+        key_bindings=key_bindings,
+        style=Style.from_dict(
+            {
+                "hint": "ansigray",
+                "included": "ansigreen",
+                "excluded": "ansired",
+                "selected": "bold",
+            }
+        ),
+        full_screen=False,
+        erase_when_done=False,
+    )
+    application.run()
+    return _course_filters_from_positions(courses, positions)
+
+
+def _normalize_path_input(value: str) -> Path:
+    value = value.strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+        value = value[1:-1]
+    if os.name != "nt":
+        value = value.replace("\\", "/")
+    return Path(value).expanduser().resolve()
+
+
+def _prompt_sync_directory(default_path: Path) -> Path:
+    while True:
+        path_input = typer.prompt(
+            "Where should OPAL Sync save course folders and files?",
+            default=str(default_path),
+        )
+        try:
+            sync_directory = _normalize_path_input(path_input)
+        except (OSError, RuntimeError, ValueError) as e:
+            console.print(f"[yellow]That path could not be used: {e} Please try again.[/yellow]")
+            continue
+
+        if sync_directory.exists():
+            if sync_directory.is_dir():
+                return sync_directory
+            console.print(
+                f"[yellow]That path exists but is not a directory: "
+                f"{sync_directory}. Please choose another path.[/yellow]"
+            )
+            continue
+
+        if not typer.confirm(
+            f"The directory does not exist: {sync_directory}. Create it?",
+            default=True,
+        ):
+            continue
+
+        try:
+            sync_directory.mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            console.print(
+                f"[bold red]Could not create sync directory:[/bold red] "
+                f"{sync_directory}\n{e}"
+            )
+            raise typer.Exit(code=1)
+        return sync_directory
+
+
+def _default_sync_directory() -> Path:
+    current_directory = Path.cwd().resolve()
+    home_directory = Path.home().resolve()
+    if current_directory == home_directory:
+        return home_directory / "opal_sync"
+    return current_directory
+
+
 @app.command()
 def login(
-    username: Optional[str] = typer.Option(None, "--username", "-u", help="Student username (e.g. s12345)"),
+    username: Optional[str] = typer.Option(None, "--username", "-u", help="University username"),
     password: Optional[str] = typer.Option(None, "--password", "-p", help="Password for university login"),
     university: Optional[str] = typer.Option(None, "--university", help="University key (e.g. htwk-leipzig)"),
-    config_path: Optional[Path] = typer.Option(None, "--config", "-c", help="Custom config file path"),
+    config_path: Optional[Path] = typer.Option(
+        None, "--config", "-c", help="Custom config file path"
+    ),
 ):
     """Authenticate with OPAL via Shibboleth and store credentials securely."""
     config = load_config(config_path)
@@ -58,15 +351,11 @@ def login(
         console.print(f"[bold red]Error:[/bold red] {e}")
         raise typer.Exit(code=1)
 
-    # Determine username
-    if not username:
-        default_user = config.auth.username or ""
-        username = typer.prompt("University Username (Matrikelnummer/s-Nummer)", default=default_user)
-    config.auth.username = username.strip()
+    config.auth.username = _prompt_university_username(username)
 
     # Determine password
     if not password:
-        password = typer.prompt("University Password", hide_input=True)
+        password = _prompt_university_password()
 
     async def _do_login() -> bool:
         import httpx
@@ -78,15 +367,21 @@ def login(
                 wayf_value=wayf_val,
             )
 
-    try:
-        with console.status("[bold green]Contacting Shibboleth IdP and verifying credentials...[/bold green]"):
-            success = asyncio.run(_do_login())
-    except ShibbolethAuthError as e:
-        console.print(f"\n[bold red]Authentication failed:[/bold red] {e}")
-        raise typer.Exit(code=1)
-    except Exception as e:
-        console.print(f"\n[bold red]Network or connection error:[/bold red] {e}")
-        raise typer.Exit(code=1)
+    while True:
+        try:
+            with console.status("[bold green]Contacting Shibboleth IdP and verifying credentials...[/bold green]"):
+                success = asyncio.run(_do_login())
+            break
+        except ShibbolethAuthError as e:
+            console.print(f"\n[bold red]Authentication failed:[/bold red] {e}")
+            if _username_was_not_found(e):
+                config.auth.username = _prompt_university_username()
+                password = _prompt_university_password()
+            else:
+                password = _prompt_university_password()
+        except Exception as e:
+            console.print(f"\n[bold red]Network or connection error:[/bold red] {e}")
+            raise typer.Exit(code=1)
 
     if success:
         # Save password to OS keyring
@@ -100,9 +395,119 @@ def login(
 
 
 @app.command()
+def setup():
+    """Log in, choose a sync directory and course filters, then optionally sync."""
+    console.print(
+        Panel(
+            "[bold white]OPAL Sync[/bold white]\n"
+            "[cyan]FIRST-TIME SETUP[/cyan]\n\n"
+            "Sign in, choose where course files belong, and select your courses.\n\n" +
+            "[dim]Values in brackets are \\[defaults]. Enter to accept.[/dim]",
+            title="[bold cyan]OPAL Sync · Command Line[/bold cyan]",
+            border_style="cyan",
+            padding=(1, 3),
+        )
+    )
+    config = load_config()
+    console.rule("[bold cyan]1 · Sign in[/bold cyan]")
+    cookies = _authenticate_user(config, show_header=False)
+
+    console.rule("[bold cyan]2 · Choose a destination[/bold cyan]")
+    sync_directory = _prompt_sync_directory(_default_sync_directory())
+
+    config_path = sync_directory / "config.toml"
+    if config_path.exists() and not typer.confirm(
+        f"{config_path} already exists. Overwrite it?", default=False
+    ):
+        console.print("[yellow]Setup stopped. Your login credentials were saved.[/yellow]")
+        raise typer.Exit()
+
+    config.config_file_path = config_path
+    config.general.sync_directory = sync_directory
+    config.general.log_file = sync_directory / "opal-sync.log"
+    config.general.db_file = sync_directory / "state.db"
+    config.auth.session.cookie_file = sync_directory / "session.json"
+    save_config(config, config_path)
+    SessionManager(
+        config.auth.session.cookie_file,
+        config.auth.session.session_ttl_hours,
+    ).save_session_cookies(cookies)
+
+    engine = get_configured_engine(config_path)
+
+    async def _fetch_courses() -> list[Course]:
+        import httpx
+
+        async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
+            await engine.ensure_authenticated(client)
+            enrolled_courses = await fetch_my_courses(client)
+            for course_item in enrolled_courses:
+                engine.db.upsert_course(course_item)
+            return enrolled_courses
+
+    with console.status("[bold green]Loading your OPAL course list...[/bold green]"):
+        enrolled_courses = asyncio.run(_fetch_courses())
+
+    console.rule("[bold cyan]3 · Choose courses[/bold cyan]")
+    if enrolled_courses:
+        console.print(
+            "[dim]Green courses will sync; red courses will not. "
+            "When any course is included, any other courses are not synced.[/dim]"
+        )
+        config.courses.include, config.courses.exclude = _select_course_filters(
+            enrolled_courses,
+            config.courses.include,
+            config.courses.exclude,
+        )
+    else:
+        config.courses.include = []
+        config.courses.exclude = []
+        console.print("[yellow]No enrolled courses were found; no course filters were set.[/yellow]")
+
+    save_config(config, config_path)
+    console.rule("[bold cyan]4 · Review and sync[/bold cyan]")
+    console.print(f"Course files and local data: [cyan]{sync_directory}[/cyan]")
+    console.print(f"Config and additional settings: [cyan]{config_path}[/cyan]")
+
+    initial_sync_error = False
+    if typer.confirm("Run an initial sync now?", default=True):
+        with console.status("[bold green]Running initial synchronization...[/bold green]"):
+            summary = asyncio.run(engine.run_sync())
+        console.print(
+            f"Initial sync {summary.status}: {summary.courses_processed} courses, "
+            f"{summary.files_new} new files, {summary.files_updated} updated files, "
+            f"{summary.files_failed} failures."
+        )
+        if summary.status != "success":
+            initial_sync_error = True
+            console.print(
+                f"[bold red]{summary.error_message or 'Initial sync did not complete successfully.'}[/bold red]"
+            )
+
+    console.rule("[bold cyan]All set[/bold cyan]")
+    console.print(
+        Panel(
+            "[bold]Run a sync whenever you need[/bold]\n\n"
+            f"[cyan]From the sync directory[/cyan]  [dim]({sync_directory})[/dim]\n"
+            "  [bold]opal_sync sync[/bold]\n\n"
+            "[cyan]From anywhere[/cyan]\n"
+            f'  [bold]opal_sync sync --config "{config_path}"[/bold]\n\n'
+            f"More settings and course filters: [dim]{config_path}[/dim]",
+            title="[bold cyan]Your sync commands[/bold cyan]",
+            border_style="cyan",
+            padding=(1, 2),
+        )
+    )
+    if initial_sync_error:
+        raise typer.Exit(code=1)
+
+
+@app.command()
 def logout(
     username: Optional[str] = typer.Option(None, "--username", "-u", help="Username to clear credentials for"),
-    config_path: Optional[Path] = typer.Option(None, "--config", "-c", help="Custom config file path"),
+    config_path: Optional[Path] = typer.Option(
+        None, "--config", "-c", help="Custom config file path"
+    ),
 ):
     """Remove stored credentials and clear cached session cookies."""
     config = load_config(config_path)
@@ -120,7 +525,9 @@ def logout(
 @app.command()
 def courses(
     refresh: bool = typer.Option(False, "--refresh", "-r", help="Fetch live course list from OPAL"),
-    config_path: Optional[Path] = typer.Option(None, "--config", "-c", help="Custom config file path"),
+    config_path: Optional[Path] = typer.Option(
+        None, "--config", "-c", help="Custom config file path"
+    ),
 ):
     """List enrolled courses and their synchronization status."""
     engine = get_configured_engine(config_path)
@@ -174,7 +581,9 @@ def sync(
         "--list-skipped-files",
         help="List files skipped due to extension filters or the size limit",
     ),
-    config_path: Optional[Path] = typer.Option(None, "--config", "-c", help="Custom config file path"),
+    config_path: Optional[Path] = typer.Option(
+        None, "--config", "-c", help="Custom config file path"
+    ),
 ):
     """Synchronize course files from OPAL to local disk."""
     engine = get_configured_engine(config_path)
@@ -265,7 +674,9 @@ def sync(
 
 @app.command()
 def status(
-    config_path: Optional[Path] = typer.Option(None, "--config", "-c", help="Custom config file path"),
+    config_path: Optional[Path] = typer.Option(
+        None, "--config", "-c", help="Custom config file path"
+    ),
 ):
     """Display overall synchronization statistics and system status."""
     engine = get_configured_engine(config_path)
@@ -307,7 +718,9 @@ def status(
 def log(
     limit: int = typer.Option(30, "--limit", "-l", help="Number of log records to show"),
     errors: bool = typer.Option(False, "--errors", "-e", help="Show only errors and warnings"),
-    config_path: Optional[Path] = typer.Option(None, "--config", "-c", help="Custom config file path"),
+    config_path: Optional[Path] = typer.Option(
+        None, "--config", "-c", help="Custom config file path"
+    ),
 ):
     """Display recent sync log records and error events."""
     engine = get_configured_engine(config_path)
@@ -342,7 +755,9 @@ def log(
 def show_config(
     show: bool = typer.Option(True, "--show", help="Display active configuration"),
     path: bool = typer.Option(False, "--path", help="Print configuration file path"),
-    config_path: Optional[Path] = typer.Option(None, "--config", "-c", help="Custom config file path"),
+    config_path: Optional[Path] = typer.Option(
+        None, "--config", "-c", help="Custom config file path"
+    ),
 ):
     """View or inspect configuration settings."""
     cfg = load_config(config_path)

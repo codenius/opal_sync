@@ -20,7 +20,6 @@ class SessionManager:
 
     def save_session(self, client: httpx.AsyncClient) -> None:
         """Save cookies from httpx client to disk with metadata."""
-        self.cookie_file.parent.mkdir(parents=True, exist_ok=True)
         cookie_list: List[Dict[str, Any]] = []
 
         for cookie in client.cookies.jar:
@@ -32,6 +31,11 @@ class SessionManager:
                 "secure": cookie.secure,
             })
 
+        self.save_session_cookies(cookie_list)
+
+    def save_session_cookies(self, cookie_list: List[Dict[str, Any]]) -> None:
+        """Save a captured cookie list after its target path is known."""
+        self.cookie_file.parent.mkdir(parents=True, exist_ok=True)
         data = {
             "saved_at": time.time(),
             "ttl_hours": self.session_ttl_hours,

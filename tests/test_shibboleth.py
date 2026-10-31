@@ -1,10 +1,34 @@
 import pytest
 import httpx
 from opal_sync.auth.shibboleth import (
+    extract_login_error,
     extract_form_details,
     login_shibboleth,
     ShibbolethAuthError,
 )
+
+
+def test_extract_login_error_from_idp_feedback_html():
+    html = """
+    <html><body>
+      <form>
+        <div class="feedbackPanelERROR">
+          Die Anmeldung ist fehlgeschlagen. Bitte prüfen Sie Benutzername und Passwort.
+        </div>
+      </form>
+    </body></html>
+    """
+
+    assert extract_login_error(html) == (
+        "Die Anmeldung ist fehlgeschlagen. Bitte prüfen Sie Benutzername und Passwort."
+    )
+
+
+def test_extract_login_error_from_plain_idp_message():
+    html = "<html><body><p>Anmeldung fehlgeschlagen. Das Passwort ist falsch.</p></body></html>"
+
+    assert extract_login_error(html) == "Anmeldung fehlgeschlagen."
+
 
 def test_extract_form_details(idp_creds_html):
     action, inputs = extract_form_details(idp_creds_html)
@@ -69,7 +93,15 @@ async def test_login_shibboleth_success(shiblogin_html, idp_login_html, idp_cred
 
 @pytest.mark.asyncio
 async def test_login_shibboleth_bad_password(shiblogin_html, idp_login_html, idp_creds_html):
-    bad_creds_html = "<html><body><p>Anmeldung fehlgeschlagen. Das Passwort ist falsch.</p></body></html>"
+    bad_creds_html = """
+    <html><body>
+      <form action="/idp/profile/SAML2/Redirect/SSO?execution=e1s2">
+        <input name="j_username" />
+        <input name="j_password" />
+        <div class="feedbackPanelERROR">Das Passwort ist falsch.</div>
+      </form>
+    </body></html>
+    """
 
     def handler(request: httpx.Request) -> httpx.Response:
         url = str(request.url)

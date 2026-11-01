@@ -1,8 +1,8 @@
 from pathlib import Path
 from dataclasses import dataclass
 import re
-from typing import Dict, List, Optional
-from urllib.parse import urljoin, urlsplit, urlunsplit
+from typing import Callable, Dict, List, Optional
+from urllib.parse import unquote_plus, urljoin, urlsplit, urlunsplit
 from bs4 import BeautifulSoup
 import httpx
 
@@ -109,25 +109,24 @@ def _folder_link_base(folder_url: str) -> str:
     return urlunsplit((parts.scheme, parts.netloc, path, "", ""))
 
 
+def _normalized_folder_url(folder_url: str) -> tuple[str, str, str]:
+    parts = urlsplit(folder_url)
+    path = "/".join(unquote_plus(segment) for segment in parts.path.split("/"))
+    return parts.scheme.casefold(), parts.netloc.casefold(), path.rstrip("/")
+
+
 def _is_child_folder_url(folder_url: str, parent_url: str) -> bool:
-    folder_parts = urlsplit(folder_url)
-    parent_parts = urlsplit(parent_url)
-    parent_path = parent_parts.path.rstrip("/")
+    folder_scheme, folder_netloc, folder_path = _normalized_folder_url(folder_url)
+    parent_scheme, parent_netloc, parent_path = _normalized_folder_url(parent_url)
     return (
-        folder_parts.scheme == parent_parts.scheme
-        and folder_parts.netloc == parent_parts.netloc
-        and folder_parts.path.rstrip("/").startswith(parent_path + "/")
+        folder_scheme == parent_scheme
+        and folder_netloc == parent_netloc
+        and folder_path.startswith(parent_path + "/")
     )
 
 
 def _same_folder_url(first_url: str, second_url: str) -> bool:
-    first = urlsplit(first_url)
-    second = urlsplit(second_url)
-    return (
-        first.scheme == second.scheme
-        and first.netloc == second.netloc
-        and first.path.rstrip("/") == second.path.rstrip("/")
-    )
+    return _normalized_folder_url(first_url) == _normalized_folder_url(second_url)
 
 
 async def _fetch_folder_view(
@@ -221,14 +220,27 @@ async def _crawl_folder(
     scanned_folder_paths: set[str],
     observed_folder_paths: set[str],
     skipped_folder_paths: set[str],
+    rescan: bool = False,
     depth: int = 0,
     max_depth: int = 30,
+    visited_folder_urls: Optional[set[tuple[str, str, str]]] = None,
+    folder_callback: Optional[Callable[[str], None]] = None,
 ) -> List[FileEntry]:
     folder_url = folder_chain[-1].url if folder_chain else root_node_url
     if depth > max_depth:
         logger.warning(f"Maximum folder depth reached at {folder_url}")
         return []
 
+    visited = visited_folder_urls if visited_folder_urls is not None else set()
+    folder_key = _normalized_folder_url(folder_url)
+    if folder_key in visited:
+        logger.debug(f"Skipping duplicate folder link: {folder_url}")
+        return []
+    visited.add(folder_key)
+
+    logger.debug(f"Opening folder path: {folder_url}")
+    if folder_callback:
+        folder_callback(rel_path)
     view = await _fetch_folder_view(client, root_node_url)
     if view is None:
         return []
@@ -241,10 +253,7 @@ async def _crawl_folder(
             view.action_urls,
         )
         current_step = next(
-            (
-                folder for folder in available_folders
-                if _same_folder_url(folder.url, step.url)
-            ),
+            (folder for folder in available_folders if _same_folder_url(folder.url, step.url)),
             None,
         )
         if current_step is None:
@@ -255,7 +264,8 @@ async def _crawl_folder(
         if step.url in known_folder_states:
             observed_folder_paths.add(known_folder_states[step.url][0])
         if (
-            current_step.last_modified
+            not rescan
+            and current_step.last_modified
             and step.url in known_folder_states
             and known_folder_states[step.url][1] == current_step.last_modified
         ):
@@ -265,6 +275,8 @@ async def _crawl_folder(
                 f"(last modified {current_step.last_modified})"
             )
             return []
+        if folder_callback:
+            folder_callback(step.name)
         view = await _fetch_folder_view(
             client,
             current_step.url,
@@ -327,8 +339,11 @@ async def _crawl_folder(
                 scanned_folder_paths=scanned_folder_paths,
                 observed_folder_paths=observed_folder_paths,
                 skipped_folder_paths=skipped_folder_paths,
+                rescan=rescan,
                 depth=depth + 1,
                 max_depth=max_depth,
+                visited_folder_urls=visited,
+                folder_callback=folder_callback,
             )
         )
 
@@ -350,6 +365,8 @@ async def fetch_folder_files(
     scanned_folder_paths: Optional[set[str]] = None,
     observed_folder_paths: Optional[set[str]] = None,
     skipped_folder_paths: Optional[set[str]] = None,
+    rescan: bool = False,
+    folder_callback: Optional[Callable[[str], None]] = None,
 ) -> List[FileEntry]:
     """Fetch files inside a course node/folder, including subfolders."""
     if not node.url:
@@ -380,6 +397,8 @@ async def fetch_folder_files(
         scanned_folder_paths=scanned_paths,
         observed_folder_paths=observed_paths,
         skipped_folder_paths=skipped_paths,
+        rescan=rescan,
+        folder_callback=folder_callback,
     )
 
     logger.debug(

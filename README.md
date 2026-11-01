@@ -96,6 +96,7 @@ opal_sync sync --course "Math"    Sync courses whose name matches "Math"
 opal_sync sync --list-skipped-files
                                   Show files skipped by extension or size filters
 opal_sync sync --force            Request downloads even when files look unchanged
+opal_sync sync --rescan            Recrawl folders with unchanged dates, skipping unchanged files
 opal_sync courses                 Show cached courses
 opal_sync courses --refresh       Refresh the course list from OPAL
 opal_sync status                  Show sync and storage status
@@ -164,3 +165,22 @@ To install development dependencies and run the test suite:
 py -m pip install ".[dev]"
 py -m pytest
 ```
+
+### Build a standalone Windows executable
+
+PyInstaller packages the app and its Python dependencies into one executable.
+Build on Windows for Windows; the output is specific to the operating system
+and processor architecture.
+
+Using the project virtual environment, install the build dependency and build:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -e ".[build]"
+.\.venv\Scripts\python.exe -m PyInstaller --clean --noconfirm opal_sync.spec
+```
+
+The resulting `dist\opal_sync.exe` is a console application. It reads
+`config.toml` from the current working directory and stores the database,
+logs, session, and downloaded files in the configured locations. The Windows
+`keyring` backend is included explicitly because that package discovers
+backends dynamically at runtime.

@@ -1,4 +1,5 @@
 import asyncio
+import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -12,6 +13,16 @@ from opal_sync.utils.logging import get_logger
 from opal_sync.utils.sanitize import sanitize_filename
 
 logger = get_logger()
+
+
+def _filesystem_path(path: Path) -> Path:
+    """Use the Win32 extended-length syntax for long local paths."""
+    path = Path(path)
+    if os.name == "nt":
+        value = str(path)
+        if not value.startswith("\\\\?\\"):
+            return Path("\\\\?\\" + value)
+    return path
 
 # RFC 6266 / RFC 5987 content-disposition regexes
 FILENAME_STAR_REGEX = re.compile(r"filename\*\s*=\s*(?:[^\'\"]*\'[^\'\"]*\')?([^\";]+)", re.I)
@@ -79,7 +90,7 @@ class FileDownloader:
         preserve_target_filename: bool = False,
     ) -> DownloadResult:
         """Download file from remote_url to target_path with retries and atomic write."""
-        target_path = Path(target_path).resolve()
+        target_path = _filesystem_path(Path(target_path).resolve())
         target_dir = target_path.parent
         target_dir.mkdir(parents=True, exist_ok=True)
         tmp_path = target_dir / f"{target_path.name}.part"
@@ -111,10 +122,14 @@ class FileDownloader:
                     ) as direct_resp:
                         if str(direct_resp.url) != remote_url:
                             attempted_urls.append(str(direct_resp.url))
+                        content_type = direct_resp.headers.get("content-type", "").lower()
+                        content_disposition = direct_resp.headers.get(
+                            "content-disposition", ""
+                        ).lower()
+                        is_attachment = "attachment" in content_disposition
                         if (
                             direct_resp.status_code == 200
-                            and "text/html"
-                            not in direct_resp.headers.get("content-type", "").lower()
+                            and ("text/html" not in content_type or is_attachment)
                         ):
                             return await self._save_response(
                                 direct_resp,
@@ -208,7 +223,7 @@ class FileDownloader:
                         failed(result.error_message or "Unknown download error")
                     return result
 
-            except (httpx.TransportError, httpx.TimeoutException, IOError) as e:
+            except (httpx.TransportError, httpx.TimeoutException, IOError, ValueError) as e:
                 last_error = str(e)
                 tmp_path.unlink(missing_ok=True)
                 if attempt < self.max_retries:

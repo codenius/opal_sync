@@ -595,6 +595,8 @@ async def test_sync_reports_removed_files_without_deleting_local_copy(
         scanned_folder_paths=None,
         observed_folder_paths=None,
         skipped_folder_paths=None,
+        rescan=False,
+        folder_callback=None,
     ):
         scanned_folder_paths.add("Kursmaterialien/Materialien")
         return []

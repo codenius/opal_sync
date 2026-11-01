@@ -174,7 +174,8 @@ class Database:
                 ON CONFLICT(opal_id) DO UPDATE SET
                     name = excluded.name,
                     url = excluded.url,
-                    semester = COALESCE(excluded.semester, courses.semester)
+                    semester = COALESCE(excluded.semester, courses.semester),
+                    is_excluded = excluded.is_excluded
                 RETURNING id, discovered_at, last_synced_at, is_excluded;
             """, (course.opal_id, course.name, course.url, course.semester, course.is_excluded))
             row = cursor.fetchone()

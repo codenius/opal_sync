@@ -14,6 +14,7 @@ logger = get_logger()
 
 # Common document and course file extensions
 SIZE_PATTERN = re.compile(r"(\d+(?:[.,]\d+)?)\s*(B|KB|MB|GB|Bytes|kB)", re.I)
+EMAIL_ADDRESS_PATTERN = re.compile(r"^[^\s/@]+@[^\s/@]+\.[^\s/@]+$")
 
 
 def parse_human_size(size_str: str) -> Optional[int]:
@@ -196,6 +197,8 @@ def extract_files_from_soup(
             continue
 
         text = link.get_text(strip=True)
+        if href.lower().startswith("mailto:") or EMAIL_ADDRESS_PATTERN.fullmatch(text) or EMAIL_ADDRESS_PATTERN.fullmatch(href.lstrip("/")):
+            continue
         filename = text or link.get("title", "").strip()
 
         # If filename doesn't have an extension, check URL path
@@ -257,6 +260,10 @@ def extract_files_from_soup(
         if href.startswith("#") or href.startswith("javascript:"):
             continue
 
+        text_name = link.get_text(strip=True)
+        if href.lower().startswith("mailto:") or EMAIL_ADDRESS_PATTERN.fullmatch(text_name) or EMAIL_ADDRESS_PATTERN.fullmatch(href.lstrip("/")):
+            continue
+
         full_url = urljoin(base_url, href)
 
         url_path = unquote(urlsplit(href).path)
@@ -268,7 +275,6 @@ def extract_files_from_soup(
             include_excluded
             or is_extension_allowed(url_path, include_filter, exclude_extensions)
         ):
-            text_name = link.get_text(strip=True)
             filename = (
                 text_name
                 if get_file_extension(

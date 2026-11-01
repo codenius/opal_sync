@@ -324,6 +324,17 @@ def test_extract_files_without_extension_filter_ignores_folder_rows(fixtures_dir
     assert [file.filename for file in files] == ["Ergebnisse_Test_2026.pdf"]
 
 
+def test_extract_files_ignores_email_address_links():
+    html = '<div><a href="/silvia.paketuris-scholer@htwk-leipzig.de">silvia.paketuris-scholer@htwk-leipzig.de</a></div>'
+    files = extract_files_from_soup(
+        soup=BeautifulSoup(html, "html.parser"),
+        base_url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1",
+        course_id=1,
+    )
+
+    assert files == []
+
+
 @pytest.mark.asyncio
 async def test_nested_folder_listing_uses_its_actual_file_url():
     root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"

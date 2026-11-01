@@ -207,14 +207,16 @@ class SyncEngine:
         dry_run: bool = False,
         course_filter: Optional[str] = None,
         force_download: bool = False,
+        rescan: bool = False,
         progress_callback: Optional[Callable[[str, int, int], None]] = None,
+        folder_callback: Optional[Callable[[str], None]] = None,
     ) -> SyncSummary:
         """Execute full synchronization pass across all enrolled courses."""
         if self._external_client:
-            return await self._execute_sync(self._external_client, dry_run, course_filter, force_download, progress_callback)
+            return await self._execute_sync(self._external_client, dry_run, course_filter, force_download, rescan, progress_callback, folder_callback)
 
         async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
-            return await self._execute_sync(client, dry_run, course_filter, force_download, progress_callback)
+            return await self._execute_sync(client, dry_run, course_filter, force_download, rescan, progress_callback, folder_callback)
 
     async def _execute_sync(
         self,
@@ -222,7 +224,9 @@ class SyncEngine:
         dry_run: bool = False,
         course_filter: Optional[str] = None,
         force_download: bool = False,
+        rescan: bool = False,
         progress_callback: Optional[Callable[[str, int, int], None]] = None,
+        folder_callback: Optional[Callable[[str], None]] = None,
     ) -> SyncSummary:
         summary = SyncSummary()
         sync_started = time.perf_counter()
@@ -259,11 +263,13 @@ class SyncEngine:
                     if filter_lower not in course_data.name.lower() and filter_lower != course_data.opal_id:
                         continue
 
-                # Check config include/exclude filters
-                if not self.is_course_allowed(course_data.name):
+                # An explicit --course selection takes precedence over the
+                # configured course filters. Those filters apply to ordinary
+                # syncs across the enrolled course list.
+                if not course_filter and not self.is_course_allowed(course_data.name):
                     course_data.is_excluded = True
                     self.db.upsert_course(course_data)
-                    logger.info(f"Skipping excluded course: [bold]{course_data.name}[/bold]")
+                    logger.debug(f"Skipping excluded course: [bold]{course_data.name}[/bold]")
                     continue
 
                 # Upsert course in DB
@@ -278,10 +284,12 @@ class SyncEngine:
                 known_folder_states = self.db.get_folder_states(db_course.id)
                 previous_folder_states = dict(known_folder_states)
                 previous_files = self.db.get_course_files(db_course.id)
+                course_failures_before = summary.files_failed
                 current_remote_urls = set()
                 scanned_folder_paths: set[str] = set()
                 observed_folder_paths: set[str] = set()
                 skipped_folder_paths: set[str] = set()
+                pending_folder_states: dict[str, tuple[str, str]] = {}
                 for node_data in nodes:
                     db_node = self.db.upsert_node(node_data)
                     node_relative_path = (
@@ -313,18 +321,16 @@ class SyncEngine:
                         scanned_folder_paths=node_scanned_paths,
                         observed_folder_paths=node_observed_paths,
                         skipped_folder_paths=node_skipped_paths,
+                        rescan=rescan,
+                        folder_callback=folder_callback,
                     )
                     scanned_folder_paths.update(node_scanned_paths)
                     observed_folder_paths.update(node_observed_paths)
                     skipped_folder_paths.update(node_skipped_paths)
-                    for folder_url, (remote_path, last_modified) in scanned_folder_states.items():
-                        self.db.upsert_folder_state(
-                            course_id=db_course.id,
-                            remote_url=folder_url,
-                            remote_path=remote_path,
-                            last_modified=last_modified,
-                        )
-                        known_folder_states[folder_url] = (remote_path, last_modified)
+                    # Keep these in memory until the whole course has finished.
+                    # If traversal, a download, or later sync work aborts, the
+                    # stored date remains old and the next run will revisit it.
+                    pending_folder_states.update(scanned_folder_states)
 
                     for file_entry in files:
                         current_remote_urls.add(file_entry.remote_url)
@@ -431,7 +437,7 @@ class SyncEngine:
 
                         # Execute actual download with semaphore
                         async with semaphore:
-                            logger.info(f"Downloading: [green]{file_entry.filename}[/green] -> {target_file_path.name}")
+                            logger.info(f"Downloading: [green]{target_file_path.name}[/green]")
                             dl_result = await self.downloader.download_file(
                                 remote_url=file_entry.remote_url,
                                 target_path=target_file_path,
@@ -549,6 +555,15 @@ class SyncEngine:
 
                 # Mark course synced
                 if not dry_run:
+                    if summary.files_failed == course_failures_before:
+                        for folder_url, (remote_path, last_modified) in pending_folder_states.items():
+                            self.db.upsert_folder_state(
+                                course_id=db_course.id,
+                                remote_url=folder_url,
+                                remote_path=remote_path,
+                                last_modified=last_modified,
+                            )
+                            known_folder_states[folder_url] = (remote_path, last_modified)
                     self.db.mark_course_synced(db_course.id)
 
         except Exception as e:

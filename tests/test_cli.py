@@ -24,29 +24,50 @@ def test_cli_help():
     assert "status" in result.output
 
 
-def test_cli_without_command_without_config_suggests_setup(tmp_path, monkeypatch):
+def test_cli_without_command_without_config_offers_setup(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    result = runner.invoke(app, [])
+    setup_called = []
+    monkeypatch.setattr("opal_sync.cli.setup", lambda: setup_called.append(True))
 
-    assert result.exit_code == 2
-    assert "Error" in result.output
-    assert "No config detected." in result.output
-    assert "To get started, run opal_sync setup." in result.output
-    assert "Getting started" in result.output
-    assert "Usage:" in result.output
-    assert "Commands" in result.output
+    result = runner.invoke(app, [], input="y\n")
+
+    assert result.exit_code == 0
+    # The current welcome banner is rendered as block-character artwork.
+    assert "No configuration found." in result.output
+    assert "Would you like to start setup now?" in result.output
+    assert setup_called == [True]
 
 
-def test_cli_without_command_with_config_suggests_sync(tmp_path, monkeypatch):
+def test_cli_without_command_without_config_can_decline_setup(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr("opal_sync.cli.setup", lambda: pytest.fail("setup should not run"))
+
+    result = runner.invoke(app, [], input="n\n")
+
+    assert result.exit_code == 0
+    assert "No configuration found." in result.output
+
+
+def test_cli_without_command_with_config_starts_sync(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     (tmp_path / "config.toml").write_text("")
+    sync_calls = []
+    monkeypatch.setattr(
+        "opal_sync.cli.sync",
+        lambda **kwargs: sync_calls.append(kwargs),
+    )
 
     result = runner.invoke(app, [])
 
-    assert result.exit_code == 2
-    assert "No config detected." not in result.output
-    assert "opal_sync sync" in result.output
-    assert "Usage:" in result.output
+    assert result.exit_code == 0
+    assert sync_calls == [{
+        "dry_run": False,
+        "course": None,
+        "force": False,
+        "rescan": False,
+        "list_skipped_files": False,
+        "config_path": (tmp_path / "config.toml").resolve(),
+    }]
 
 
 def test_root_level_invalid_option_shows_setup_card_and_help(tmp_path, monkeypatch):
@@ -55,7 +76,7 @@ def test_root_level_invalid_option_shows_setup_card_and_help(tmp_path, monkeypat
     result = runner.invoke(app, ["--config", ".\\opal sync"])
 
     assert result.exit_code == 2
-    assert "No such option: --config" in result.output
+    assert "No such option '--config'." in result.output
     assert "No config detected." in result.output
     assert "opal_sync setup" in result.output
     assert "Usage:" in result.output
@@ -69,7 +90,7 @@ def test_root_level_invalid_option_with_config_suggests_sync(tmp_path, monkeypat
     result = runner.invoke(app, ["--config", ".\\opal sync"])
 
     assert result.exit_code == 2
-    assert "No such option: --config" in result.output
+    assert "No such option '--config'." in result.output
     assert "No config detected." not in result.output
     assert "opal_sync sync" in result.output
     assert "Usage:" in result.output
@@ -108,6 +129,9 @@ def test_setup_saves_selected_filters_and_teaches_sync_commands(tmp_path, monkey
     class FakeEngine:
         def __init__(self):
             self.db = FakeDatabase()
+
+        def is_course_allowed(self, course_name):
+            return course_name == "Mathematics"
 
         async def ensure_authenticated(self, _client):
             pass
@@ -573,8 +597,8 @@ def test_sync_lists_only_excluded_and_oversized_files_before_summary(
     rendered = output.getvalue()
 
     assert result.exit_code == 0
-    assert "Physics/Lectures/\x1b[36mvideo.mp4\x1b[0m (extension:" in rendered
-    assert "Physics/Lectures/\x1b[36mlarge.pdf\x1b[0m (size:" in rendered
+    assert "Physics/Lectures/video.mp4 (extension:" in rendered
+    assert "Physics/Lectures/large.pdf (size:" in rendered
     assert "unchanged.pdf" not in rendered
     assert rendered.index("Skipped files:") < rendered.index(
         "Synchronization Summary"

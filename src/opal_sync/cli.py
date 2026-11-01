@@ -1,8 +1,9 @@
 import asyncio
 import os
+import shutil
+import sys
 from pathlib import Path
 from typing import Optional
-import click
 import typer
 from prompt_toolkit import Application
 from prompt_toolkit.key_binding import KeyBindings
@@ -11,11 +12,9 @@ from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.styles import Style
 from rich.align import Align
-from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
-from typer.core import TyperGroup
 
 from opal_sync.auth.credentials import delete_credentials, get_credentials, store_credentials
 from opal_sync.auth.session import SessionManager
@@ -26,33 +25,32 @@ from opal_sync.scraper.courses import fetch_my_courses
 from opal_sync.storage.db import Database
 from opal_sync.sync.differ import SyncAction
 from opal_sync.sync.engine import SyncEngine
-from opal_sync.utils.logging import get_logger, setup_logger
-
-
-class SetupHintTyperGroup(TyperGroup):
-    def parse_args(self, ctx: click.Context, args: list[str]) -> list[str]:
-        try:
-            return super().parse_args(ctx, args)
-        except click.UsageError as error:
-            if not any(argument in self.commands for argument in args):
-                console.print(f"[bold red]Error:[/bold red] {error.format_message()}")
-                _show_no_command_guidance()
-                console.print(ctx.get_help())
-                raise click.exceptions.Exit(error.exit_code)
-            raise
+from opal_sync.utils.logging import console, get_logger, setup_logger
 
 
 app = typer.Typer(
     name="opal_sync",
+    rich_markup_mode="rich",
     help=(
-        "Automated synchronization client for OPAL Bildungsportal Sachsen course "
-        "materials. After installation, run opal_sync from any directory."
+        "Automated synchronization client for OPAL Bildungsportal Sachsen course materials. "
+        "Updates, bug reports and more info at [cyan link=https://github.com/codenius/opal_sync]https://github.com/codenius/opal_sync[/cyan link]."
     ),
     add_completion=False,
-    cls=SetupHintTyperGroup,
 )
-console = Console()
 logger = get_logger()
+
+
+def _find_implicit_config() -> Optional[Path]:
+    """Find config in the working directory, then beside a frozen bundle."""
+    working_config = (Path.cwd() / DEFAULT_CONFIG_PATH).resolve()
+    if working_config.is_file():
+        return working_config
+
+    if getattr(sys, "frozen", False):
+        bundle_config = (Path(sys.executable).resolve().parent / DEFAULT_CONFIG_PATH).resolve()
+        if bundle_config.is_file():
+            return bundle_config
+    return None
 
 
 def _show_setup_hint() -> None:
@@ -70,24 +68,69 @@ def _show_setup_hint() -> None:
     )
 
 
-def _show_no_command_guidance() -> None:
-    config_path = (Path.cwd() / DEFAULT_CONFIG_PATH).resolve()
-    if config_path.is_file():
-        console.print(
-            "To synchronize your courses, run "
-            "[bold cyan]opal_sync sync[/bold cyan]."
-        )
-    else:
-        _show_setup_hint()
+def _show_welcome_card() -> None:
+    if console.width >= 75: console.print("\n[bright_cyan]"
+        " ██████╗ ██████╗  █████╗ ██╗         ███████╗██╗   ██╗███╗   ██╗ ██████╗\n"
+        "██╔═══██╗██╔══██╗██╔══██╗██║         ██╔════╝╚██╗ ██╔╝████╗  ██║██╔════╝\n"
+        "██║   ██║██████╔╝███████║██║         ███████╗ ╚████╔╝ ██╔██╗ ██║██║     \n"
+        "██║   ██║██╔═══╝ ██╔══██║██║         ╚════██║  ╚██╔╝  ██║╚██╗██║██║     \n"
+        "╚██████╔╝██║     ██║  ██║███████╗    ███████║   ██║   ██║ ╚████║╚██████╗\n"
+        " ╚═════╝ ╚═╝     ╚═╝  ╚═╝╚══════╝    ╚══════╝   ╚═╝   ╚═╝  ╚═══╝ ╚═════╝\n"
+        "[/bright_cyan]")
+
+
+def _pause_before_no_command_exit() -> None:
+    if not getattr(sys, "frozen", False):
+        return
+
+    console.print("[dim]Press any key to close...[/dim]")
+    try:
+        if os.name == "nt":
+            import msvcrt
+
+            msvcrt.getwch()
+        else:
+            input()
+    except (EOFError, OSError):
+        pass
 
 
 @app.callback(invoke_without_command=True)
-def main(ctx: typer.Context):
+def main(
+    ctx: typer.Context,
+    config: Optional[Path] = typer.Option(
+        None, "--config", help="Path to the configuration file"
+    ),
+):
     if ctx.invoked_subcommand is None and not ctx.args:
-        console.print("[bold red]Error:[/bold red] No command was provided.")
-        _show_no_command_guidance()
-        console.print(ctx.get_help())
-        raise typer.Exit(code=2)
+        config_path = (
+            config.expanduser().resolve() if config is not None else _find_implicit_config()
+        )
+        if config_path is not None:
+            try:
+                sync(
+                    dry_run=False,
+                    course=None,
+                    force=False,
+                    rescan=False,
+                    list_skipped_files=False,
+                    config_path=config_path,
+                )
+            finally:
+                _pause_before_no_command_exit()
+            return
+
+        _show_welcome_card()
+        if typer.confirm(
+            "No configuration found. Would you like to start setup now?",
+            default=True,
+        ):
+            try:
+                setup(False)
+            finally:
+                _pause_before_no_command_exit()
+        else:
+            _pause_before_no_command_exit()
 
 
 def get_configured_engine(config_path: Optional[Path] = None) -> SyncEngine:
@@ -106,7 +149,7 @@ def _prompt_university_username(value: Optional[str] = None) -> str:
 
 
 def _prompt_university_password() -> str:
-    console.print("[dim]Password characters are hidden while you type.[/dim]")
+    console.print("[dim]Password characters are hidden while you type. CTRL + C to abort.[/dim]")
     return typer.prompt("University Password", hide_input=True)
 
 
@@ -380,26 +423,78 @@ def _default_sync_directory() -> Path:
     return current_directory
 
 
+def _offer_frozen_bundle_copy(sync_directory: Path) -> None:
+    """Offer to copy the running frozen executable into the sync directory."""
+    if not getattr(sys, "frozen", False):
+        return
+
+    bundle_path = Path(sys.executable).resolve()
+    destination = sync_directory / bundle_path.name
+    if destination.exists():
+        return
+
+    if not typer.confirm(
+        f"Copy OPAL Sync executable to the sync directory? (recommended) ({destination})", default=True
+    ):
+        return
+
+    try:
+        shutil.copy2(bundle_path, destination)
+    except OSError as e:
+        console.print(
+            f"[bold red]Could not copy OPAL Sync to the sync directory:[/bold red] "
+            f"{destination}\n{e}"
+        )
+        return
+    console.print(f"[green]Copied OPAL Sync to {destination}.[/green]")
+
+
+def _run_sync_with_folder_status(engine: SyncEngine, **sync_options):
+    sync_status = console.status("[bold green]Querying folder:[/bold green]")
+    sync_status_started = False
+
+    def update_folder_status(folder: str) -> None:
+        nonlocal sync_status_started
+        if not sync_status_started:
+            sync_status.start()
+            sync_status_started = True
+        sync_status.update(
+            f"[bold green]Querying folder:[/bold green] [cyan]{folder}[/cyan]"
+        )
+
+    try:
+        return asyncio.run(
+            engine.run_sync(
+                **sync_options,
+                folder_callback=update_folder_status,
+            )
+        )
+    finally:
+        if sync_status_started:
+            sync_status.stop()
+
+
 @app.command()
-def setup():
+def setup(show_welcome_card: bool = True):
     """Log in, choose a sync directory and course filters, then optionally sync."""
+    if show_welcome_card: _show_welcome_card()
     console.print(
-        Panel(
-            "[bold white]OPAL Sync[/bold white]\n"
-            "[cyan]FIRST-TIME SETUP[/cyan]\n\n"
+        Panel.fit(
+            "[cyan]FIRST-TIME SETUP[/cyan]\n"
             "Sign in, choose where course files belong, and select your courses.\n\n" +
             "[dim]Values in brackets are \\[defaults]. Enter to accept.[/dim]",
-            title="[bold cyan]OPAL Sync · Command Line[/bold cyan]",
+            title="[bold cyan]OPAL Sync[/bold cyan]",
             border_style="cyan",
-            padding=(1, 3),
+            # padding=(1, 3),
         )
     )
     config = load_config()
-    console.rule("[bold cyan]1 · Sign in[/bold cyan]")
+    console.rule("[bold cyan]1 · Sign in[/bold cyan]", align="left")
     cookies = _authenticate_user(config, show_header=False)
 
-    console.rule("[bold cyan]2 · Choose a destination[/bold cyan]")
+    console.rule("[bold cyan]2 · Choose a destination[/bold cyan]", align="left")
     sync_directory = _prompt_sync_directory(_default_sync_directory())
+    _offer_frozen_bundle_copy(sync_directory)
 
     config_path = sync_directory / "config.toml"
     if config_path.exists() and not typer.confirm(
@@ -434,7 +529,7 @@ def setup():
     with console.status("[bold green]Loading your OPAL course list...[/bold green]"):
         enrolled_courses = asyncio.run(_fetch_courses())
 
-    console.rule("[bold cyan]3 · Choose courses[/bold cyan]")
+    console.rule("[bold cyan]3 · Choose courses[/bold cyan]", align="left")
     if enrolled_courses:
         console.print(
             "[dim]Green courses will sync; red courses will not. "
@@ -451,14 +546,44 @@ def setup():
         console.print("[yellow]No enrolled courses were found; no course filters were set.[/yellow]")
 
     save_config(config, config_path)
-    console.rule("[bold cyan]4 · Review and sync[/bold cyan]")
+    # The engine created above is used to authenticate and fetch the course
+    # catalog. Reload it after saving the user's selections so the initial sync
+    # applies the newly written include/exclude filters.
+    engine = get_configured_engine(config_path)
+    for course_item in enrolled_courses:
+        course_item.is_excluded = not engine.is_course_allowed(course_item.name)
+        engine.db.upsert_course(course_item)
+    console.rule("[bold cyan]4 · Review and sync[/bold cyan]", align="left")
     console.print(f"Course files and local data: [cyan]{sync_directory}[/cyan]")
     console.print(f"Config and additional settings: [cyan]{config_path}[/cyan]")
+    if getattr(sys, "frozen", False):
+        sync_again_message = (
+            "Next time you run OPAL Sync, synchronization will start automatically.\n"
+            "Always use execuable next to config file (in choosen sync folder).\n\n"
+            "[dim]Advanced: use flag --help for more info on how to run[/dim]"
+        )
+    else:
+        sync_again_message = (
+            f"Run [bold]opal_sync[/bold] (or [dim]opal_sync sync[/dim]) from the sync directory ({sync_directory}).\n\n"
+            f'[dim]From somewhere else: opal_sync sync --config "{config_path}"[/dim]'
+        )
+    console.print(
+        Panel(
+            sync_again_message,
+            title="How to sync",
+            border_style="cyan",
+            padding=(1, 1),
+        )
+    )
+    console.print(Panel("This is an open source project. For updates, bug reports and more info visit " 
+                        "[cyan link=https://github.com/codenius/opal_sync]https://github.com/codenius/opal_sync[/cyan link].", 
+                        title="More info", width=64, border_style="green"))
 
+    console.print("[dim]The initial sync may take a few minutes.[/dim]")
     initial_sync_error = False
-    if typer.confirm("Run an initial sync now?", default=True):
-        with console.status("[bold green]Running initial synchronization...[/bold green]"):
-            summary = asyncio.run(engine.run_sync())
+    if typer.confirm("Run an initial sync now? You can always start syncing later.", default=True):
+        console.print("[bold green]Running initial synchronization...[/bold green]")
+        summary = _run_sync_with_folder_status(engine)
         console.print(
             f"Initial sync {summary.status}: {summary.courses_processed} courses, "
             f"{summary.files_new} new files, {summary.files_updated} updated files, "
@@ -470,20 +595,7 @@ def setup():
                 f"[bold red]{summary.error_message or 'Initial sync did not complete successfully.'}[/bold red]"
             )
 
-    console.rule("[bold cyan]All set[/bold cyan]")
-    console.print(
-        Panel(
-            "[bold]Run a sync whenever you need[/bold]\n\n"
-            f"[cyan]From the sync directory[/cyan]  [dim]({sync_directory})[/dim]\n"
-            "  [bold]opal_sync sync[/bold]\n\n"
-            "[cyan]From anywhere[/cyan]\n"
-            f'  [bold]opal_sync sync --config "{config_path}"[/bold]\n\n'
-            f"More settings and course filters: [dim]{config_path}[/dim]",
-            title="[bold cyan]Your sync commands[/bold cyan]",
-            border_style="cyan",
-            padding=(1, 2),
-        )
-    )
+    console.rule("[bold cyan]All set[/bold cyan]", align="left")
     if initial_sync_error:
         raise typer.Exit(code=1)
 
@@ -493,6 +605,11 @@ def sync(
     dry_run: bool = typer.Option(False, "--dry-run", "-n", help="Simulate sync without downloading files"),
     course: Optional[str] = typer.Option(None, "--course", help="Sync only a specific course (name or ID)"),
     force: bool = typer.Option(False, "--force", "-f", help="Re-download files even if unchanged"),
+    rescan: bool = typer.Option(
+        False,
+        "--rescan",
+        help="Recrawl folders even when their last-modified date is unchanged",
+    ),
     list_skipped_files: bool = typer.Option(
         False,
         "--list-skipped-files",
@@ -520,12 +637,12 @@ def sync(
     console.print(Panel.fit(title))
     console.print(f"Target directory: [cyan]{engine.config.general.sync_directory}[/cyan]\n")
 
-    summary = asyncio.run(
-        engine.run_sync(
-            dry_run=dry_run,
-            course_filter=course,
-            force_download=force,
-        )
+    summary = _run_sync_with_folder_status(
+        engine,
+        dry_run=dry_run,
+        course_filter=course,
+        force_download=force,
+        rescan=rescan,
     )
 
     if list_skipped_files:
@@ -616,6 +733,7 @@ def courses(
             await engine.ensure_authenticated(client)
             courses_list = await fetch_my_courses(client)
             for c in courses_list:
+                c.is_excluded = not engine.is_course_allowed(c.name)
                 engine.db.upsert_course(c)
             return engine.db.get_courses()
 

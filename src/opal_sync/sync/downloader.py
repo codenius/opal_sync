@@ -250,6 +250,11 @@ class FileDownloader:
     ) -> DownloadResult:
         headers = resp.headers
         content_length_str = headers.get("content-length")
+        # httpx decodes compressed response bodies in aiter_bytes(), while
+        # Content-Length describes the compressed bytes on the wire.
+        content_encoding = headers.get("content-encoding", "").strip().lower()
+        if content_encoding and content_encoding != "identity":
+            content_length_str = None
         total_bytes = (
             int(content_length_str)
             if content_length_str and content_length_str.isdigit()

@@ -12,6 +12,7 @@ from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.styles import Style
 from rich.align import Align
+from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
@@ -24,7 +25,7 @@ from opal_sync.models.course import Course
 from opal_sync.scraper.courses import fetch_my_courses
 from opal_sync.storage.db import Database
 from opal_sync.sync.differ import SyncAction
-from opal_sync.sync.engine import SyncEngine
+from opal_sync.sync.engine import SyncEngine, SyncSummary
 from opal_sync.utils.logging import console, get_logger, setup_logger
 
 
@@ -38,6 +39,18 @@ app = typer.Typer(
     add_completion=False,
 )
 logger = get_logger()
+
+
+def _format_download_status(
+    filename: str,
+    bytes_received: int,
+    total_bytes: Optional[int],
+) -> str:
+    message = f"Downloading {escape(filename)}"
+    if total_bytes and total_bytes > 1024 * 1024:
+        percent = min(100, int(bytes_received * 100 / total_bytes))
+        message += f" ({percent}%)"
+    return f"[bold green]{message}[/bold green]"
 
 
 def _find_implicit_config() -> Optional[Path]:
@@ -459,7 +472,20 @@ def _run_sync_with_folder_status(engine: SyncEngine, **sync_options):
             sync_status.start()
             sync_status_started = True
         sync_status.update(
-            f"[bold green]Querying folder:[/bold green] [cyan]{folder}[/cyan]"
+            f"[bold green]Querying folder:[/bold green] [cyan]{escape(folder)}[/cyan]"
+        )
+
+    def update_download_status(
+        filename: str,
+        bytes_received: int,
+        total_bytes: Optional[int],
+    ) -> None:
+        nonlocal sync_status_started
+        if not sync_status_started:
+            sync_status.start()
+            sync_status_started = True
+        sync_status.update(
+            _format_download_status(filename, bytes_received, total_bytes)
         )
 
     try:
@@ -467,8 +493,22 @@ def _run_sync_with_folder_status(engine: SyncEngine, **sync_options):
             engine.run_sync(
                 **sync_options,
                 folder_callback=update_folder_status,
+                progress_callback=update_download_status,
             )
         )
+    except KeyboardInterrupt:
+        summary = getattr(engine, "last_summary", None) or SyncSummary()
+        summary.status = "cancelled"
+        summary.error_message = (
+            "Sync interrupted by Ctrl+C. Completed changes are listed below."
+        )
+        return summary
+    except Exception as exc:
+        summary = getattr(engine, "last_summary", None) or SyncSummary()
+        summary.status = "error"
+        summary.error_message = str(exc) or repr(exc)
+        logger.exception("Sync runner failed unexpectedly")
+        return summary
     finally:
         if sync_status_started:
             sync_status.stop()
@@ -666,6 +706,16 @@ def sync(
         else:
             console.print("None")
 
+    failed_items = [item for item in summary.items if not item.success]
+    if failed_items:
+        console.print("\n[bold red]Failed files:[/bold red]")
+        for item in failed_items:
+            line = Text(f"- {item.course_name}/{item.node_title}/")
+            line.append(item.filename, style="cyan")
+            if item.error:
+                line.append(f" — {item.error}", style="red")
+            console.print(line)
+
     # Print summary table
     table = Table(title="Synchronization Summary", header_style="bold blue")
     table.add_column("Metric", style="bold")
@@ -707,10 +757,13 @@ def sync(
             )
         )
     if summary.error_message:
+        error_title = (
+            "Sync interrupted" if summary.status == "cancelled" else "Sync failed"
+        )
         console.print(
             Panel(
                 summary.error_message,
-                title="[bold red]Sync failed[/bold red]",
+                title=f"[bold red]{error_title}[/bold red]",
                 border_style="red",
             )
         )

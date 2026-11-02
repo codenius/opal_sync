@@ -1,4 +1,5 @@
 from pathlib import Path
+import asyncio
 from dataclasses import dataclass
 import re
 from typing import Callable, Dict, List, Optional
@@ -17,6 +18,8 @@ from opal_sync.scraper.wicket import WicketResponse
 from opal_sync.utils.logging import get_logger
 
 logger = get_logger()
+
+FOLDER_REQUEST_RETRIES = 3
 
 
 @dataclass(frozen=True)
@@ -147,7 +150,25 @@ async def _fetch_folder_view(
             headers["Wicket-Ajax-BaseURL"] = wicket_base_url
 
     request_url = action_url or folder_url
-    response = await client.get(request_url, follow_redirects=True, headers=headers)
+    for attempt in range(1, FOLDER_REQUEST_RETRIES + 1):
+        try:
+            response = await client.get(
+                request_url, follow_redirects=True, headers=headers
+            )
+            break
+        except httpx.TimeoutException as exc:
+            if attempt == FOLDER_REQUEST_RETRIES:
+                logger.error(
+                    f"Timed out fetching folder '{folder_url}' after "
+                    f"{FOLDER_REQUEST_RETRIES} attempts: {exc!r}"
+                )
+                raise
+            wait_time = 1.5 ** attempt
+            logger.warning(
+                f"Timeout fetching folder '{folder_url}'. Retrying in "
+                f"{wait_time:.1f}s (attempt {attempt}/{FOLDER_REQUEST_RETRIES})..."
+            )
+            await asyncio.sleep(wait_time)
     if response.status_code != 200:
         logger.warning(
             f"Could not fetch folder '{folder_url}' via {request_url} "

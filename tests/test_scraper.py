@@ -3,7 +3,7 @@ import pytest
 from bs4 import BeautifulSoup
 from opal_sync.scraper.courses import parse_my_courses_html, extract_semester
 from opal_sync.scraper.course_tree import parse_course_tree_html
-from opal_sync.scraper.folder import fetch_folder_files
+from opal_sync.scraper.folder import _fetch_folder_view, fetch_folder_files
 from opal_sync.scraper.file_links import extract_files_from_soup, parse_human_size
 from opal_sync.scraper.wicket import WicketResponse
 from opal_sync.models.node import CourseNode
@@ -333,6 +333,29 @@ def test_extract_files_ignores_email_address_links():
     )
 
     assert files == []
+
+
+@pytest.mark.asyncio
+async def test_folder_view_retries_read_timeout(monkeypatch):
+    request_count = 0
+    url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+
+    async def handler(request):
+        nonlocal request_count
+        request_count += 1
+        if request_count == 1:
+            raise httpx.ReadTimeout("slow response", request=request)
+        return httpx.Response(200, text="<html><body>folder</body></html>", request=request)
+
+    async def no_wait(_seconds):
+        return None
+
+    monkeypatch.setattr("opal_sync.scraper.folder.asyncio.sleep", no_wait)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        view = await _fetch_folder_view(client, url)
+
+    assert view is not None
+    assert request_count == 2
 
 
 @pytest.mark.asyncio

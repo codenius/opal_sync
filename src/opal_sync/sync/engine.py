@@ -90,6 +90,7 @@ class SyncEngine:
         )
         self._external_client = client
         self.downloader: Optional[FileDownloader] = None
+        self.last_summary: Optional[SyncSummary] = None
 
     def is_course_allowed(self, course_name: str) -> bool:
         """Check course name against include/exclude whitelist/blacklist rules."""
@@ -208,7 +209,7 @@ class SyncEngine:
         course_filter: Optional[str] = None,
         force_download: bool = False,
         rescan: bool = False,
-        progress_callback: Optional[Callable[[str, int, int], None]] = None,
+        progress_callback: Optional[Callable[[str, int, Optional[int]], None]] = None,
         folder_callback: Optional[Callable[[str], None]] = None,
     ) -> SyncSummary:
         """Execute full synchronization pass across all enrolled courses."""
@@ -225,10 +226,12 @@ class SyncEngine:
         course_filter: Optional[str] = None,
         force_download: bool = False,
         rescan: bool = False,
-        progress_callback: Optional[Callable[[str, int, int], None]] = None,
+        progress_callback: Optional[Callable[[str, int, Optional[int]], None]] = None,
         folder_callback: Optional[Callable[[str], None]] = None,
     ) -> SyncSummary:
         summary = SyncSummary()
+        self.last_summary = summary
+        active_download_report: Optional[SyncItemReport] = None
         sync_started = time.perf_counter()
         run_id = self.db.start_sync_run() if not dry_run else None
 
@@ -438,9 +441,29 @@ class SyncEngine:
                         # Execute actual download with semaphore
                         async with semaphore:
                             logger.info(f"Downloading: [green]{target_file_path.name}[/green]")
+
+                            def report_download_progress(
+                                bytes_received: int,
+                                total_bytes: Optional[int],
+                            ) -> None:
+                                if progress_callback:
+                                    progress_callback(
+                                        file_entry.filename,
+                                        bytes_received,
+                                        total_bytes or file_entry.size_bytes,
+                                    )
+
+                            active_download_report = item_report
+                            if progress_callback:
+                                progress_callback(
+                                    file_entry.filename,
+                                    0,
+                                    file_entry.size_bytes,
+                                )
                             dl_result = await self.downloader.download_file(
                                 remote_url=file_entry.remote_url,
                                 target_path=target_file_path,
+                                progress_callback=report_download_progress,
                                 download_request=file_entry.download_request,
                                 preserve_target_filename=target_file_path != base_file_path,
                             )
@@ -499,6 +522,7 @@ class SyncEngine:
                             )
 
                         summary.items.append(item_report)
+                        active_download_report = None
 
                 if not dry_run:
                     missing_folder_paths = set()
@@ -566,6 +590,24 @@ class SyncEngine:
                             known_folder_states[folder_url] = (remote_path, last_modified)
                     self.db.mark_course_synced(db_course.id)
 
+        except asyncio.CancelledError:
+            summary.status = "cancelled"
+            summary.error_message = "Sync interrupted by Ctrl+C. Completed changes are listed below."
+            if active_download_report is not None:
+                active_download_report.success = False
+                active_download_report.error = "Download interrupted by Ctrl+C."
+                summary.files_failed += 1
+                summary.items.append(active_download_report)
+            logger.warning(summary.error_message)
+        except KeyboardInterrupt:
+            summary.status = "cancelled"
+            summary.error_message = "Sync interrupted by Ctrl+C. Completed changes are listed below."
+            if active_download_report is not None:
+                active_download_report.success = False
+                active_download_report.error = "Download interrupted by Ctrl+C."
+                summary.files_failed += 1
+                summary.items.append(active_download_report)
+            logger.warning(summary.error_message)
         except Exception as e:
             logger.exception(f"Sync failed with unhandled exception: {e}")
             summary.status = "error"
@@ -574,8 +616,18 @@ class SyncEngine:
                     "Unable to connect to OPAL. Check your internet connection "
                     "and try again."
                 )
+            elif isinstance(e, httpx.ReadTimeout):
+                summary.error_message = (
+                    "Timed out waiting for data from OPAL. Your network may be "
+                    "slow or temporarily stalled. Check your connection and try again."
+                )
             else:
                 summary.error_message = str(e)
+            if active_download_report is not None:
+                active_download_report.success = False
+                active_download_report.error = summary.error_message
+                summary.files_failed += 1
+                summary.items.append(active_download_report)
             if run_id:
                 self.db.log_action(
                     run_id=run_id,

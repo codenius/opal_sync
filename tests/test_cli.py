@@ -2,13 +2,74 @@ from io import StringIO
 import pytest
 from rich.console import Console
 from typer.testing import CliRunner
-from opal_sync.cli import app
+from opal_sync.cli import _format_download_status, app
 from opal_sync.config import AppConfig, load_config
 from opal_sync.models.course import Course
 from opal_sync.sync.differ import SyncAction
-from opal_sync.sync.engine import SyncItemReport, SyncSummary
+from opal_sync.sync.engine import SyncChange, SyncItemReport, SyncSummary
 
 runner = CliRunner()
+
+
+def test_download_status_shows_percent_for_large_files_only():
+    large = _format_download_status("large.pdf", 67 * 1024 * 1024, 100 * 1024 * 1024)
+    small = _format_download_status("small.pdf", 500_000, 800_000)
+
+    assert "Downloading large.pdf (67%)" in large
+    assert "Downloading small.pdf" in small
+    assert "(" not in small
+
+
+def test_sync_interruption_still_prints_final_report(tmp_path, monkeypatch):
+    config_path = tmp_path / "config.toml"
+    config_path.write_text("")
+
+    class FakeEngine:
+        config = AppConfig()
+        last_summary = SyncSummary(
+            courses_processed=1,
+            files_skipped=1,
+            files_failed=1,
+            changes=[SyncChange("+", "Physics/Lectures/done.pdf")],
+            items=[
+                SyncItemReport(
+                    course_name="Physics",
+                    node_title="Lectures",
+                    filename="slow.pdf",
+                    action=SyncAction.DOWNLOAD_NEW,
+                    details="new file",
+                    success=False,
+                    error=(
+                        "Download timed out. Your network may be slow; "
+                        "check your connection and try syncing again."
+                    ),
+                ),
+                SyncItemReport(
+                    course_name="Physics",
+                    node_title="Lectures",
+                    filename="filtered.mp4",
+                    action=SyncAction.SKIP_EXCLUDED,
+                    details="excluded extension",
+                ),
+            ],
+        )
+
+        async def run_sync(self, **_kwargs):
+            raise KeyboardInterrupt
+
+    monkeypatch.setattr("opal_sync.cli.get_configured_engine", lambda _path: FakeEngine())
+    result = runner.invoke(
+        app,
+        ["sync", "--config", str(config_path), "--list-skipped-files"],
+    )
+
+    assert result.exit_code == 1
+    assert "Skipped files:" in result.output
+    assert "filtered.mp4" in result.output
+    assert "CANCELLED" in result.output
+    assert "Physics/Lectures/done.pdf" in result.output
+    assert "Failed files:" in result.output
+    assert "network may be slow" in result.output
 
 
 def test_cli_help():

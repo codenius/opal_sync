@@ -224,19 +224,32 @@ class FileDownloader:
                     return result
 
             except (httpx.TransportError, httpx.TimeoutException, IOError, ValueError) as e:
-                last_error = str(e)
+                if isinstance(e, httpx.ReadTimeout):
+                    last_error = (
+                        "Timed out while waiting for file data. Your network may "
+                        "be slow or temporarily stalled; check your connection "
+                        "and try syncing again."
+                    )
+                else:
+                    last_error = str(e) or repr(e)
                 tmp_path.unlink(missing_ok=True)
                 if attempt < self.max_retries:
                     wait_time = self.backoff_factor ** attempt
                     logger.warning(
-                        f"Download error on {remote_url}: {e}. Retrying in {wait_time:.1f}s (attempt {attempt}/{self.max_retries})..."
+                        f"Download error on {remote_url}: {last_error}. "
+                        f"Retrying in {wait_time:.1f}s "
+                        f"(attempt {attempt}/{self.max_retries})..."
                     )
                     await asyncio.sleep(wait_time)
                 else:
                     last_error = (
-                        f"Download failed after {self.max_retries} attempts: {e}"
+                        f"Download failed after {self.max_retries} attempts: "
+                        f"{last_error}"
                     )
                     failed(last_error)
+            except asyncio.CancelledError:
+                tmp_path.unlink(missing_ok=True)
+                raise
 
         return DownloadResult(success=False, error_message=last_error)
 

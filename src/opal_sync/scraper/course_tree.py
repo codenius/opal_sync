@@ -34,8 +34,12 @@ def _parse_jstree_items(
         full_url = urljoin(base_url, href) if href else None
 
         icon_classes = set(str(item.get("icon", "")).lower().split())
-        can_contain_files = bool({"icon-st", "icon-bc"} & icon_classes)
-        node_type = "folder" if "icon-bc" in icon_classes else "structure"
+        can_contain_files = bool({"icon-st", "icon-bc", "icon-ta"} & icon_classes)
+        node_type = (
+            "folder" if "icon-bc" in icon_classes
+            else "task" if "icon-ta" in icon_classes
+            else "structure"
+        )
         is_top_level_materials = (
             not has_structural_parent
             and node_type == "structure"

@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 from typing import List, Optional
-from urllib.parse import unquote, urljoin, urlsplit
+from urllib.parse import quote, unquote, urljoin, urlsplit
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
@@ -155,6 +155,7 @@ def extract_files_from_soup(
     include_extensions: Optional[List[str]] = None,
     exclude_extensions: Optional[List[str]] = None,
     include_excluded: bool = False,
+    task_downloads: bool = False,
 ) -> List[FileEntry]:
     """Extract downloadable files from parsed HTML of an OPAL course folder/page."""
     files: List[FileEntry] = []
@@ -293,5 +294,85 @@ def extract_files_from_soup(
                 filename=clean_name,
                 extension=clean_ext,
             ))
+
+    # Task return boxes expose each returned file through a javascript:; link.
+    # Wicket binds a GET AJAX action to the link id; invoking it returns an
+    # <evaluate> script which navigates to a Fibercode download URL.
+    if task_downloads:
+        action_pattern = re.compile(
+            r'Wicket\.Ajax\.ajax\(\{"u":"(?P<url>[^"]+)",'
+            r'(?:"m":"(?P<method>[^"]+)",)?"c":"(?P<component>[^"]+)"'
+        )
+        actions: dict[str, tuple[str, str]] = {}
+        for script in soup.find_all("script"):
+            script_text = script.string or script.get_text()
+            for action in action_pattern.finditer(script_text):
+                actions[action.group("component")] = (
+                    action.group("url"),
+                    action.group("method") or "GET",
+                )
+
+        wicket_base = None
+        for script in soup.find_all("script"):
+            script_text = script.string or script.get_text()
+            match = re.search(r'Wicket\.Ajax\.baseUrl\s*=\s*"([^"]+)"', script_text)
+            if match:
+                wicket_base = match.group(1)
+                break
+
+        existing_names = {file.filename.casefold() for file in files}
+        for link in soup.find_all("a", href=True):
+            href = link.get("href", "")
+            component_id = link.get("id")
+            action = actions.get(component_id or "")
+            if href not in ("javascript:;", "javascript:void(0)") or not action:
+                continue
+
+            filename = (
+                link.get("data-file-name")
+                or link.get("title", "").strip()
+                or link.get_text(" ", strip=True).split(" Gr", 1)[0].strip()
+            )
+            ext = get_file_extension(
+                filename, include_filter + (exclude_extensions or [])
+            )
+            if not filename or not ext or filename.casefold() in existing_names:
+                continue
+            if not include_excluded and not is_extension_allowed(
+                filename, include_filter, exclude_extensions
+            ):
+                continue
+
+            clean_name = sanitize_filename(filename)
+            action_url, method = action
+            request_headers = {
+                "Wicket-Ajax": "true",
+                "Wicket-FocusedElementId": component_id,
+                "X-Requested-With": "XMLHttpRequest",
+                "Referer": base_url,
+            }
+            if wicket_base:
+                request_headers["Wicket-Ajax-BaseURL"] = wicket_base
+            # A stable per-file key avoids the page-instance id in Wicket's
+            # action URL creating a new database record every sync.
+            stable_url = urljoin(
+                base_url,
+                f"?returned-file={quote(clean_name)}",
+            )
+            files.append(FileEntry(
+                course_id=course_id,
+                node_id=node_id,
+                remote_url=stable_url,
+                local_path="",
+                filename=clean_name,
+                extension=Path(clean_name).suffix.lower() or ext,
+                download_request=DownloadRequest(
+                    url=urljoin(base_url, action_url),
+                    data={},
+                    headers=request_headers,
+                    method=method.upper(),
+                ),
+            ))
+            existing_names.add(clean_name.casefold())
 
     return files

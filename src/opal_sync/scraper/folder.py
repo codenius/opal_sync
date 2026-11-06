@@ -246,6 +246,7 @@ async def _crawl_folder(
     max_depth: int = 30,
     visited_folder_urls: Optional[set[tuple[str, str, str]]] = None,
     folder_callback: Optional[Callable[[str], None]] = None,
+    task_downloads: bool = False,
 ) -> List[FileEntry]:
     folder_url = folder_chain[-1].url if folder_chain else root_node_url
     if depth > max_depth:
@@ -327,6 +328,7 @@ async def _crawl_folder(
         include_extensions=include_extensions,
         exclude_extensions=exclude_extensions,
         include_excluded=include_excluded,
+        task_downloads=task_downloads,
     )
 
     for f in files:
@@ -365,6 +367,7 @@ async def _crawl_folder(
                 max_depth=max_depth,
                 visited_folder_urls=visited,
                 folder_callback=folder_callback,
+                task_downloads=task_downloads,
             )
         )
 
@@ -420,6 +423,7 @@ async def fetch_folder_files(
         skipped_folder_paths=skipped_paths,
         rescan=rescan,
         folder_callback=folder_callback,
+        task_downloads=node.node_type == "task",
     )
 
     logger.debug(

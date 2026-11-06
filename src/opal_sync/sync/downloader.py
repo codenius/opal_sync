@@ -113,7 +113,13 @@ class FileDownloader:
         while attempt < self.max_retries:
             attempt += 1
             try:
-                if download_request:
+                # Page-bound Wicket GET actions must be sent before another
+                # request advances the page instance. They are not direct
+                # file URLs, so skip the optimistic GET for a GET action.
+                request_method = (
+                    download_request.method.upper() if download_request else None
+                )
+                if download_request and request_method != "GET":
                     attempted_urls.append(remote_url)
                     async with self.client.stream(
                         "GET",
@@ -139,14 +145,21 @@ class FileDownloader:
                                 preserve_target_filename,
                             )
 
-                method = "POST" if download_request else "GET"
+                method = request_method or "GET"
                 request_url = download_request.url if download_request else remote_url
                 attempted_urls.append(request_url)
-                if download_request:
+                if download_request and method == "POST":
                     request_context = self.client.stream(
                         method,
                         request_url,
                         data=download_request.data,
+                        headers=download_request.headers,
+                        follow_redirects=True,
+                    )
+                elif download_request:
+                    request_context = self.client.stream(
+                        method,
+                        request_url,
                         headers=download_request.headers,
                         follow_redirects=True,
                     )
@@ -179,8 +192,17 @@ class FileDownloader:
                         wicket_response = WicketResponse(
                             (await resp.aread()).decode("utf-8", errors="replace")
                         )
-                        if wicket_response.redirect_url:
-                            download_url = urljoin(str(resp.url), wicket_response.redirect_url)
+                        script_redirect = re.search(
+                            r"window\.location\s*=\s*['\"]([^'\"]+)['\"]",
+                            "\n".join(wicket_response.scripts),
+                            re.I,
+                        )
+                        redirect_url = (
+                            wicket_response.redirect_url
+                            or (script_redirect.group(1) if script_redirect else None)
+                        )
+                        if redirect_url:
+                            download_url = urljoin(str(resp.url), redirect_url)
                             attempted_urls.append(download_url)
                             async with self.client.stream(
                                 "GET",

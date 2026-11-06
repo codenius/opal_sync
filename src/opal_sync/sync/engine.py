@@ -440,7 +440,8 @@ class SyncEngine:
 
                         # Execute actual download with semaphore
                         async with semaphore:
-                            logger.info(f"Downloading: [green]{target_file_path.name}[/green]")
+                            last_modified = f" ({file_entry.last_modified})" if file_entry.last_modified else ""
+                            logger.info(f"Downloading: [green]{target_file_path.name}[/green]{last_modified}")
 
                             def report_download_progress(
                                 bytes_received: int,

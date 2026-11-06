@@ -9,6 +9,7 @@ class DownloadRequest:
     url: str
     data: Dict[str, str]
     headers: Dict[str, str]
+    method: str = "POST"
 
 
 @dataclass

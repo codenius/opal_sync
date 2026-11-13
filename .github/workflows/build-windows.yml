@@ -1,0 +1,71 @@
+﻿name: Build Windows binary
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+# Keep release version allocation and publication in commit order.
+concurrency:
+  group: windows-release-main
+  cancel-in-progress: false
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install build dependencies
+        run: python -m pip install -e ".[build]"
+
+      - name: Build executable
+        run: python -m PyInstaller --clean --noconfirm opal_sync.spec
+
+      - name: Set release version
+        id: version
+        shell: pwsh
+        run: |
+          $date = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
+          $tags = gh release list --limit 1000 --json tagName | ConvertFrom-Json
+          $matches = @($tags | ForEach-Object { $_.tagName } | Where-Object { $_ -match "^$date(?:\.(\d+))?$" })
+          if ($matches.Count -eq 0) {
+            $version = $date
+          } else {
+            $maxSuffix = 0
+            foreach ($tag in $matches) {
+              if ($tag -match "^$date\.(\d+)$") {
+                $maxSuffix = [Math]::Max($maxSuffix, [int]$Matches[1])
+              } else {
+                $maxSuffix = [Math]::Max($maxSuffix, 0)
+              }
+            }
+            $version = "$date.$($maxSuffix + 1)"
+          }
+          "version=$version" >> $env:GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: opal-sync-${{ steps.version.outputs.version }}
+          path: dist/opal_sync.exe
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${{ steps.version.outputs.version }}" dist/opal_sync.exe --title "${{ steps.version.outputs.version }}" --generate-notes
+

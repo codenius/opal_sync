@@ -1,102 +1,83 @@
 # OPAL Sync
+[![Build Windows binary](https://github.com/codenius/opal_sync/actions/workflows/build-windows.yml/badge.svg)](https://github.com/codenius/opal_sync/actions/workflows/build-windows.yml)
+[![Latest release](https://img.shields.io/github/v/release/codenius/opal_sync)](https://github.com/codenius/opal_sync/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)  
+Keep your OPAL course materials synced to folder.
 
-OPAL Sync downloads course materials from OPAL Bildungsportal Sachsen to a
-folder on your computer. It keeps a local record of downloaded files so later
-syncs can identify files OPAL reports as unchanged. When OPAL reports a new
-last-modified date, the updated download is saved as a new version instead of
-overwriting the existing local file.
+## What is this?
 
-## What you need
+OPAL Sync downloads course materials from the OPAL Bildungsportal Sachsen to your computer, cleanly organized into folders. It tracks downloaded files between runs to efficiently find and download new files, for updated files the new version is added.  
+Deleted files are always kept so your annotations or changes stay put. All file changes discoverd form OPAL during a sync run are displayed, so you know what is new.  
+OPAL Sync is a cross-plattform command-line application based on Python.
 
-- Python 3.9 or newer.
-- An OPAL account at a supported institution.
-- An internet connection while logging in and syncing.
+## Quick start for Windows
 
-This project currently provides a command-line application. It has not yet
-been published as a ready-to-install Windows installer or as a PyPI package.
+1. Download the latest `opal_sync.exe` from the [Releases page](https://github.com/codenius/opal_sync/releases/latest).
+2. Create a new folder for the synced course files.
+3. Place `opal_sync.exe` in that folder.
+4. Double-click `opal_sync.exe`.
+5. Follow the command-line prompts to sign in, choose the sync directory, and select courses. You can accept the suggested defaults by pressing Enter. When prompted, choose whether to run the initial sync.
+6. After setup, sync anytime by double-clicking `opal_sync.exe`
 
-## Install from a project folder
+## Install and run (all OSes)
 
-1. Install Python from [python.org](https://www.python.org/downloads/). On
-   Windows, enable the option to add Python to `PATH` during installation.
-2. Open PowerShell in the folder containing this project.
-3. Install OPAL Sync:
+A standalone Windows executable is available from [GitHub Releases](https://github.com/codenius/opal_sync/releases/latest). For other operating systems, install Python 3.9 or newer and install OPAL Sync from the project source.
 
-   ```powershell
-   py -m pip install .
-   ```
+Clone or download this repository, then open a terminal in the project folder. A virtual environment is recommended to keep project dependencies separate, but it is optional.
 
-The installed commands are `opal_sync` and `opal-sync`. If they are not
-recognized after installation, close and reopen PowerShell and make sure
-Python's Scripts directory is on `PATH`. You can also run the app as a Python
-module:
+**Windows PowerShell**
 
 ```powershell
-py -m opal_sync --help
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install .
 ```
 
-## First-time setup
+To install without a virtual environment, use a per-user installation instead:
 
-Run the interactive setup command:
+**Windows PowerShell**
 
 ```powershell
+py -m pip install --user .
+```
+
+**macOS and Linux**
+
+```bash
+python3 -m pip install --user .
+```
+
+If the `opal_sync` command is not found after a per-user install, add Python's user `Scripts` (Windows) or `bin` (macOS/Linux) directory to `PATH`, or start it with `python -m opal_sync setup`.
+
+**macOS and Linux**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install .
+```
+
+Start the guided setup:
+
+```text
 opal_sync setup
 ```
 
-Setup asks you to sign in, choose where to save course folders and files, and
-select courses to include or exclude. The default destination is the current
-directory, except when setup is launched from your home directory, where it
-defaults to a `opal_sync` subfolder. The configuration, database, log, and
-OPAL session file are also stored in the chosen destination. Setup then offers
-to run the initial sync. Your password is stored using the operating system's
-credential store through Python `keyring`, not in the config file.
+If the command is not found, make sure the virtual environment is activated. You can also start the app as a module with `python -m opal_sync setup`.
 
-At interactive prompts, values shown in square brackets are defaults; press
-Enter to accept them.
-
-The generated `config.toml` can be edited later to change course filters or
-other settings.
-
-## Manual configuration
-
-The default configuration file is named `config.toml` in the current working
-directory. The easiest setup is to copy `config.example.toml` to
-`config.toml` in the folder where you plan to run OPAL Sync:
-
-```powershell
-Copy-Item config.example.toml config.toml
-```
-
-Edit `config.toml` with a text editor if you want to change the download
-folder or other settings. Relative paths such as `downloads`, `state.db`, and
-`session.json` are resolved from the directory containing the config file.
-The default `sync_directory = "."` means downloaded course folders go into
-that same directory.
-
-When running outside the config directory, pass `--config` to each command.
-Log in and sync:
-
-```powershell
-opal_sync login --config "C:\Users\YourName\OPAL\config.toml"
-opal_sync sync --config "C:\Users\YourName\OPAL\config.toml"
-```
-
-Enter your institution, username, and password when prompted. After successful
-login, the password is stored using the operating system's credential store
-through Python `keyring`; the config file does not need to contain your
-password.
+During setup, enter your institution and account details, choose where course files should be saved, and select courses. The app offers an initial sync at the end. Your password is stored in the operating system's credential store when supported by the platform's keyring backend; it is not saved in the config file.
 
 ## Common commands
 
+Run commands from the directory containing the configuration created during setup. Add `--config <path>` if you run them from elsewhere.
+
 ```text
-opal_sync setup                   Guided first-time setup
-opal_sync login                   Sign in to OPAL
 opal_sync sync                    Download or update course files
 opal_sync sync --course "Math"    Sync courses whose name matches "Math"
 opal_sync sync --list-skipped-files
                                   Show files skipped by extension or size filters
 opal_sync sync --force            Request downloads even when files look unchanged
-opal_sync sync --rescan            Recrawl folders with unchanged dates, skipping unchanged files
+opal_sync sync --rescan           Recrawl folders with unchanged dates, skipping unchanged files
 opal_sync courses                 Show cached courses
 opal_sync courses --refresh       Refresh the course list from OPAL
 opal_sync status                  Show sync and storage status
@@ -105,16 +86,9 @@ opal_sync logout                  Clear saved credentials and session cookies
 opal_sync config --path           Show the active config file location
 ```
 
-Run commands from the sync directory to use its `config.toml` automatically.
-From another directory, pass the config file explicitly:
+## Configuration reference
 
-```powershell
-opal_sync sync --config "C:\Users\YourName\OPAL\config.toml"
-```
-
-## Configuration
-
-The main settings are:
+Setup creates `config.toml` in the chosen sync directory. Most users do not need to edit it. The settings below are the application defaults; setup may save your selected values instead.
 
 | Setting | Default | Description |
 |---|---|---|
@@ -122,65 +96,44 @@ The main settings are:
 | `general.log_level` | `"INFO"` | Logging detail: `DEBUG`, `INFO`, `WARNING`, or `ERROR` |
 | `general.log_file` | `"opal-sync.log"` | Log file location |
 | `general.db_file` | `"state.db"` | Local sync-state database |
+| `auth.university` | `"htwk-leipzig"` | Institution identifier used for sign-in |
 | `auth.session.cookie_file` | `"session.json"` | Saved OPAL session cookies |
+| `auth.session.session_ttl_hours` | `1` | Session lifetime before re-authentication |
+| `auth.session.max_retry_auth` | `3` | Authentication retry limit |
 | `sync.include_extensions` | `[]` | Optional extension allowlist; empty includes all extensions |
-| `sync.exclude_extensions` | `[]` | Extensions to skip; an extension also explicitly included is allowed |
-| `sync.max_file_size_mb` | `500` | Maximum remote file size to download |
+| `sync.exclude_extensions` | `[]` | Extensions to skip; explicitly included extensions are allowed |
+| `sync.max_file_size_mb` | `50` | Maximum remote file size to download; `0` disables the limit |
 | `sync.parallel_downloads` | `3` | Maximum concurrent downloads |
-| `sync.request_delay_seconds` | `1.0` | Delay between requests |
-| `courses.include` | `[]` | Optional case-insensitive course-name filters |
+| `sync.request_delay_seconds` | `0.5` | Delay between requests |
+| `sync.delete_removed` | `false` | Whether to delete local files removed from OPAL |
+| `courses.include` | `[]` | Optional case-insensitive course-name filters; empty includes all enrolled courses |
 | `courses.exclude` | `[]` | Course names to exclude |
+| `courses.paths` | `{}` | Optional per-course folder overrides |
 
-Course include/exclude matching is case-insensitive and based on whether the
-configured text appears in a course name. Excluded course matches take
-precedence. Per-course folder overrides can be set under `[courses.paths]`;
-relative paths are placed under `sync_directory`. Downloaded folders mirror
-OPAL's nested course structure. A top-level structure node named `Unterlagen`
-is treated as the course root and omitted from the local path.
-
-Settings not specified in `config.toml` use the defaults shown above. The
-`config.example.toml` file contains a complete commented example.
+Course filters match text within course names without regard to case. Excluded matches take precedence. Relative paths for per-course overrides are placed under the sync directory. Downloaded folders mirror OPAL's nested course structure; a top-level `Unterlagen` node is omitted from local paths.
 
 ## Troubleshooting
 
-- **The command cannot find my config:** run it from the sync directory, or
-  pass the config file explicitly with `--config`.
-- **Login fails:** confirm you selected the right institution and can sign in
-  to OPAL in a browser. Run `opal-sync login` again if your credentials need
-  to be updated.
-- **I cannot find downloaded files:** check `general.sync_directory` in the
-  active config. Relative paths are based on the config file's directory.
-- **A sync failed:** inspect the configured log file and the output from
-  `opal-sync status`. Do not share passwords, session cookies, or private
-  course files when reporting an issue.
-- **A local file has my annotations:** the sync decision does not use local
-  file size or ETag. OPAL's recognized last-modified date is used to detect
-  remote updates.
+- **The command cannot find the configuration:** run it from the sync directory or provide the path with `--config`.
+- **Login fails:** check that you selected the right institution and can sign in to OPAL in a browser, then run `opal_sync login` again.
+- **Files are not where expected:** check the sync directory shown by `opal_sync status`.
+- **A sync failed:** inspect the log file and `opal_sync status`. Do not share passwords, session cookies, or private course files when reporting an issue.
+- **A local file contains annotations:** OPAL Sync uses OPAL's recognized last-modified date to detect remote updates; it does not compare local file size or ETag.
 
-## Development and tests
+## Development
 
-To install development dependencies and run the test suite:
+Install development dependencies and run the test suite:
 
-```powershell
-py -m pip install ".[dev]"
-py -m pytest
+```text
+python -m pip install ".[dev]"
+python -m pytest
 ```
 
-### Build a standalone Windows executable
+Build the standalone Windows executable on Windows:
 
-PyInstaller packages the app and its Python dependencies into one executable.
-Build on Windows for Windows; the output is specific to the operating system
-and processor architecture.
-
-Using the project virtual environment, install the build dependency and build:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -e ".[build]"
-.\.venv\Scripts\python.exe -m PyInstaller --clean --noconfirm opal_sync.spec
+```text
+python -m pip install -e ".[build]"
+python -m PyInstaller --clean --noconfirm opal_sync.spec
 ```
 
-The resulting `dist\opal_sync.exe` is a console application. It reads
-`config.toml` from the current working directory and stores the database,
-logs, session, and downloaded files in the configured locations. The Windows
-`keyring` backend is included explicitly because that package discovers
-backends dynamically at runtime.
+The output is `dist/opal_sync.exe`. It is a console application; the Windows `keyring` backend is included in the PyInstaller spec.

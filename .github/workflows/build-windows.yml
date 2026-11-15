@@ -18,13 +18,16 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
+          python-version: "3.15"
           cache: pip
+
+      - name: Install UPX
+        run: choco install upx --yes --no-progress
 
       - name: Install build dependencies
         run: python -m pip install -e ".[build]"
@@ -57,7 +60,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload executable
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: opal-sync-${{ steps.version.outputs.version }}
           path: dist/opal_sync.exe

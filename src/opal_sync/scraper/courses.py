@@ -48,8 +48,13 @@ def parse_my_courses_html(html: str, base_url: str = OPAL_BASE_URL) -> List[Cour
         if opal_id in seen_ids:
             continue
 
-        # OPAL truncates visible course titles in tabs but keeps the full title attribute.
-        title = link.get("title", "").strip() or link.get_text(strip=True)
+        # In card view the RepositoryEntry link is an invisible overlay whose title
+        # is just "Kurs öffnen". The actual course title and semester are in the card.
+        card = link.find_parent("li", class_=lambda value: value and "content-preview" in value)
+        card_title = card.select_one(".content-preview-title") if card else None
+        title = (
+            card_title.get_text(" ", strip=True) if card_title else ""
+        ) or link.get("title", "").strip() or link.get_text(strip=True)
         if title.lower().startswith(("http://", "https://")):
             title = ""
 
@@ -83,7 +88,7 @@ def parse_my_courses_html(html: str, base_url: str = OPAL_BASE_URL) -> List[Cour
         full_url = urlunsplit(
             (full_url_parts.scheme, full_url_parts.netloc, full_url_parts.path, "", "")
         )
-        semester = extract_semester(title)
+        semester = extract_semester(card.get_text(" ", strip=True) if card else title)
 
         seen_ids.add(opal_id)
         courses.append(Course(

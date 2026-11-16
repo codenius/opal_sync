@@ -1,4 +1,4 @@
-﻿name: Build Windows binary
+name: Build Windows binary
 
 on:
   push:
@@ -25,15 +25,22 @@ jobs:
         with:
           python-version: "3.15"
           cache: pip
-
-      - name: Install UPX
-        run: choco install upx --yes --no-progress
+          cache-dependency-path: requirements-build.lock
 
       - name: Install build dependencies
-        run: python -m pip install -e ".[build]"
+        shell: pwsh
+        run: |
+          python -m pip install --no-deps -e .
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m pip install -r requirements-build.lock
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Build executable
-        run: python -m PyInstaller --clean --noconfirm opal_sync.spec
+        shell: pwsh
+        run: |
+          $python = (Get-Command python).Source
+          $env:PATH = (($env:PATH -split ';' | Where-Object { $_ -notmatch 'Java_Temurin|Windows Performance Toolkit|[\\/]Java[\\/]' }) -join ';')
+          & $python -m PyInstaller --clean --noconfirm opal_sync.spec
 
       - name: Set release version
         id: version
@@ -71,4 +78,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release create "${{ steps.version.outputs.version }}" dist/opal_sync.exe --title "${{ steps.version.outputs.version }}" --generate-notes
-

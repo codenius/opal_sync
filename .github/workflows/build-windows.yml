@@ -35,6 +35,9 @@ jobs:
           python -m pip install -r requirements-build.lock
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      - name: Install UPX
+        run: choco install upx --yes --no-progress
+
       - name: Build executable
         shell: pwsh
         run: |

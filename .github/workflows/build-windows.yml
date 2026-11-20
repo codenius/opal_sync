@@ -24,16 +24,14 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: "3.15"
-          cache: pip
-          cache-dependency-path: requirements-build.lock
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          activate-environment: true
 
       - name: Install build dependencies
-        shell: pwsh
-        run: |
-          python -m pip install --no-deps -e .
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python -m pip install -r requirements-build.lock
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        run: uv sync --locked --extra build
 
       - name: Install UPX
         run: choco install upx --yes --no-progress
@@ -45,8 +43,44 @@ jobs:
           $env:PATH = (($env:PATH -split ';' | Where-Object { $_ -notmatch 'Java_Temurin|Windows Performance Toolkit|[\\/]Java[\\/]' }) -join ';')
           & $python -m PyInstaller --clean --noconfirm opal_sync.spec
 
+      - name: Check whether executable changed
+        id: release_check
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $newHash = (Get-FileHash dist/opal_sync.exe -Algorithm SHA256).Hash
+          $releases = @(gh release list --exclude-drafts --exclude-pre-releases --limit 1 --json tagName | ConvertFrom-Json)
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          $changed = $true
+          if ($releases.Count -gt 0) {
+            $tag = $releases[0].tagName
+            $release = gh release view $tag --json assets | ConvertFrom-Json
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+            $asset = $release.assets | Where-Object name -eq 'opal_sync.exe' | Select-Object -First 1
+            if ($null -ne $asset) {
+              $downloadDir = Join-Path $env:RUNNER_TEMP "latest-release-$env:GITHUB_RUN_ID"
+              New-Item -ItemType Directory -Force -Path $downloadDir | Out-Null
+              gh release download $tag --pattern opal_sync.exe --dir $downloadDir
+              if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+              $latestPath = Join-Path $downloadDir 'opal_sync.exe'
+              if (-not (Test-Path -LiteralPath $latestPath)) {
+                Write-Error "Release $tag lists opal_sync.exe but the asset was not downloaded."
+                exit 1
+              }
+              $latestHash = (Get-FileHash $latestPath -Algorithm SHA256).Hash
+              $changed = $newHash -ne $latestHash
+            }
+          }
+
+          "changed=$($changed.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+
       - name: Set release version
         id: version
+        if: steps.release_check.outputs.changed == 'true'
         shell: pwsh
         run: |
           $date = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
@@ -71,6 +105,7 @@ jobs:
 
       - name: Upload executable
         uses: actions/upload-artifact@v6
+        if: steps.release_check.outputs.changed == 'true'
         with:
           name: opal-sync-${{ steps.version.outputs.version }}
           path: dist/opal_sync.exe
@@ -78,6 +113,7 @@ jobs:
           retention-days: 1
 
       - name: Publish GitHub release
+        if: steps.release_check.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release create "${{ steps.version.outputs.version }}" dist/opal_sync.exe --title "${{ steps.version.outputs.version }}" --generate-notes

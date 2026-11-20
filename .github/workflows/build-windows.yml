@@ -30,18 +30,12 @@ jobs:
         with:
           activate-environment: true
 
-      - name: Install build dependencies
-        run: uv sync --locked --extra build
-
       - name: Install UPX
         run: choco install upx --yes --no-progress
 
       - name: Build executable
-        shell: pwsh
-        run: |
-          $python = (Get-Command python).Source
-          $env:PATH = (($env:PATH -split ';' | Where-Object { $_ -notmatch 'Java_Temurin|Windows Performance Toolkit|[\\/]Java[\\/]' }) -join ';')
-          & $python -m PyInstaller --clean --noconfirm opal_sync.spec
+        shell: cmd
+        run: build.bat
 
       - name: Check whether executable changed
         id: release_check

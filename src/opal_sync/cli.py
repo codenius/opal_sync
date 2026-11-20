@@ -611,9 +611,22 @@ def setup(show_welcome_card: bool = True):
             "[dim]Advanced: use flag --help for more info on how to run[/dim]"
         )
     else:
-        sync_again_message = (
-            f"Run [bold]opal_sync[/bold] (or [dim]opal_sync sync[/dim]) from the sync directory ({sync_directory}).\n\n"
-            f'[dim]From somewhere else: opal_sync sync --config "{config_path}"[/dim]'
+        sync_again_message = Text()
+        sync_again_message.append("Run ")
+        sync_again_message.append("opal_sync", style="bold")
+        sync_again_message.append(" (or ")
+        sync_again_message.append("opal_sync sync", style="dim")
+        sync_again_message.append(") from the sync directory ")
+        sync_again_message.append_text(
+            local_path_text(sync_directory, str(sync_directory))
+        )
+        sync_again_message.append(".\n\n")
+        sync_again_message.append(
+            "From somewhere else: opal_sync sync --config ",
+            style="dim",
+        )
+        sync_again_message.append_text(
+            local_path_text(config_path, f'"{config_path}"')
         )
     console.print(
         Panel(
@@ -725,7 +738,14 @@ def sync(
                 local_path = item.local_path or course_path / item.node_title / item.filename
                 line = Text("- ")
                 line.append_text(local_path_text(course_path, item.course_name))
-                line.append(f"/{item.node_title}/")
+                line.append("/")
+                line.append_text(
+                    local_path_text(
+                        course_path / item.node_title,
+                        item.node_title,
+                    )
+                )
+                line.append("/")
                 line.append_text(local_path_text(local_path, item.filename))
                 line.append(f" ({reason}: {item.details})")
                 console.print(line)
@@ -744,7 +764,14 @@ def sync(
             local_path = item.local_path or course_path / item.node_title / item.filename
             line = Text("- ")
             line.append_text(local_path_text(course_path, item.course_name))
-            line.append(f"/{item.node_title}/")
+            line.append("/")
+            line.append_text(
+                local_path_text(
+                    course_path / item.node_title,
+                    item.node_title,
+                )
+            )
+            line.append("/")
             line.append_text(local_path_text(local_path, item.filename))
             if item.error:
                 line.append(f" — {item.error}", style="red")
@@ -1048,11 +1075,20 @@ def log(
             detail_text = Text(str(detail))
             detail_text.append(" ")
             detail_text.append_text(local_path_text(Path(file_path), str(file_path)))
+        course_name = entry.get("course_name")
+        course_text: object = course_name or "—"
+        if course_name:
+            course_path = course_directory(
+                engine.config.general.sync_directory,
+                engine.config.courses.paths,
+                course_name,
+            )
+            course_text = local_path_text(course_path, course_name)
         table.add_row(
             entry["timestamp"],
             lvl_colored,
             entry["action"],
-            entry.get("course_name") or "—",
+            course_text,
             detail_text,
         )
 

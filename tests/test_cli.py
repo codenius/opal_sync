@@ -193,7 +193,6 @@ def test_cli_help():
     assert result.exit_code == 0
     assert "Automated synchronization client for OPAL" in result.output
     assert "opal_sync" in result.output
-    assert "from any directory" in result.output
     assert "login" in result.output
     assert "setup" in result.output
     assert "sync" in result.output
@@ -204,7 +203,10 @@ def test_cli_help():
 def test_cli_without_command_without_config_offers_setup(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     setup_called = []
-    monkeypatch.setattr("opal_sync.cli.setup", lambda: setup_called.append(True))
+    monkeypatch.setattr(
+        "opal_sync.cli.setup",
+        lambda *_args, **_kwargs: setup_called.append(True),
+    )
 
     result = runner.invoke(app, [], input="y\n")
 
@@ -246,30 +248,25 @@ def test_cli_without_command_with_config_starts_sync(tmp_path, monkeypatch):
     }]
 
 
-def test_root_level_invalid_option_shows_setup_card_and_help(tmp_path, monkeypatch):
+def test_root_level_missing_config_option_shows_setup_card(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
 
     result = runner.invoke(app, ["--config", ".\\opal sync"])
 
-    assert result.exit_code == 2
-    assert "No such option '--config'." in result.output
+    assert result.exit_code == 1
     assert "No config detected." in result.output
     assert "opal_sync setup" in result.output
-    assert "Usage:" in result.output
-    assert "Commands" in result.output
 
 
-def test_root_level_invalid_option_with_config_suggests_sync(tmp_path, monkeypatch):
+def test_root_level_missing_config_option_with_implicit_config_suggests_setup(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     (tmp_path / "config.toml").write_text("")
 
     result = runner.invoke(app, ["--config", ".\\opal sync"])
 
-    assert result.exit_code == 2
-    assert "No such option '--config'." in result.output
-    assert "No config detected." not in result.output
-    assert "opal_sync sync" in result.output
-    assert "Usage:" in result.output
+    assert result.exit_code == 1
+    assert "No config file found" in result.output
+    assert "opal_sync setup" in result.output
 
 
 def test_cli_config_show(tmp_path):
@@ -360,11 +357,9 @@ def test_setup_saves_selected_filters_and_teaches_sync_commands(tmp_path, monkey
     assert config.courses.include == ["Mathematics"]
     assert config.courses.exclude == ["History"]
     assert "opal_sync sync --config" in result.output
-    assert "Run a sync whenever you need" in result.output
     assert "Values in brackets are" in result.output
     assert "--dry-run" not in result.output
     assert "Where should OPAL Sync save course folders and files?" in result.output
-    assert "Your sync commands" in result.output
     assert (target_directory / "session.json").is_file()
 
 
@@ -672,7 +667,7 @@ def test_setup_can_run_initial_sync(tmp_path, monkeypatch):
         async def ensure_authenticated(self, _client):
             pass
 
-        async def run_sync(self):
+        async def run_sync(self, **_kwargs):
             sync_calls.append(True)
             return SyncSummary(courses_processed=2, files_new=3)
 

@@ -157,7 +157,7 @@ def test_parse_course_tree(course_folder_html):
     assert sp_node.title == "Organisatorisches"
 
 
-def test_parse_course_tree_json_only_includes_structure_and_folder_icons():
+def test_parse_course_tree_json_only_includes_structure_folder_and_task_icons():
     html = """
     <script>
     var initial_data = [
@@ -183,8 +183,13 @@ def test_parse_course_tree_json_only_includes_structure_and_folder_icons():
     assert [(node.node_id, node.node_type) for node in nodes] == [
         ("2", "structure"),
         ("3", "folder"),
+        ("5", "task"),
     ]
-    assert [node.relative_path for node in nodes] == ["Materials", "Materials/Folder"]
+    assert [node.relative_path for node in nodes] == [
+        "Materials",
+        "Materials/Folder",
+        "Task",
+    ]
 
 
 def test_parse_course_tree_preserves_structure_ancestry_and_omits_root_unterlagen():

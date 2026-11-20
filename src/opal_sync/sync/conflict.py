@@ -1,7 +1,10 @@
 from pathlib import Path
 from typing import Optional
 
+from rich.text import Text
+
 from opal_sync.models.file_entry import FileEntry
+from opal_sync.utils.linking import local_path_text
 from opal_sync.utils.logging import get_logger
 
 logger = get_logger()
@@ -37,7 +40,11 @@ def resolve_filename_conflict(
         counter += 1
         candidate = parent / f"{stem}-{counter}{ext}"
 
-    logger.debug(f"Resolved filename conflict for '{target_path.name}' -> '{candidate.name}'")
+    message = Text("Resolved filename conflict for ")
+    message.append_text(local_path_text(target_path, target_path.name))
+    message.append(" -> ")
+    message.append_text(local_path_text(candidate, candidate.name))
+    logger.debug(message)
     return candidate
 
 

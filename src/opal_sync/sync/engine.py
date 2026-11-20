@@ -7,6 +7,7 @@ from pathlib import PurePosixPath
 import time
 from typing import Callable, List, Optional
 import httpx
+from rich.text import Text
 
 from opal_sync.auth.credentials import get_credentials
 from opal_sync.auth.session import SessionManager
@@ -24,6 +25,7 @@ from opal_sync.sync.differ import SyncAction, determine_sync_action
 from opal_sync.sync.downloader import FileDownloader
 from opal_sync.utils.extensions import get_file_extension, is_extension_allowed
 from opal_sync.utils.logging import get_logger
+from opal_sync.utils.linking import course_directory, local_path_text
 from opal_sync.utils.sanitize import sanitize_filename
 
 logger = get_logger()
@@ -36,6 +38,8 @@ class SyncItemReport:
     filename: str
     action: SyncAction
     details: str
+    local_path: Optional[Path] = None
+    course_path: Optional[Path] = None
     size_bytes: Optional[int] = None
     success: bool = True
     error: Optional[str] = None
@@ -124,29 +128,10 @@ class SyncEngine:
         return True
 
     def _course_base_dir(self, course: Course) -> Path:
-        configured_path = next(
-            (
-                path
-                for name, path in self.config.courses.paths.items()
-                if name.casefold() == course.name.casefold()
-            ),
-            None,
-        )
-        if configured_path is None:
-            return (
-                self.config.general.sync_directory
-                / sanitize_filename(course.name)
-            )
-
-        path = Path(configured_path).expanduser()
-        if path.is_absolute():
-            return path
-        if ".." in path.parts:
-            raise ValueError(
-                f"Relative course path for '{course.name}' cannot contain '..'"
-            )
-        return self.config.general.sync_directory.joinpath(
-            *(sanitize_filename(part) for part in path.parts if part not in ("", "."))
+        return course_directory(
+            self.config.general.sync_directory,
+            self.config.courses.paths,
+            course.name,
         )
 
     def _resolve_tracked_file_path(
@@ -305,11 +290,17 @@ class SyncEngine:
                             job.file_entry.size_bytes,
                         )
 
-                    logger.info(
-                        f"[{job.course_name}] Downloading: "
-                        f"[green]{job.target_path.name}[/green]"
-                        f"{f' ({job.file_entry.last_modified})' if job.file_entry.last_modified else ''}"
+                    download_message = Text(
+                        f"[{job.course_name}] Downloading: ",
                     )
+                    download_message.append_text(
+                        local_path_text(job.target_path, job.target_path.name)
+                    )
+                    if job.file_entry.last_modified:
+                        download_message.append(
+                            f" ({job.file_entry.last_modified})"
+                        )
+                    logger.info(download_message)
 
                     def report_download_progress(
                         bytes_received: int,
@@ -340,6 +331,7 @@ class SyncEngine:
 
                     summary.bytes_downloaded += dl_result.bytes_downloaded
                     job.item_report.size_bytes = dl_result.bytes_downloaded
+                    job.item_report.local_path = job.target_path
 
                     job.file_entry.local_path = str(job.target_path)
                     job.file_entry.size_bytes = dl_result.bytes_downloaded
@@ -442,9 +434,12 @@ class SyncEngine:
                 # Upsert course in DB
                 db_course = self.db.upsert_course(course_data)
                 summary.courses_processed += 1
-                logger.info(f"Processing course: [bold cyan]{db_course.name}[/bold cyan]")
-
                 course_base_dir = self._course_base_dir(db_course)
+                course_heading = Text("Processing course: ")
+                course_heading.append_text(
+                    local_path_text(course_base_dir, db_course.name)
+                )
+                logger.info(course_heading)
 
                 # 3. Discover course nodes (folders, pages)
                 nodes = await fetch_course_nodes(client, db_course.url, db_course.id)
@@ -527,6 +522,8 @@ class SyncEngine:
                             filename=file_entry.filename,
                             action=action,
                             details=reason,
+                            local_path=target_file_path,
+                            course_path=course_base_dir,
                             size_bytes=file_entry.size_bytes,
                         )
 
@@ -596,6 +593,7 @@ class SyncEngine:
                             target_file_path = next_version_path(base_file_path)
                             file_entry.local_path = str(target_file_path)
                             item_report.filename = target_file_path.name
+                            item_report.local_path = target_file_path
 
                         if dry_run:
                             if action == SyncAction.DOWNLOAD_NEW:

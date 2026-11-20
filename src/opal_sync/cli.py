@@ -27,6 +27,7 @@ from opal_sync.storage.db import Database
 from opal_sync.sync.differ import SyncAction
 from opal_sync.sync.engine import SyncEngine, SyncSummary
 from opal_sync.utils.logging import console, get_logger, setup_logger
+from opal_sync.utils.linking import course_directory, local_path_text
 
 
 app = typer.Typer(
@@ -459,7 +460,10 @@ def _offer_frozen_bundle_copy(sync_directory: Path) -> None:
             f"{destination}\n{e}"
         )
         return
-    console.print(f"[green]Copied OPAL Sync to {destination}.[/green]")
+    copied = Text("Copied OPAL Sync to ", style="green")
+    copied.append_text(local_path_text(destination, str(destination)))
+    copied.append(".", style="green")
+    console.print(copied)
 
 
 def _run_sync_with_folder_status(engine: SyncEngine, **sync_options):
@@ -594,8 +598,12 @@ def setup(show_welcome_card: bool = True):
         course_item.is_excluded = not engine.is_course_allowed(course_item.name)
         engine.db.upsert_course(course_item)
     console.rule("[bold cyan]4 · Review and sync[/bold cyan]", align="left")
-    console.print(f"Course files and local data: [cyan]{sync_directory}[/cyan]")
-    console.print(f"Config and additional settings: [cyan]{config_path}[/cyan]")
+    course_line = Text("Course files and local data: ")
+    course_line.append_text(local_path_text(sync_directory, str(sync_directory)))
+    console.print(course_line)
+    config_line = Text("Config and additional settings: ")
+    config_line.append_text(local_path_text(config_path, str(config_path)))
+    console.print(config_line)
     if getattr(sys, "frozen", False):
         sync_again_message = (
             "Next time you run OPAL Sync, synchronization will start automatically.\n"
@@ -664,10 +672,12 @@ def sync(
         config_path or (Path.cwd() / DEFAULT_CONFIG_PATH)
     ).expanduser().resolve()
     if not expected_config_path.is_file():
-        console.print(
-            f"[bold red]Error:[/bold red] No config file found at "
-            f"[cyan]{expected_config_path}[/cyan]."
+        missing_config = Text("Error: No config file found at ", style="bold red")
+        missing_config.append_text(
+            local_path_text(expected_config_path, str(expected_config_path))
         )
+        missing_config.append(".")
+        console.print(missing_config)
         _show_setup_hint()
         raise typer.Exit(code=1)
 
@@ -675,7 +685,15 @@ def sync(
 
     title = "[bold yellow]Starting OPAL Dry-Run Sync...[/bold yellow]" if dry_run else "[bold green]Starting OPAL Synchronization...[/bold green]"
     console.print(Panel.fit(title))
-    console.print(f"Target directory: [cyan]{engine.config.general.sync_directory}[/cyan]\n")
+    target_heading = Text("Target directory: ")
+    target_heading.append_text(
+        local_path_text(
+            engine.config.general.sync_directory,
+            str(engine.config.general.sync_directory),
+        )
+    )
+    console.print(target_heading)
+    console.print()
 
     summary = _run_sync_with_folder_status(
         engine,
@@ -699,8 +717,16 @@ def sync(
                     if item.action == SyncAction.SKIP_EXCLUDED
                     else "size"
                 )
-                line = Text(f"- {item.course_name}/{item.node_title}/")
-                line.append(item.filename, style="cyan")
+                course_path = item.course_path or course_directory(
+                    engine.config.general.sync_directory,
+                    engine.config.courses.paths,
+                    item.course_name,
+                )
+                local_path = item.local_path or course_path / item.node_title / item.filename
+                line = Text("- ")
+                line.append_text(local_path_text(course_path, item.course_name))
+                line.append(f"/{item.node_title}/")
+                line.append_text(local_path_text(local_path, item.filename))
                 line.append(f" ({reason}: {item.details})")
                 console.print(line)
         else:
@@ -710,8 +736,16 @@ def sync(
     if failed_items:
         console.print("\n[bold red]Failed files:[/bold red]")
         for item in failed_items:
-            line = Text(f"- {item.course_name}/{item.node_title}/")
-            line.append(item.filename, style="cyan")
+            course_path = item.course_path or course_directory(
+                engine.config.general.sync_directory,
+                engine.config.courses.paths,
+                item.course_name,
+            )
+            local_path = item.local_path or course_path / item.node_title / item.filename
+            line = Text("- ")
+            line.append_text(local_path_text(course_path, item.course_name))
+            line.append(f"/{item.node_title}/")
+            line.append_text(local_path_text(local_path, item.filename))
             if item.error:
                 line.append(f" — {item.error}", style="red")
             console.print(line)
@@ -750,12 +784,12 @@ def sync(
     if summary.changes:
         console.print("\n[bold]File changes:[/bold]")
     for change in summary.changes:
-        console.print(
-            Text(
-                f"{change.prefix} {change.path}",
-                style=change_styles[change.prefix],
-            )
-        )
+        change_path = Path(change.path)
+        if not change_path.is_absolute():
+            change_path = engine.config.general.sync_directory / change_path
+        line = Text(f"{change.prefix} ", style=change_styles[change.prefix])
+        line.append_text(local_path_text(change_path, change.path))
+        console.print(line)
     if summary.error_message:
         error_title = (
             "Sync interrupted" if summary.status == "cancelled" else "Sync failed"
@@ -815,7 +849,18 @@ def courses(
     for c in course_items:
         synced_str = c.last_synced_at.strftime("%Y-%m-%d %H:%M") if c.last_synced_at else "Never"
         status = "[red]Excluded[/red]" if c.is_excluded else "[green]Active[/green]"
-        table.add_row(c.opal_id, c.name, c.semester or "—", synced_str, status)
+        course_path = course_directory(
+            engine.config.general.sync_directory,
+            engine.config.courses.paths,
+            c.name,
+        )
+        table.add_row(
+            c.opal_id,
+            local_path_text(course_path, c.name),
+            c.semester or "—",
+            synced_str,
+            status,
+        )
 
     console.print(table)
 
@@ -845,9 +890,25 @@ def status(
     table.add_row("Password Status", pass_status)
 
     sess_file = engine.config.auth.session.cookie_file
-    table.add_row("Session Cache", f"[green]Present ({sess_file.name})[/green]" if sess_file.is_file() else "[dim]None[/dim]")
+    if sess_file.is_file():
+        table.add_row(
+            "Session Cache",
+            Text.assemble(
+                ("Present (", "green"),
+                local_path_text(sess_file, sess_file.name),
+                (")", "green"),
+            ),
+        )
+    else:
+        table.add_row("Session Cache", "[dim]None[/dim]")
 
-    table.add_row("Sync Directory", str(engine.config.general.sync_directory))
+    table.add_row(
+        "Sync Directory",
+        local_path_text(
+            engine.config.general.sync_directory,
+            str(engine.config.general.sync_directory),
+        ),
+    )
     table.add_row("Total Courses Tracked", str(stats["total_courses"]))
     table.add_row("Total Files Tracked", str(stats["total_files"]))
     total_mb = stats["total_bytes"] / (1024 * 1024)
@@ -929,7 +990,9 @@ def login(
 
         console.print("\n[bold green]✓ Login successful![/bold green]")
         console.print(f"Credentials saved securely in OS Credential Manager for user: [cyan]{config.auth.username}[/cyan]")
-        console.print(f"Configuration saved to: [italic]{saved_path}[/italic]\n")
+        saved = Text("Configuration saved to: ")
+        saved.append_text(local_path_text(saved_path, str(saved_path)))
+        console.print(saved)
 
 
 @app.command()
@@ -978,12 +1041,19 @@ def log(
     for entry in logs:
         lvl = entry["level"].upper()
         lvl_colored = f"[red]{lvl}[/red]" if lvl == "ERROR" else f"[yellow]{lvl}[/yellow]" if lvl == "WARNING" else f"[green]{lvl}[/green]"
+        detail = entry.get("details") or entry.get("file_path") or "—"
+        detail_text: object = detail
+        file_path = entry.get("file_path")
+        if file_path:
+            detail_text = Text(str(detail))
+            detail_text.append(" ")
+            detail_text.append_text(local_path_text(Path(file_path), str(file_path)))
         table.add_row(
             entry["timestamp"],
             lvl_colored,
             entry["action"],
             entry.get("course_name") or "—",
-            entry.get("details") or entry.get("file_path") or "—",
+            detail_text,
         )
 
     console.print(table)
@@ -1000,7 +1070,12 @@ def show_config(
     """View or inspect configuration settings."""
     cfg = load_config(config_path)
     if path:
-        console.print(str(cfg.config_file_path))
+        console.print(
+            local_path_text(
+                cfg.config_file_path,
+                str(cfg.config_file_path),
+            )
+        )
         return
 
     from rich.syntax import Syntax
@@ -1009,7 +1084,12 @@ def show_config(
             syntax = Syntax(f.read(), "toml", theme="monokai", line_numbers=True)
             console.print(syntax)
     else:
-        console.print(f"[yellow]No config file found at {cfg.config_file_path}. Showing in-memory defaults:[/yellow]")
+        missing_config = Text("No config file found at ", style="yellow")
+        missing_config.append_text(
+            local_path_text(cfg.config_file_path, str(cfg.config_file_path))
+        )
+        missing_config.append(". Showing in-memory defaults:", style="yellow")
+        console.print(missing_config)
         import tomli_w
         raw_toml = tomli_w.dumps({
             "general": {"sync_directory": str(cfg.general.sync_directory), "log_level": cfg.general.log_level},

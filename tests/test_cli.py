@@ -11,6 +11,87 @@ from opal_sync.sync.engine import SyncChange, SyncItemReport, SyncSummary
 runner = CliRunner()
 
 
+def test_sync_output_links_known_local_paths(tmp_path, monkeypatch):
+    config_path = tmp_path / "config.toml"
+    config_path.write_text("")
+    sync_directory = tmp_path / "Courses"
+    target_file = sync_directory / "Physics" / "Lectures" / "done.pdf"
+
+    class FakeEngine:
+        config = AppConfig()
+        config.general.sync_directory = sync_directory
+        last_summary = SyncSummary(
+            courses_processed=1,
+            changes=[SyncChange("+", "Physics/Lectures/done.pdf")],
+            items=[
+                SyncItemReport(
+                    course_name="Physics",
+                    node_title="Lectures",
+                    filename="done.pdf",
+                    action=SyncAction.SKIP_EXCLUDED,
+                    details="excluded extension",
+                    local_path=target_file,
+                ),
+            ],
+        )
+
+        async def run_sync(self, **_kwargs):
+            return self.last_summary
+
+    output = StringIO()
+    monkeypatch.setattr(
+        "opal_sync.cli.console",
+        Console(
+            file=output,
+            force_terminal=True,
+            color_system="standard",
+            legacy_windows=False,
+        ),
+    )
+    monkeypatch.setattr("opal_sync.cli.get_configured_engine", lambda _path: FakeEngine())
+
+    result = runner.invoke(
+        app,
+        ["sync", "--config", str(config_path), "--list-skipped-files"],
+    )
+
+    rendered = output.getvalue()
+    assert result.exit_code == 0
+    assert "Target directory:" in rendered
+    assert "file://" in rendered
+    assert "Physics/Lectures/done.pdf" in rendered
+
+
+def test_sync_output_has_no_hyperlinks_without_a_terminal(tmp_path, monkeypatch):
+    config_path = tmp_path / "config.toml"
+    config_path.write_text("")
+
+    class FakeEngine:
+        config = AppConfig()
+        config.general.sync_directory = tmp_path / "Courses"
+        last_summary = SyncSummary(
+            courses_processed=1,
+            changes=[SyncChange("+", "Physics/done.pdf")],
+        )
+
+        async def run_sync(self, **_kwargs):
+            return self.last_summary
+
+    output = StringIO()
+    monkeypatch.setattr(
+        "opal_sync.cli.console",
+        Console(file=output, force_terminal=False, legacy_windows=False),
+    )
+    monkeypatch.setattr("opal_sync.cli.get_configured_engine", lambda _path: FakeEngine())
+
+    result = runner.invoke(app, ["sync", "--config", str(config_path)])
+    rendered = output.getvalue()
+
+    assert result.exit_code == 0
+    assert "Target directory:" in rendered
+    assert "file://" not in rendered
+
+
 def test_download_status_shows_percent_for_large_files_only():
     large = _format_download_status("large.pdf", 67 * 1024 * 1024, 100 * 1024 * 1024)
     small = _format_download_status("small.pdf", 500_000, 800_000)

@@ -88,8 +88,10 @@ class FileDownloader:
         progress_callback: Optional[Callable[[int, Optional[int]], None]] = None,
         download_request: Optional[DownloadRequest] = None,
         preserve_target_filename: bool = False,
+        course_name: Optional[str] = None,
     ) -> DownloadResult:
         """Download file from remote_url to target_path with retries and atomic write."""
+        log_prefix = f"[{course_name}] " if course_name else ""
         target_path = _filesystem_path(Path(target_path).resolve())
         target_dir = target_path.parent
         target_dir.mkdir(parents=True, exist_ok=True)
@@ -105,7 +107,7 @@ class FileDownloader:
         def failed(error_message: str) -> DownloadResult:
             urls = " -> ".join(attempted_urls or [remote_url])
             logger.error(
-                f"Download failed for {target_path.name}; URLs tried: {urls}; "
+                f"{log_prefix}Download failed for {target_path.name}; URLs tried: {urls}; "
                 f"error: {error_message}"
             )
             return DownloadResult(success=False, error_message=error_message)
@@ -174,12 +176,45 @@ class FileDownloader:
                     if str(resp.url) != request_url:
                         attempted_urls.append(str(resp.url))
                     if resp.status_code != 200:
+                        if (
+                            resp.status_code == 400
+                            and download_request
+                            and request_method != "GET"
+                        ):
+                            attempted_urls.append(remote_url)
+                            async with self.client.stream(
+                                "GET",
+                                remote_url,
+                                follow_redirects=True,
+                            ) as direct_resp:
+                                if str(direct_resp.url) != remote_url:
+                                    attempted_urls.append(str(direct_resp.url))
+                                content_type = direct_resp.headers.get(
+                                    "content-type", ""
+                                ).lower()
+                                content_disposition = direct_resp.headers.get(
+                                    "content-disposition", ""
+                                ).lower()
+                                is_attachment = "attachment" in content_disposition
+                                if (
+                                    direct_resp.status_code == 200
+                                    and ("text/html" not in content_type or is_attachment)
+                                ):
+                                    return await self._save_response(
+                                        direct_resp,
+                                        target_path,
+                                        tmp_path,
+                                        progress_callback,
+                                        preserve_target_filename,
+                                    )
                         # Retry on 5xx or 429
                         if resp.status_code in (429, 500, 502, 503, 504):
                             if attempt < self.max_retries:
                                 wait_time = self.backoff_factor ** attempt
                                 logger.warning(
-                                    f"HTTP {resp.status_code} for {remote_url}. Retrying in {wait_time:.1f}s (attempt {attempt}/{self.max_retries})..."
+                                    f"{log_prefix}HTTP {resp.status_code} for {remote_url}. "
+                                    f"Retrying in {wait_time:.1f}s "
+                                    f"(attempt {attempt}/{self.max_retries})..."
                                 )
                                 await asyncio.sleep(wait_time)
                                 continue
@@ -258,7 +293,7 @@ class FileDownloader:
                 if attempt < self.max_retries:
                     wait_time = self.backoff_factor ** attempt
                     logger.warning(
-                        f"Download error on {remote_url}: {last_error}. "
+                        f"{log_prefix}Download error on {remote_url}: {last_error}. "
                         f"Retrying in {wait_time:.1f}s "
                         f"(attempt {attempt}/{self.max_retries})..."
                     )

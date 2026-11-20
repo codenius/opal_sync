@@ -4,6 +4,7 @@ import httpx
 import pytest
 
 from opal_sync.sync.downloader import FileDownloader
+from opal_sync.models.file_entry import DownloadRequest
 
 
 @pytest.mark.asyncio
@@ -52,3 +53,57 @@ async def test_read_timeout_returns_slow_network_advice(tmp_path):
     assert "try syncing again" in result.error_message
     assert not target.exists()
     assert not target.with_name(target.name + ".part").exists()
+
+
+@pytest.mark.asyncio
+async def test_retries_direct_file_get_after_wicket_action_returns_bad_request(tmp_path):
+    direct_gets = 0
+    wicket_posts = 0
+    remote_url = "https://example.test/course/file.pdf"
+    wicket_url = "https://example.test/course"
+    body = b"%PDF-1.7 recovered"
+
+    async def handler(request):
+        nonlocal direct_gets, wicket_posts
+        if request.method == "GET" and str(request.url) == remote_url:
+            direct_gets += 1
+            if direct_gets == 1:
+                return httpx.Response(
+                    200,
+                    text="<html>temporary page</html>",
+                    headers={"content-type": "text/html"},
+                    request=request,
+                )
+            return httpx.Response(
+                200,
+                headers={"content-type": "application/pdf"},
+                content=body,
+                request=request,
+            )
+        if request.method == "POST" and str(request.url) == wicket_url:
+            wicket_posts += 1
+            return httpx.Response(400, text="Bad Request", request=request)
+        return httpx.Response(404, request=request)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        downloader = FileDownloader(
+            client,
+            max_retries=1,
+            request_delay_seconds=0,
+        )
+        target = tmp_path / "file.pdf"
+        result = await downloader.download_file(
+            remote_url,
+            target,
+            download_request=DownloadRequest(
+                url=wicket_url,
+                data={"selection": "file"},
+                headers={"Wicket-Ajax": "true"},
+                method="POST",
+            ),
+        )
+
+    assert result.success
+    assert direct_gets == 2
+    assert wicket_posts == 1
+    assert target.read_bytes() == body

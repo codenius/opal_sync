@@ -68,6 +68,23 @@ class SyncChange:
     path: str
 
 
+@dataclass
+class DownloadJob:
+    file_entry: FileEntry
+    target_path: Path
+    base_file_path: Path
+    course_name: str
+    course_id: int
+    node_title: str
+    action: SyncAction
+    db_file: Optional[FileEntry]
+    was_removed: bool
+    item_report: "SyncItemReport"
+    run_id: Optional[int]
+    progress_callback: Optional[Callable[[str, int, Optional[int]], None]]
+    completion: asyncio.Future
+
+
 class SyncEngine:
     """Orchestrates discovering, diffing, downloading, and tracking course materials."""
 
@@ -139,10 +156,10 @@ class SyncEngine:
         base_file_path: Path,
         course_base_dir: Path,
     ) -> Path:
-        if not db_file or db_file.remote_path != remote_path:
+        if not db_file:
             return resolve_filename_conflict(
                 target_path=base_file_path,
-                remote_url=db_file.remote_url if db_file else "",
+                remote_url="",
             )
 
         tracked_path = Path(db_file.local_path)
@@ -157,6 +174,15 @@ class SyncEngine:
                     f"{tracked_path.name} -> {base_file_path}"
                 )
             return base_file_path
+
+        if tracked_path.is_file():
+            return tracked_path
+
+        if db_file.remote_path != remote_path:
+            return resolve_filename_conflict(
+                target_path=base_file_path,
+                remote_url=db_file.remote_url,
+            )
 
         return tracked_path
 
@@ -232,6 +258,8 @@ class SyncEngine:
         summary = SyncSummary()
         self.last_summary = summary
         active_download_report: Optional[SyncItemReport] = None
+        active_download_reports: dict[int, SyncItemReport] = {}
+        download_workers: list[asyncio.Task] = []
         sync_started = time.perf_counter()
         run_id = self.db.start_sync_run() if not dry_run else None
 
@@ -258,6 +286,142 @@ class SyncEngine:
 
             # Concurrency semaphore for downloads
             semaphore = asyncio.Semaphore(self.config.sync.parallel_downloads)
+            download_queue: asyncio.Queue = asyncio.Queue()
+            download_worker_count = max(1, self.config.sync.parallel_downloads)
+            active_download_reports: dict[int, SyncItemReport] = {}
+            incomplete_courses: set[str] = set()
+            pending_course_downloads: dict[int, set[asyncio.Future]] = {}
+            pending_course_folder_states: dict[
+                int, dict[str, tuple[str, str]]
+            ] = {}
+
+            async def process_download(job: DownloadJob) -> None:
+                async with semaphore:
+                    active_download_reports[id(job)] = job.item_report
+                    if job.progress_callback:
+                        job.progress_callback(
+                            f"{job.course_name} - {job.file_entry.filename}",
+                            0,
+                            job.file_entry.size_bytes,
+                        )
+
+                    logger.info(
+                        f"[{job.course_name}] Downloading: "
+                        f"[green]{job.target_path.name}[/green]"
+                        f"{f' ({job.file_entry.last_modified})' if job.file_entry.last_modified else ''}"
+                    )
+
+                    def report_download_progress(
+                        bytes_received: int,
+                        total_bytes: Optional[int],
+                    ) -> None:
+                        if job.progress_callback:
+                            job.progress_callback(
+                                f"{job.course_name} - {job.file_entry.filename}",
+                                bytes_received,
+                                total_bytes or job.file_entry.size_bytes,
+                            )
+
+                    dl_result = await self.downloader.download_file(
+                        remote_url=job.file_entry.remote_url,
+                        target_path=job.target_path,
+                        progress_callback=report_download_progress,
+                        download_request=job.file_entry.download_request,
+                        preserve_target_filename=job.target_path != job.base_file_path,
+                        course_name=job.course_name,
+                    )
+
+                active_download_reports.pop(id(job), None)
+                if dl_result.success:
+                    if job.action == SyncAction.DOWNLOAD_NEW:
+                        summary.files_new += 1
+                    else:
+                        summary.files_updated += 1
+
+                    summary.bytes_downloaded += dl_result.bytes_downloaded
+                    job.item_report.size_bytes = dl_result.bytes_downloaded
+
+                    job.file_entry.local_path = str(job.target_path)
+                    job.file_entry.size_bytes = dl_result.bytes_downloaded
+                    job.file_entry.etag = dl_result.etag
+                    job.file_entry.last_modified = (
+                        job.file_entry.last_modified or dl_result.last_modified
+                    )
+                    job.file_entry.content_type = dl_result.content_type
+                    if dl_result.resolved_filename:
+                        job.file_entry.filename = dl_result.resolved_filename
+
+                    self.db.upsert_file(job.file_entry)
+                    summary.changes.append(
+                        SyncChange(
+                            "+"
+                            if job.action == SyncAction.DOWNLOAD_NEW
+                            or job.db_file is None
+                            or job.was_removed
+                            else "~",
+                            self._relative_sync_path(job.target_path),
+                        )
+                    )
+                    self.db.log_action(
+                        run_id=job.run_id,
+                        level="INFO",
+                        action="DOWNLOAD",
+                        course_name=job.course_name,
+                        file_path=str(job.target_path),
+                        details=f"Downloaded {dl_result.bytes_downloaded} B",
+                    )
+                else:
+                    summary.files_failed += 1
+                    job.item_report.success = False
+                    job.item_report.error = dl_result.error_message
+                    logger.error(
+                        f"[{job.course_name}] Failed to download "
+                        f"{job.file_entry.filename}: {dl_result.error_message}"
+                    )
+                    self.db.log_action(
+                        run_id=job.run_id,
+                        level="ERROR",
+                        action="DOWNLOAD_FAILED",
+                        course_name=job.course_name,
+                        file_path=str(job.target_path),
+                        details=dl_result.error_message,
+                    )
+
+                summary.items.append(job.item_report)
+                job.completion.set_result(dl_result.success)
+
+            async def execute_download_job(job: DownloadJob) -> None:
+                try:
+                    await process_download(job)
+                except asyncio.CancelledError:
+                    active_download_reports.pop(id(job), None)
+                    job.completion.cancel()
+                    raise
+                except Exception as exc:
+                    logger.exception(
+                        f"[{job.course_name}] Download worker failed for "
+                        f"{job.file_entry.filename}: {exc}"
+                    )
+                    summary.files_failed += 1
+                    job.item_report.success = False
+                    job.item_report.error = str(exc)
+                    summary.items.append(job.item_report)
+                    job.completion.set_result(False)
+
+            async def download_worker() -> None:
+                while True:
+                    job = await download_queue.get()
+                    try:
+                        if job is None:
+                            return
+                        await execute_download_job(job)
+                    finally:
+                        download_queue.task_done()
+
+            download_workers = [
+                asyncio.create_task(download_worker())
+                for _ in range(download_worker_count)
+            ]
 
             for course_data in enrolled_courses:
                 # Optional filter by specific course name or ID from CLI argument
@@ -287,12 +451,15 @@ class SyncEngine:
                 known_folder_states = self.db.get_folder_states(db_course.id)
                 previous_folder_states = dict(known_folder_states)
                 previous_files = self.db.get_course_files(db_course.id)
-                course_failures_before = summary.files_failed
+                course_scan_errors: set[str] = set()
                 current_remote_urls = set()
                 scanned_folder_paths: set[str] = set()
                 observed_folder_paths: set[str] = set()
                 skipped_folder_paths: set[str] = set()
                 pending_folder_states: dict[str, tuple[str, str]] = {}
+                course_download_completions: set[asyncio.Future] = set()
+                visited_folder_urls: set[tuple[str, str, str]] = set()
+                visited_task_urls: set[tuple[str, str, str]] = set()
                 for node_data in nodes:
                     db_node = self.db.upsert_node(node_data)
                     node_relative_path = (
@@ -313,36 +480,24 @@ class SyncEngine:
                     node_scanned_paths: set[str] = set()
                     node_observed_paths: set[str] = set()
                     node_skipped_paths: set[str] = set()
-                    files = await fetch_folder_files(
-                        client=client,
-                        node=db_node,
-                        include_extensions=self.config.sync.include_extensions,
-                        exclude_extensions=self.config.sync.exclude_extensions,
-                        include_excluded=True,
-                        known_folder_states=known_folder_states,
-                        scanned_folder_states=scanned_folder_states,
-                        scanned_folder_paths=node_scanned_paths,
-                        observed_folder_paths=node_observed_paths,
-                        skipped_folder_paths=node_skipped_paths,
-                        rescan=rescan,
-                        folder_callback=folder_callback,
-                    )
-                    scanned_folder_paths.update(node_scanned_paths)
-                    observed_folder_paths.update(node_observed_paths)
-                    skipped_folder_paths.update(node_skipped_paths)
-                    # Keep these in memory until the whole course has finished.
-                    # If traversal, a download, or later sync work aborts, the
-                    # stored date remains old and the next run will revisit it.
-                    pending_folder_states.update(scanned_folder_states)
 
-                    for file_entry in files:
+                    async def process_file_entry(file_entry: FileEntry) -> None:
+                        if file_entry.remote_url in current_remote_urls:
+                            return
                         current_remote_urls.add(file_entry.remote_url)
                         if file_entry.remote_path:
-                            parts = [sanitize_filename(p) for p in Path(file_entry.remote_path).parts]
+                            parts = [
+                                sanitize_filename(p)
+                                for p in Path(file_entry.remote_path).parts
+                            ]
                             base_file_path = course_base_dir.joinpath(*parts)
                         else:
-                            base_file_path = node_dir / sanitize_filename(file_entry.filename)
-                        db_file = self.db.get_file(db_course.id, file_entry.remote_url)
+                            base_file_path = (
+                                node_dir / sanitize_filename(file_entry.filename)
+                            )
+                        db_file = self.db.get_file(
+                            db_course.id, file_entry.remote_url
+                        )
                         was_removed = bool(db_file and db_file.is_removed)
 
                         target_file_path = self._resolve_tracked_file_path(
@@ -353,7 +508,6 @@ class SyncEngine:
                         )
                         file_entry.local_path = str(target_file_path)
 
-                        # Check diff
                         if force_download:
                             action = SyncAction.DOWNLOAD_UPDATE
                             reason = "Forced re-download requested"
@@ -380,7 +534,8 @@ class SyncEngine:
                             if db_file and (
                                 (
                                     file_entry.last_modified
-                                    and file_entry.last_modified != db_file.last_modified
+                                    and file_entry.last_modified
+                                    != db_file.last_modified
                                 )
                                 or db_file.local_path != str(target_file_path)
                             ):
@@ -393,14 +548,22 @@ class SyncEngine:
                                     local_path=str(target_file_path),
                                 )
                             if not dry_run:
-                                self.db.mark_file_present(db_course.id, file_entry.remote_url)
+                                self.db.mark_file_present(
+                                    db_course.id, file_entry.remote_url
+                                )
                             if was_removed and not dry_run:
                                 summary.changes.append(
-                                    SyncChange("+", self._relative_sync_path(target_file_path))
+                                    SyncChange(
+                                        "+",
+                                        self._relative_sync_path(target_file_path),
+                                    )
                                 )
                             summary.items.append(item_report)
-                            continue
-                        elif action in (SyncAction.SKIP_EXCLUDED, SyncAction.SKIP_TOO_LARGE):
+                            return
+                        if action in (
+                            SyncAction.SKIP_EXCLUDED,
+                            SyncAction.SKIP_TOO_LARGE,
+                        ):
                             if action == SyncAction.SKIP_EXCLUDED:
                                 summary.files_excluded += 1
                                 extension = get_file_extension(
@@ -412,7 +575,8 @@ class SyncEngine:
                                 )
                                 if extension:
                                     summary.excluded_extensions[extension] = (
-                                        summary.excluded_extensions.get(extension, 0) + 1
+                                        summary.excluded_extensions.get(extension, 0)
+                                        + 1
                                     )
                             else:
                                 summary.files_too_large += 1
@@ -420,112 +584,121 @@ class SyncEngine:
                                     summary.excluded_bytes += file_entry.size_bytes
                             summary.files_skipped += 1
                             summary.items.append(item_report)
-                            logger.debug(f"Skipping {file_entry.filename}: {reason}")
-                            continue
+                            logger.debug(
+                                f"Skipping {file_entry.filename}: {reason}"
+                            )
+                            return
 
-                        if action == SyncAction.DOWNLOAD_UPDATE and target_file_path.is_file():
+                        if (
+                            action == SyncAction.DOWNLOAD_UPDATE
+                            and target_file_path.is_file()
+                        ):
                             target_file_path = next_version_path(base_file_path)
                             file_entry.local_path = str(target_file_path)
                             item_report.filename = target_file_path.name
 
-                        # File requires download
                         if dry_run:
                             if action == SyncAction.DOWNLOAD_NEW:
                                 summary.files_new += 1
                             else:
                                 summary.files_updated += 1
                             summary.items.append(item_report)
-                            logger.info(f"[DRY-RUN] Would download: [yellow]{file_entry.filename}[/yellow] ({reason})")
-                            continue
-
-                        # Execute actual download with semaphore
-                        async with semaphore:
-                            last_modified = f" ({file_entry.last_modified})" if file_entry.last_modified else ""
-                            logger.info(f"Downloading: [green]{target_file_path.name}[/green]{last_modified}")
-
-                            def report_download_progress(
-                                bytes_received: int,
-                                total_bytes: Optional[int],
-                            ) -> None:
-                                if progress_callback:
-                                    progress_callback(
-                                        file_entry.filename,
-                                        bytes_received,
-                                        total_bytes or file_entry.size_bytes,
-                                    )
-
-                            active_download_report = item_report
-                            if progress_callback:
-                                progress_callback(
-                                    file_entry.filename,
-                                    0,
-                                    file_entry.size_bytes,
-                                )
-                            dl_result = await self.downloader.download_file(
-                                remote_url=file_entry.remote_url,
-                                target_path=target_file_path,
-                                progress_callback=report_download_progress,
-                                download_request=file_entry.download_request,
-                                preserve_target_filename=target_file_path != base_file_path,
+                            logger.info(
+                                f"[{db_course.name}] [DRY-RUN] Would download: "
+                                f"[yellow]{file_entry.filename}[/yellow] ({reason})"
                             )
+                            return
 
-                        if dl_result.success:
-                            if action == SyncAction.DOWNLOAD_NEW:
-                                summary.files_new += 1
-                            else:
-                                summary.files_updated += 1
-
-                            summary.bytes_downloaded += dl_result.bytes_downloaded
-                            item_report.size_bytes = dl_result.bytes_downloaded
-
-                            # Update DB record
-                            file_entry.local_path = str(target_file_path)
-                            file_entry.size_bytes = dl_result.bytes_downloaded
-                            file_entry.etag = dl_result.etag
-                            file_entry.last_modified = (
-                                file_entry.last_modified or dl_result.last_modified
-                            )
-                            file_entry.content_type = dl_result.content_type
-                            if dl_result.resolved_filename:
-                                file_entry.filename = dl_result.resolved_filename
-
-                            self.db.upsert_file(file_entry)
-                            summary.changes.append(
-                                SyncChange(
-                                    "+"
-                                    if action == SyncAction.DOWNLOAD_NEW
-                                    or db_file is None
-                                    or was_removed
-                                    else "~",
-                                    self._relative_sync_path(target_file_path),
-                                )
-                            )
-                            self.db.log_action(
-                                run_id=run_id,
-                                level="INFO",
-                                action="DOWNLOAD",
-                                course_name=db_course.name,
-                                file_path=str(target_file_path),
-                                details=f"Downloaded {dl_result.bytes_downloaded} B",
-                            )
+                        completion = asyncio.get_running_loop().create_future()
+                        course_download_completions.add(completion)
+                        job = DownloadJob(
+                            file_entry=file_entry,
+                            target_path=target_file_path,
+                            base_file_path=base_file_path,
+                            course_name=db_course.name,
+                            course_id=db_course.id,
+                            node_title=db_node.title,
+                            action=action,
+                            db_file=db_file,
+                            was_removed=was_removed,
+                            item_report=item_report,
+                            run_id=run_id,
+                            progress_callback=progress_callback,
+                            completion=completion,
+                        )
+                        if file_entry.download_request:
+                            await execute_download_job(job)
                         else:
-                            summary.files_failed += 1
-                            item_report.success = False
-                            item_report.error = dl_result.error_message
-                            logger.error(f"Failed to download {file_entry.filename}: {dl_result.error_message}")
-                            self.db.log_action(
-                                run_id=run_id,
-                                level="ERROR",
-                                action="DOWNLOAD_FAILED",
-                                course_name=db_course.name,
-                                file_path=str(target_file_path),
-                                details=dl_result.error_message,
-                            )
+                            download_queue.put_nowait(job)
 
-                        summary.items.append(item_report)
-                        active_download_report = None
+                    files = await fetch_folder_files(
+                        client=client,
+                        node=db_node,
+                        include_extensions=self.config.sync.include_extensions,
+                        exclude_extensions=self.config.sync.exclude_extensions,
+                        include_excluded=True,
+                        known_folder_states=known_folder_states,
+                        scanned_folder_states=scanned_folder_states,
+                        scanned_folder_paths=node_scanned_paths,
+                        observed_folder_paths=node_observed_paths,
+                        skipped_folder_paths=node_skipped_paths,
+                        rescan=rescan,
+                        visited_folder_urls=(
+                            visited_task_urls
+                            if db_node.node_type == "task"
+                            else visited_folder_urls
+                        ),
+                        folder_callback=folder_callback,
+                        scan_errors=course_scan_errors,
+                        file_callback=process_file_entry,
+                    )
+                    scanned_folder_paths.update(node_scanned_paths)
+                    observed_folder_paths.update(node_observed_paths)
+                    skipped_folder_paths.update(node_skipped_paths)
+                    # Save these only after the queued downloads finish. A
+                    # failed or interrupted download must leave the old state
+                    # so the next run will revisit the folder.
+                    pending_folder_states.update(scanned_folder_states)
 
-                if not dry_run:
+                    for file_entry in files:
+                        if file_entry.remote_url not in current_remote_urls:
+                            await process_file_entry(file_entry)
+
+                pending_course_downloads[db_course.id] = (
+                    course_download_completions
+                )
+                unaccounted_previous_files = []
+                for previous_file in previous_files:
+                    remote_parent = (
+                        PurePosixPath(
+                            previous_file.remote_path.replace("\\", "/")
+                        ).parent.as_posix()
+                        if previous_file.remote_path
+                        else None
+                    )
+                    if remote_parent is None or not any(
+                        remote_parent == path or remote_parent.startswith(path + "/")
+                        for path in skipped_folder_paths
+                    ):
+                        unaccounted_previous_files.append(previous_file)
+                if unaccounted_previous_files and not current_remote_urls:
+                    course_scan_errors.add("<empty-course-scan>")
+                    logger.warning(
+                        f"Course '{db_course.name}' returned no files despite "
+                        f"{len(unaccounted_previous_files)} previously tracked files "
+                        "outside unchanged folders; "
+                        "preserving removal state"
+                    )
+
+                if course_scan_errors:
+                    incomplete_courses.add(db_course.name)
+                    logger.warning(
+                        f"Course '{db_course.name}' had incomplete folder scans at "
+                        f"{', '.join(sorted(course_scan_errors))}; "
+                        "skipping removal reconciliation and folder-state updates"
+                    )
+
+                if not dry_run and not course_scan_errors:
                     missing_folder_paths = set()
                     for _, (remote_path, _) in previous_folder_states.items():
                         folder_path = PurePosixPath(remote_path.replace("\\", "/"))
@@ -580,34 +753,61 @@ class SyncEngine:
 
                 # Mark course synced
                 if not dry_run:
-                    if summary.files_failed == course_failures_before:
-                        for folder_url, (remote_path, last_modified) in pending_folder_states.items():
-                            self.db.upsert_folder_state(
-                                course_id=db_course.id,
-                                remote_url=folder_url,
-                                remote_path=remote_path,
-                                last_modified=last_modified,
-                            )
-                            known_folder_states[folder_url] = (remote_path, last_modified)
+                    if not course_scan_errors:
+                        pending_course_folder_states[db_course.id] = (
+                            pending_folder_states
+                        )
                     self.db.mark_course_synced(db_course.id)
+
+            if incomplete_courses:
+                summary.status = "partial"
+                summary.error_message = (
+                    "Incomplete folder scans prevented removal reconciliation for: "
+                    + ", ".join(sorted(incomplete_courses))
+                )
+
+            for _ in download_workers:
+                download_queue.put_nowait(None)
+            await asyncio.gather(*download_workers)
+            for course_id, folder_states in pending_course_folder_states.items():
+                downloads_succeeded = all(
+                    await asyncio.gather(
+                        *pending_course_downloads.get(course_id, set())
+                    )
+                )
+                if not downloads_succeeded:
+                    continue
+                for folder_url, (remote_path, last_modified) in folder_states.items():
+                    self.db.upsert_folder_state(
+                        course_id=course_id,
+                        remote_url=folder_url,
+                        remote_path=remote_path,
+                        last_modified=last_modified,
+                    )
 
         except asyncio.CancelledError:
             summary.status = "cancelled"
             summary.error_message = "Sync interrupted by Ctrl+C. Completed changes are listed below."
-            if active_download_report is not None:
-                active_download_report.success = False
-                active_download_report.error = "Download interrupted by Ctrl+C."
+            for report in active_download_reports.values():
+                report.success = False
+                report.error = "Download interrupted by Ctrl+C."
                 summary.files_failed += 1
-                summary.items.append(active_download_report)
+                summary.items.append(report)
+            for worker in download_workers:
+                worker.cancel()
+            await asyncio.gather(*download_workers, return_exceptions=True)
             logger.warning(summary.error_message)
         except KeyboardInterrupt:
             summary.status = "cancelled"
             summary.error_message = "Sync interrupted by Ctrl+C. Completed changes are listed below."
-            if active_download_report is not None:
-                active_download_report.success = False
-                active_download_report.error = "Download interrupted by Ctrl+C."
+            for report in active_download_reports.values():
+                report.success = False
+                report.error = "Download interrupted by Ctrl+C."
                 summary.files_failed += 1
-                summary.items.append(active_download_report)
+                summary.items.append(report)
+            for worker in download_workers:
+                worker.cancel()
+            await asyncio.gather(*download_workers, return_exceptions=True)
             logger.warning(summary.error_message)
         except Exception as e:
             logger.exception(f"Sync failed with unhandled exception: {e}")
@@ -624,11 +824,14 @@ class SyncEngine:
                 )
             else:
                 summary.error_message = str(e)
-            if active_download_report is not None:
-                active_download_report.success = False
-                active_download_report.error = summary.error_message
+            for report in active_download_reports.values():
+                report.success = False
+                report.error = summary.error_message
                 summary.files_failed += 1
-                summary.items.append(active_download_report)
+                summary.items.append(report)
+            for worker in download_workers:
+                worker.cancel()
+            await asyncio.gather(*download_workers, return_exceptions=True)
             if run_id:
                 self.db.log_action(
                     run_id=run_id,

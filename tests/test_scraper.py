@@ -1,12 +1,95 @@
+import asyncio
 import httpx
 import pytest
 from bs4 import BeautifulSoup
 from opal_sync.scraper.courses import parse_my_courses_html, extract_semester
 from opal_sync.scraper.course_tree import parse_course_tree_html
-from opal_sync.scraper.folder import _fetch_folder_view, fetch_folder_files
+from opal_sync.scraper import folder as folder_scraper
+from opal_sync.scraper.folder import (
+    _fetch_folder_view,
+    _folder_url_alias_matches,
+    fetch_folder_files,
+)
 from opal_sync.scraper.file_links import extract_files_from_soup, parse_human_size
 from opal_sync.scraper.wicket import WicketResponse
+from opal_sync.models.file_entry import DownloadRequest, FileEntry
 from opal_sync.models.node import CourseNode
+
+
+def test_folder_url_alias_matches_intermediate_segment_variants():
+    root = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    assert _folder_url_alias_matches(
+        root + "/beispiele",
+        root + "/grundlagen/beispiele",
+    )
+    assert not _folder_url_alias_matches(
+        root + "/klausur",
+        root + "/grundlagen/beispiele",
+    )
+
+
+@pytest.mark.asyncio
+async def test_wicket_file_callback_runs_before_crawling_subfolders(monkeypatch):
+    root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    child_url = root_url + "/Unterlagen"
+    root_html = """
+    <table><tr><td>Ordner</td>
+    <td><a href="/opal/auth/RepositoryEntry/1/CourseNode/10/Unterlagen">
+    Unterlagen</a></td></tr></table>
+    """
+    wicket_file = FileEntry(
+        course_id=1,
+        remote_url=root_url + "?returned-file=returned.pdf",
+        remote_path=None,
+        local_path="",
+        filename="returned.pdf",
+        extension=".pdf",
+        download_request=DownloadRequest(
+            url=root_url + "?download",
+            data={},
+            headers={"Wicket-Ajax": "true"},
+        ),
+    )
+    callback_finished = False
+    child_opened_before_callback = False
+
+    def fake_extract_files(*, base_url, **_kwargs):
+        return [wicket_file] if base_url.rstrip("/") == root_url else []
+
+    monkeypatch.setattr(
+        folder_scraper, "extract_files_from_soup", fake_extract_files
+    )
+
+    async def handler(request):
+        nonlocal child_opened_before_callback
+        if str(request.url) == root_url:
+            return httpx.Response(200, text=root_html, request=request)
+        if str(request.url) == child_url:
+            child_opened_before_callback = not callback_finished
+            return httpx.Response(200, text="<table></table>", request=request)
+        return httpx.Response(404, request=request)
+
+    async def file_callback(_file_entry):
+        nonlocal callback_finished
+        await asyncio.sleep(0)
+        callback_finished = True
+
+    node = CourseNode(
+        course_id=1,
+        node_id="10",
+        title="Kursmaterialien",
+        url=root_url,
+    )
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        await fetch_folder_files(
+            client,
+            node,
+            allowed_extensions=[".pdf"],
+            file_callback=file_callback,
+        )
+
+    assert callback_finished
+    assert not child_opened_before_callback
 
 
 def test_extract_semester():
@@ -359,6 +442,86 @@ async def test_folder_view_retries_read_timeout(monkeypatch):
 
 
 @pytest.mark.asyncio
+async def test_folder_view_retries_transient_http_error(monkeypatch):
+    request_count = 0
+    url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+
+    async def handler(request):
+        nonlocal request_count
+        request_count += 1
+        if request_count == 1:
+            return httpx.Response(503, request=request)
+        return httpx.Response(200, text="<html><body>folder</body></html>", request=request)
+
+    async def no_wait(_seconds):
+        return None
+
+    monkeypatch.setattr("opal_sync.scraper.folder.asyncio.sleep", no_wait)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        view = await _fetch_folder_view(client, url)
+
+    assert view is not None
+    assert request_count == 2
+
+
+@pytest.mark.asyncio
+async def test_folder_view_follows_wicket_redirect():
+    folder_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    redirected_url = folder_url + "?view=42"
+
+    async def handler(request):
+        if str(request.url) == folder_url:
+            return httpx.Response(
+                200,
+                text=(
+                    "<ajax-response><redirect><![CDATA["
+                    + redirected_url
+                    + "]]></redirect></ajax-response>"
+                ),
+                headers={"Ajax-Location": redirected_url},
+                request=request,
+            )
+        return httpx.Response(
+            200,
+            text="<html><body>folder listing</body></html>",
+            request=request,
+        )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        view = await _fetch_folder_view(client, folder_url)
+
+    assert view is not None
+    assert "folder listing" in view.soup.get_text()
+    assert view.response_url == redirected_url
+
+
+@pytest.mark.asyncio
+async def test_folder_view_rejects_wicket_redirect_to_another_course():
+    folder_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    foreign_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/2/CourseNode/10"
+    requests = []
+
+    async def handler(request):
+        requests.append(str(request.url))
+        return httpx.Response(
+            200,
+            text=(
+                "<ajax-response><redirect><![CDATA["
+                + foreign_url
+                + "]]></redirect></ajax-response>"
+            ),
+            headers={"Ajax-Location": foreign_url},
+            request=request,
+        )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        view = await _fetch_folder_view(client, folder_url)
+
+    assert view is None
+    assert requests == [folder_url]
+
+
+@pytest.mark.asyncio
 async def test_nested_folder_listing_uses_its_actual_file_url():
     root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
     nested_url = root_url + "/Vorlesungsmaterialien"
@@ -404,6 +567,130 @@ async def test_nested_folder_listing_uses_its_actual_file_url():
         "Material zur Lehrveranstaltung/Physik I/Kursmaterialien/"
         "Vorlesungsmaterialien/Vorlesung_06.pdf"
     )
+
+
+@pytest.mark.asyncio
+async def test_nested_node_reuses_visited_folder_urls():
+    root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    nested_url = root_url + "/Vorlesungsmaterialien"
+    root_html = """
+    <table><tr><td>Ordner</td>
+    <td><a href="/opal/auth/RepositoryEntry/1/CourseNode/10/Vorlesungsmaterialien">
+    Vorlesungsmaterialien</a></td></tr></table>
+    """
+    nested_html = """
+    <table><tr><td>PDF-Dokument</td>
+    <td><a href="/opal/auth/RepositoryEntry/1/CourseNode/10/Vorlesungsmaterialien/Vorlesung_06.pdf">
+    Vorlesung_06.pdf</a></td></tr></table>
+    """
+    parent_node = CourseNode(
+        course_id=1,
+        node_id="10",
+        title="Kursmaterialien",
+        url=root_url,
+        relative_path="Kursmaterialien",
+    )
+    child_node = CourseNode(
+        course_id=1,
+        node_id="11",
+        title="Vorlesungsmaterialien",
+        url=nested_url,
+        relative_path="Kursmaterialien/Vorlesungsmaterialien",
+    )
+    requests = []
+
+    async def handler(request):
+        requests.append(str(request.url))
+        html = {
+            root_url: root_html,
+            nested_url: nested_html,
+        }.get(str(request.url))
+        if html is None:
+            return httpx.Response(404, request=request)
+        return httpx.Response(200, text=html, request=request)
+
+    visited_folder_urls = set()
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        parent_files = await fetch_folder_files(
+            client,
+            parent_node,
+            allowed_extensions=[".pdf"],
+            visited_folder_urls=visited_folder_urls,
+        )
+        child_files = await fetch_folder_files(
+            client,
+            child_node,
+            allowed_extensions=[".pdf"],
+            visited_folder_urls=visited_folder_urls,
+        )
+
+    assert len(parent_files) == 1
+    assert child_files == []
+    assert requests.count(nested_url) == 1
+
+
+@pytest.mark.asyncio
+async def test_failed_nested_folder_can_be_retried_as_a_course_node():
+    root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    nested_url = root_url + "/Vorlesungsmaterialien"
+    root_html = """
+    <table><tr><td>Ordner</td>
+    <td><a href="/opal/auth/RepositoryEntry/1/CourseNode/10/Vorlesungsmaterialien">
+    Vorlesungsmaterialien</a></td></tr></table>
+    """
+    nested_html = """
+    <table><tr><td>PDF-Dokument</td>
+    <td><a href="/opal/auth/RepositoryEntry/1/CourseNode/10/Vorlesungsmaterialien/Vorlesung_06.pdf">
+    Vorlesung_06.pdf</a></td></tr></table>
+    """
+    parent_node = CourseNode(
+        course_id=1,
+        node_id="10",
+        title="Kursmaterialien",
+        url=root_url,
+        relative_path="Kursmaterialien",
+    )
+    child_node = CourseNode(
+        course_id=1,
+        node_id="11",
+        title="Vorlesungsmaterialien",
+        url=nested_url,
+        relative_path="Kursmaterialien/Vorlesungsmaterialien",
+    )
+    nested_requests = 0
+
+    async def handler(request):
+        nonlocal nested_requests
+        if str(request.url) == root_url:
+            return httpx.Response(200, text=root_html, request=request)
+        if str(request.url) == nested_url:
+            nested_requests += 1
+            if nested_requests == 1:
+                return httpx.Response(404, request=request)
+            return httpx.Response(200, text=nested_html, request=request)
+        return httpx.Response(404, request=request)
+
+    visited_folder_urls = set()
+    scan_errors = set()
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        await fetch_folder_files(
+            client,
+            parent_node,
+            allowed_extensions=[".pdf"],
+            visited_folder_urls=visited_folder_urls,
+            scan_errors=scan_errors,
+        )
+        child_files = await fetch_folder_files(
+            client,
+            child_node,
+            allowed_extensions=[".pdf"],
+            visited_folder_urls=visited_folder_urls,
+            scan_errors=scan_errors,
+        )
+
+    assert len(child_files) == 1
+    assert nested_requests == 2
+    assert scan_errors == {"Kursmaterialien/Vorlesungsmaterialien"}
 
 
 @pytest.mark.asyncio
@@ -494,6 +781,194 @@ async def test_folder_navigation_uses_wicket_link_action_and_keeps_paths():
     assert folder_url not in requested_urls
     assert any("7-1.1-folderLink" in url for url in requested_urls)
     assert any("7-1.1-folder2Link" in url for url in requested_urls)
+
+
+@pytest.mark.asyncio
+async def test_folder_navigation_refreshes_parent_after_stale_wicket_action():
+    root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    folder_url = root_url + "/Seminarmaterialien"
+    file_url = folder_url + "/Seminar_01.pdf"
+    root_html = f"""
+    <form id="root-form">
+      <table>
+        <tr><td><input type="checkbox" name="multiSelectGroup" value="folder"></td>
+        <td><span title="Ordner"></span>
+        <a id="folder-link" href="{folder_url}">Seminarmaterialien</a></td></tr>
+      </table>
+      <input type="submit" name="tableMultiAction" value="Download">
+    </form>
+    <script>
+      Wicket.Ajax.baseUrl = "auth/RepositoryEntry/1/CourseNode/10";
+      Wicket.Ajax.ajax({{"u":"/opal/auth/RepositoryEntry/1/CourseNode/10?7-folderLink","c":"folder-link","e":"click"}});
+    </script>
+    """
+    folder_component = f"""
+    <form id="child-form">
+      <table>
+        <tr><td><input type="checkbox" name="multiSelectGroup" value="seminar">
+        <span title="PDF-Dokument"></span>
+        <a href="{file_url}">Seminar_01.pdf</a></td></tr>
+      </table>
+      <input type="submit" name="tableMultiAction" value="Download">
+    </form>
+    """
+    ajax_response = f"""
+    <ajax-response>
+      <component id="listing"><![CDATA[{folder_component}]]></component>
+    </ajax-response>
+    """
+    node = CourseNode(course_id=1, node_id="10", title="Kursmaterialien", url=root_url)
+    action_requests = 0
+
+    async def handler(request):
+        nonlocal action_requests
+        if str(request.url) == root_url:
+            return httpx.Response(200, text=root_html, request=request)
+        if "7-folderLink" in str(request.url):
+            action_requests += 1
+            if action_requests == 1:
+                return httpx.Response(200, text=root_html, request=request)
+            return httpx.Response(200, text=ajax_response, request=request)
+        if str(request.url) == folder_url:
+            return httpx.Response(200, text=root_html, request=request)
+        return httpx.Response(404, request=request)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        scan_errors = set()
+        files = await fetch_folder_files(client, node, scan_errors=scan_errors)
+
+    assert [file.filename for file in files] == ["Seminar_01.pdf"]
+    assert action_requests == 2
+    assert scan_errors == set()
+
+
+@pytest.mark.asyncio
+async def test_folder_navigation_refreshes_parent_when_child_is_missing():
+    root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    folder_url = root_url + "/Vorlesungsunterlagen"
+    file_url = folder_url + "/Vorlesung_01.pdf"
+    root_html = f"""
+    <form id="root-form">
+      <table>
+        <tr><td><input type="checkbox" name="multiSelectGroup" value="folder"></td>
+        <td><span title="Ordner"></span>
+        <a id="folder-link" href="{folder_url}">Vorlesungsunterlagen</a></td></tr>
+      </table>
+      <input type="submit" name="tableMultiAction" value="Download">
+    </form>
+    <script>
+      Wicket.Ajax.baseUrl = "auth/RepositoryEntry/1/CourseNode/10";
+      Wicket.Ajax.ajax({{"u":"/opal/auth/RepositoryEntry/1/CourseNode/10?7-folderLink","c":"folder-link","e":"click"}});
+    </script>
+    """
+    folder_component = f"""
+    <form id="child-form">
+      <table>
+        <tr><td><input type="checkbox" name="multiSelectGroup" value="file">
+        <span title="PDF-Dokument"></span>
+        <a href="{file_url}">Vorlesung_01.pdf</a></td></tr>
+      </table>
+      <input type="submit" name="tableMultiAction" value="Download">
+    </form>
+    """
+    ajax_response = f"""
+    <ajax-response>
+      <component id="listing"><![CDATA[{folder_component}]]></component>
+    </ajax-response>
+    """
+    node = CourseNode(course_id=1, node_id="10", title="Kursmaterialien", url=root_url)
+    root_requests = 0
+
+    async def handler(request):
+        nonlocal root_requests
+        if str(request.url) == root_url:
+            root_requests += 1
+            if root_requests == 2:
+                return httpx.Response(200, text="<html><body>stale</body></html>", request=request)
+            return httpx.Response(200, text=root_html, request=request)
+        if "7-folderLink" in str(request.url):
+            return httpx.Response(200, text=ajax_response, request=request)
+        return httpx.Response(404, request=request)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        scan_errors = set()
+        files = await fetch_folder_files(client, node, scan_errors=scan_errors)
+
+    assert [file.filename for file in files] == ["Vorlesung_01.pdf"]
+    assert root_requests == 3
+    assert scan_errors == set()
+
+
+@pytest.mark.asyncio
+async def test_folder_navigation_refreshes_parent_after_unrelated_ajax_listing():
+    root_url = "https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/1/CourseNode/10"
+    folder_url = root_url + "/Vorlesungsunterlagen"
+    sibling_url = root_url + "/Uebungen"
+    file_url = folder_url + "/Vorlesung_01.pdf"
+    root_html = f"""
+    <form id="root-form">
+      <table>
+        <tr><td><input type="checkbox" name="multiSelectGroup" value="folder"></td>
+        <td><span title="Ordner"></span>
+        <a id="folder-link" href="{folder_url}">Vorlesungsunterlagen</a></td></tr>
+      </table>
+      <input type="submit" name="tableMultiAction" value="Download">
+    </form>
+    <script>
+      Wicket.Ajax.baseUrl = "auth/RepositoryEntry/1/CourseNode/10";
+      Wicket.Ajax.ajax({{"u":"/opal/auth/RepositoryEntry/1/CourseNode/10?7-folderLink","c":"folder-link","e":"click"}});
+    </script>
+    """
+    sibling_component = f"""
+    <form id="sibling-form">
+      <table>
+        <tr><td><input type="checkbox" name="multiSelectGroup" value="sibling"></td>
+        <td><span title="Ordner"></span>
+        <a href="{sibling_url}">Uebungen</a></td></tr>
+      </table>
+      <input type="submit" name="tableMultiAction" value="Download">
+    </form>
+    """
+    file_component = f"""
+    <form id="child-form">
+      <table>
+        <tr><td><input type="checkbox" name="multiSelectGroup" value="file">
+        <span title="PDF-Dokument"></span>
+        <a href="{file_url}">Vorlesung_01.pdf</a></td></tr>
+      </table>
+      <input type="submit" name="tableMultiAction" value="Download">
+    </form>
+    """
+    stale_ajax = f"""
+    <ajax-response>
+      <component id="listing"><![CDATA[{sibling_component}]]></component>
+    </ajax-response>
+    """
+    valid_ajax = f"""
+    <ajax-response>
+      <component id="listing"><![CDATA[{file_component}]]></component>
+    </ajax-response>
+    """
+    node = CourseNode(course_id=1, node_id="10", title="Kursmaterialien", url=root_url)
+    action_requests = 0
+
+    async def handler(request):
+        nonlocal action_requests
+        if str(request.url) == root_url:
+            return httpx.Response(200, text=root_html, request=request)
+        if "7-folderLink" in str(request.url):
+            action_requests += 1
+            response_body = stale_ajax if action_requests == 1 else valid_ajax
+            return httpx.Response(200, text=response_body, request=request)
+        return httpx.Response(404, request=request)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        scan_errors = set()
+        files = await fetch_folder_files(client, node, scan_errors=scan_errors)
+
+    assert [file.filename for file in files] == ["Vorlesung_01.pdf"]
+    assert action_requests == 2
+    assert scan_errors == set()
 
 
 @pytest.mark.asyncio

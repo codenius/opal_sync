@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 import pytest
 import respx
@@ -10,7 +11,7 @@ from opal_sync.models.node import CourseNode
 from opal_sync.storage.db import Database
 from opal_sync.sync.conflict import next_version_path, resolve_filename_conflict
 from opal_sync.sync.differ import SyncAction, determine_sync_action
-from opal_sync.sync.downloader import FileDownloader, parse_content_disposition
+from opal_sync.sync.downloader import DownloadResult, FileDownloader, parse_content_disposition
 from opal_sync.sync.engine import SyncEngine
 
 
@@ -266,6 +267,34 @@ def test_tracked_version_in_course_folder_is_preserved(tmp_path):
     assert tracked_path.read_bytes() == b"previous version"
 
 
+def test_tracked_version_is_preserved_when_duplicate_discovery_changes_remote_path(tmp_path):
+    config = AppConfig()
+    config.general.sync_directory = tmp_path / "sync"
+    engine = SyncEngine(config=config, db=Database(tmp_path / "paths.db"))
+    course_dir = config.general.sync_directory / "Mathematik"
+    tracked_path = course_dir / "Kurs" / "duplicate-2.pdf"
+    canonical_path = course_dir / "Another Folder" / "duplicate.pdf"
+    tracked_path.parent.mkdir(parents=True)
+    tracked_path.write_bytes(b"existing version")
+    db_file = FileEntry(
+        course_id=1,
+        remote_url="https://example.com/duplicate.pdf",
+        remote_path="Kurs/duplicate.pdf",
+        local_path=str(tracked_path),
+        filename="duplicate.pdf",
+    )
+
+    resolved = engine._resolve_tracked_file_path(
+        db_file,
+        "Another Folder/duplicate.pdf",
+        canonical_path,
+        course_dir,
+    )
+
+    assert resolved == tracked_path
+    assert tracked_path.read_bytes() == b"existing version"
+
+
 @pytest.mark.asyncio
 async def test_file_downloader(tmp_path):
     content = b"%PDF-1.7\nPDF payload data for testing downloader"
@@ -499,6 +528,464 @@ async def test_file_downloader_uses_opal_redirect_without_pdf_validation(tmp_pat
 
 
 @pytest.mark.asyncio
+async def test_sync_starts_download_before_discovery_finishes(
+    tmp_path, monkeypatch
+):
+    cfg = AppConfig()
+    cfg.general.sync_directory = tmp_path / "OPAL_Sync"
+    cfg.sync.request_delay_seconds = 0.0
+    cfg.sync.parallel_downloads = 1
+    db = Database(tmp_path / "overlap.db")
+    course = db.upsert_course(
+        Course(
+            opal_id="123",
+            name="Mathematik",
+            url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123",
+        )
+    )
+    node = CourseNode(
+        course_id=course.id,
+        node_id="456",
+        title="Kursmaterialien",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/456",
+    )
+    second_node = CourseNode(
+        course_id=course.id,
+        node_id="457",
+        title="Uebungsaufgaben",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/457",
+    )
+    download_started = asyncio.Event()
+    discovery_finished = asyncio.Event()
+
+    async def fetch_courses(_client):
+        return [course]
+
+    async def fetch_nodes(_client, _course_url, _course_id):
+        return [node, second_node]
+
+    async def fetch_files(client, node, **_kwargs):
+        if node.node_id == "456":
+            return [
+                FileEntry(
+                    course_id=course.id,
+                    remote_url="https://example.com/lecture.pdf",
+                    remote_path="Kursmaterialien/lecture.pdf",
+                    local_path="",
+                    filename="lecture.pdf",
+                    extension=".pdf",
+                    size_bytes=100,
+                )
+            ]
+        await asyncio.wait_for(download_started.wait(), timeout=1)
+        discovery_finished.set()
+        return []
+
+    class OverlapDownloader:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def download_file(self, *args, **kwargs):
+            download_started.set()
+            await asyncio.sleep(0.05)
+            assert discovery_finished.is_set()
+            target_path = kwargs["target_path"]
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            target_path.write_bytes(b"%PDF-1.7")
+            return DownloadResult(
+                success=True,
+                bytes_downloaded=8,
+                resolved_filename=target_path.name,
+            )
+
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_my_courses", fetch_courses)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_course_nodes", fetch_nodes)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_folder_files", fetch_files)
+    monkeypatch.setattr("opal_sync.sync.engine.FileDownloader", OverlapDownloader)
+
+    async with httpx.AsyncClient() as client:
+        engine = SyncEngine(config=cfg, db=db, client=client)
+        monkeypatch.setattr(engine, "ensure_authenticated", lambda _client: _async_true())
+        summary = await engine.run_sync(course_filter="Mathematik")
+
+    assert summary.status == "success"
+    assert summary.files_new == 1
+    assert download_started.is_set()
+    assert discovery_finished.is_set()
+
+
+@pytest.mark.asyncio
+async def test_sync_waits_for_wicket_download_before_next_node(
+    tmp_path, monkeypatch
+):
+    cfg = AppConfig()
+    cfg.general.sync_directory = tmp_path / "OPAL_Sync"
+    cfg.sync.request_delay_seconds = 0.0
+    cfg.sync.parallel_downloads = 2
+    db = Database(tmp_path / "wicket-order.db")
+    course = db.upsert_course(
+        Course(
+            opal_id="123",
+            name="Mathematik",
+            url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123",
+        )
+    )
+    first_node = CourseNode(
+        course_id=course.id,
+        node_id="456",
+        title="Kursmaterialien",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/456",
+    )
+    second_node = CourseNode(
+        course_id=course.id,
+        node_id="457",
+        title="Weitere Materialien",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/457",
+    )
+    wicket_download_finished = asyncio.Event()
+    next_node_seen_before_wicket_finished = False
+
+    async def fetch_courses(_client):
+        return [course]
+
+    async def fetch_nodes(_client, _course_url, _course_id):
+        return [first_node, second_node]
+
+    async def fetch_files(client, node, **_kwargs):
+        nonlocal next_node_seen_before_wicket_finished
+        if node.node_id == "457":
+            next_node_seen_before_wicket_finished = (
+                not wicket_download_finished.is_set()
+            )
+            return []
+        file_entry = FileEntry(
+            course_id=course.id,
+            remote_url="https://example.com/returned.pdf",
+            remote_path="Kursmaterialien/returned.pdf",
+            local_path="",
+            filename="returned.pdf",
+            extension=".pdf",
+            size_bytes=8,
+            download_request=DownloadRequest(
+                url="https://example.com/wicket-action",
+                data={},
+                headers={"Wicket-Ajax": "true"},
+            ),
+        )
+        await _kwargs["file_callback"](file_entry)
+        return [file_entry]
+
+    class WicketDownloader:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def download_file(self, *args, **kwargs):
+            await asyncio.sleep(0.05)
+            wicket_download_finished.set()
+            target_path = kwargs["target_path"]
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            target_path.write_bytes(b"%PDF-1.7")
+            return DownloadResult(
+                success=True,
+                bytes_downloaded=8,
+                resolved_filename=target_path.name,
+            )
+
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_my_courses", fetch_courses)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_course_nodes", fetch_nodes)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_folder_files", fetch_files)
+    monkeypatch.setattr("opal_sync.sync.engine.FileDownloader", WicketDownloader)
+
+    async with httpx.AsyncClient() as client:
+        engine = SyncEngine(config=cfg, db=db, client=client)
+        monkeypatch.setattr(engine, "ensure_authenticated", lambda _client: _async_true())
+        summary = await engine.run_sync(course_filter="Mathematik")
+
+    assert summary.status == "success"
+    assert summary.files_new == 1
+    assert not next_node_seen_before_wicket_finished
+
+
+@pytest.mark.asyncio
+async def test_sync_keeps_regular_downloads_running_during_wicket_download(
+    tmp_path, monkeypatch
+):
+    cfg = AppConfig()
+    cfg.general.sync_directory = tmp_path / "OPAL_Sync"
+    cfg.sync.request_delay_seconds = 0.0
+    cfg.sync.parallel_downloads = 2
+    db = Database(tmp_path / "wicket-parallel.db")
+    course = db.upsert_course(
+        Course(
+            opal_id="123",
+            name="Mathematik",
+            url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123",
+        )
+    )
+    regular_node = CourseNode(
+        course_id=course.id,
+        node_id="456",
+        title="Direkte Dateien",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/456",
+    )
+    wicket_node = CourseNode(
+        course_id=course.id,
+        node_id="457",
+        title="Rückgabe",
+        node_type="task",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/457",
+    )
+    regular_download_finished = asyncio.Event()
+    wicket_started_before_regular_finished = False
+
+    async def fetch_courses(_client):
+        return [course]
+
+    async def fetch_nodes(_client, _course_url, _course_id):
+        return [regular_node, wicket_node]
+
+    async def fetch_files(client, node, **kwargs):
+        if node.node_id == "456":
+            return [
+                FileEntry(
+                    course_id=course.id,
+                    remote_url="https://example.com/regular.pdf",
+                    remote_path="Direkte Dateien/regular.pdf",
+                    local_path="",
+                    filename="regular.pdf",
+                    extension=".pdf",
+                    size_bytes=8,
+                )
+            ]
+        file_entry = FileEntry(
+            course_id=course.id,
+            remote_url="https://example.com/returned.pdf",
+            remote_path="Rückgabe/returned.pdf",
+            local_path="",
+            filename="returned.pdf",
+            extension=".pdf",
+            size_bytes=8,
+            download_request=DownloadRequest(
+                url="https://example.com/wicket-action",
+                data={},
+                headers={"Wicket-Ajax": "true"},
+            ),
+        )
+        await kwargs["file_callback"](file_entry)
+        return [file_entry]
+
+    class ParallelDownloader:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def download_file(self, *args, **kwargs):
+            nonlocal wicket_started_before_regular_finished
+            if kwargs["download_request"]:
+                wicket_started_before_regular_finished = (
+                    not regular_download_finished.is_set()
+                )
+            else:
+                await asyncio.sleep(0.1)
+                regular_download_finished.set()
+            target_path = kwargs["target_path"]
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            target_path.write_bytes(b"%PDF-1.7")
+            return DownloadResult(
+                success=True,
+                bytes_downloaded=8,
+                resolved_filename=target_path.name,
+            )
+
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_my_courses", fetch_courses)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_course_nodes", fetch_nodes)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_folder_files", fetch_files)
+    monkeypatch.setattr("opal_sync.sync.engine.FileDownloader", ParallelDownloader)
+
+    async with httpx.AsyncClient() as client:
+        engine = SyncEngine(config=cfg, db=db, client=client)
+        monkeypatch.setattr(engine, "ensure_authenticated", lambda _client: _async_true())
+        summary = await engine.run_sync(course_filter="Mathematik")
+
+    assert summary.status == "success"
+    assert summary.files_new == 2
+    assert wicket_started_before_regular_finished
+
+
+@pytest.mark.asyncio
+async def test_sync_starts_next_course_before_prior_download_finishes(
+    tmp_path, monkeypatch
+):
+    cfg = AppConfig()
+    cfg.general.sync_directory = tmp_path / "OPAL_Sync"
+    cfg.sync.request_delay_seconds = 0.0
+    cfg.sync.parallel_downloads = 1
+    db = Database(tmp_path / "course-overlap.db")
+    courses = [
+        Course(
+            opal_id="123",
+            name="Course A",
+            url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123",
+        ),
+        Course(
+            opal_id="456",
+            name="Course B",
+            url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/456",
+        ),
+    ]
+    first_download_finished = asyncio.Event()
+    second_course_scanned_before_download_finished = False
+
+    async def fetch_courses(_client):
+        return courses
+
+    async def fetch_nodes(_client, course_url, course_id):
+        node_id = "1" if course_id == 1 else "2"
+        return [
+            CourseNode(
+                course_id=course_id,
+                node_id=node_id,
+                title="Materials",
+                url=f"{course_url}/CourseNode/{node_id}",
+            )
+        ]
+
+    async def fetch_files(client, node, **_kwargs):
+        nonlocal second_course_scanned_before_download_finished
+        if node.node_id == "2":
+            second_course_scanned_before_download_finished = (
+                not first_download_finished.is_set()
+            )
+            return []
+        return [
+            FileEntry(
+                course_id=node.course_id,
+                remote_url="https://example.com/regular.pdf",
+                remote_path="Materials/regular.pdf",
+                local_path="",
+                filename="regular.pdf",
+                extension=".pdf",
+                size_bytes=8,
+            )
+        ]
+
+    class SlowRegularDownloader:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def download_file(self, *args, **kwargs):
+            await asyncio.sleep(0.1)
+            first_download_finished.set()
+            target_path = kwargs["target_path"]
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            target_path.write_bytes(b"%PDF-1.7")
+            return DownloadResult(
+                success=True,
+                bytes_downloaded=8,
+                resolved_filename=target_path.name,
+            )
+
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_my_courses", fetch_courses)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_course_nodes", fetch_nodes)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_folder_files", fetch_files)
+    monkeypatch.setattr(
+        "opal_sync.sync.engine.FileDownloader", SlowRegularDownloader
+    )
+
+    async with httpx.AsyncClient() as client:
+        engine = SyncEngine(config=cfg, db=db, client=client)
+        monkeypatch.setattr(engine, "ensure_authenticated", lambda _client: _async_true())
+        summary = await engine.run_sync()
+
+    assert summary.status == "success"
+    assert summary.files_new == 1
+    assert second_course_scanned_before_download_finished
+
+
+@pytest.mark.asyncio
+async def test_sync_does_not_download_same_file_discovered_in_nested_nodes(
+    tmp_path, monkeypatch
+):
+    cfg = AppConfig()
+    cfg.general.sync_directory = tmp_path / "OPAL_Sync"
+    cfg.sync.request_delay_seconds = 0.0
+    cfg.sync.parallel_downloads = 1
+    db = Database(tmp_path / "duplicate-discovery.db")
+    course = db.upsert_course(
+        Course(
+            opal_id="123",
+            name="Mathematik",
+            url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123",
+        )
+    )
+    parent_node = CourseNode(
+        course_id=course.id,
+        node_id="456",
+        title="Kursmaterialien",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/456",
+        relative_path="Kursmaterialien",
+    )
+    child_node = CourseNode(
+        course_id=course.id,
+        node_id="457",
+        title="Unterlagen",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/457",
+        relative_path="Kursmaterialien/Unterlagen",
+    )
+    downloaded_targets = []
+
+    async def fetch_courses(_client):
+        return [course]
+
+    async def fetch_nodes(_client, _course_url, _course_id):
+        return [parent_node, child_node]
+
+    async def fetch_files(client, node, **_kwargs):
+        return [
+            FileEntry(
+                course_id=course.id,
+                remote_url="https://example.com/lecture.pdf",
+                remote_path="Kursmaterialien/Unterlagen/lecture.pdf",
+                local_path="",
+                filename="lecture.pdf",
+                extension=".pdf",
+                size_bytes=8,
+                last_modified="unchanged",
+            )
+        ]
+
+    class CountingDownloader:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def download_file(self, *args, **kwargs):
+            target_path = kwargs["target_path"]
+            downloaded_targets.append(target_path)
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            target_path.write_bytes(b"%PDF-1.7")
+            return DownloadResult(
+                success=True,
+                bytes_downloaded=8,
+                resolved_filename=target_path.name,
+            )
+
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_my_courses", fetch_courses)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_course_nodes", fetch_nodes)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_folder_files", fetch_files)
+    monkeypatch.setattr("opal_sync.sync.engine.FileDownloader", CountingDownloader)
+
+    async with httpx.AsyncClient() as client:
+        engine = SyncEngine(config=cfg, db=db, client=client)
+        monkeypatch.setattr(engine, "ensure_authenticated", lambda _client: _async_true())
+        summary = await engine.run_sync(course_filter="Mathematik")
+        repeated_summary = await engine.run_sync(course_filter="Mathematik")
+
+    assert summary.status == "success"
+    assert summary.files_new == 1
+    assert repeated_summary.files_new == 0
+    assert len(downloaded_targets) == 1
+
+
+@pytest.mark.asyncio
 async def test_sync_engine_dry_run(tmp_path, my_courses_html, course_folder_html):
     # Setup isolated test config and DB
     cfg = AppConfig()
@@ -535,7 +1022,7 @@ async def test_sync_engine_dry_run(tmp_path, my_courses_html, course_folder_html
 
 
 @pytest.mark.asyncio
-async def test_sync_reports_removed_files_without_deleting_local_copy(
+async def test_sync_preserves_files_when_entire_course_scan_is_empty(
     tmp_path, monkeypatch
 ):
     cfg = AppConfig()
@@ -596,8 +1083,12 @@ async def test_sync_reports_removed_files_without_deleting_local_copy(
         observed_folder_paths=None,
         skipped_folder_paths=None,
         rescan=False,
+        visited_folder_urls=None,
         folder_callback=None,
+        scan_errors=None,
+        file_callback=None,
     ):
+        scan_errors.add("Kursmaterialien/Materialien")
         scanned_folder_paths.add("Kursmaterialien/Materialien")
         return []
 
@@ -612,12 +1103,11 @@ async def test_sync_reports_removed_files_without_deleting_local_copy(
         repeated_summary = await engine.run_sync(course_filter="Mathematik")
 
     assert summary.duration_seconds >= 0
-    assert [(change.prefix, change.path) for change in summary.changes] == [
-        ("-", local_path.relative_to(cfg.general.sync_directory).as_posix())
-    ]
+    assert summary.status == "partial"
+    assert summary.changes == []
     assert local_path.is_file()
     stored = db.get_file(course.id, "https://bildungsportal.sachsen.de/opal/files/alt.pdf")
-    assert stored is not None and stored.is_removed
+    assert stored is not None and not stored.is_removed
     assert repeated_summary.changes == []
 
 

@@ -76,7 +76,6 @@ opal_sync sync                    Download or update course files
 opal_sync sync --course "Math"    Sync courses whose name matches "Math"
 opal_sync sync --list-skipped-files
                                   Show files skipped by extension or size filters
-opal_sync sync --force            Request downloads even when files look unchanged
 opal_sync sync --rescan           Recrawl folders with unchanged dates, skipping unchanged files
 opal_sync courses                 Show cached courses
 opal_sync courses --refresh       Refresh the course list from OPAL

@@ -218,24 +218,36 @@ class SyncEngine:
         self,
         dry_run: bool = False,
         course_filter: Optional[str] = None,
-        force_download: bool = False,
         rescan: bool = False,
         progress_callback: Optional[Callable[[str, int, Optional[int]], None]] = None,
         folder_callback: Optional[Callable[[str], None]] = None,
     ) -> SyncSummary:
         """Execute full synchronization pass across all enrolled courses."""
         if self._external_client:
-            return await self._execute_sync(self._external_client, dry_run, course_filter, force_download, rescan, progress_callback, folder_callback)
+            return await self._execute_sync(
+                self._external_client,
+                dry_run,
+                course_filter,
+                rescan,
+                progress_callback,
+                folder_callback,
+            )
 
         async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
-            return await self._execute_sync(client, dry_run, course_filter, force_download, rescan, progress_callback, folder_callback)
+            return await self._execute_sync(
+                client,
+                dry_run,
+                course_filter,
+                rescan,
+                progress_callback,
+                folder_callback,
+            )
 
     async def _execute_sync(
         self,
         client: httpx.AsyncClient,
         dry_run: bool = False,
         course_filter: Optional[str] = None,
-        force_download: bool = False,
         rescan: bool = False,
         progress_callback: Optional[Callable[[str, int, Optional[int]], None]] = None,
         folder_callback: Optional[Callable[[str], None]] = None,
@@ -510,18 +522,14 @@ class SyncEngine:
                         )
                         file_entry.local_path = str(target_file_path)
 
-                        if force_download:
-                            action = SyncAction.DOWNLOAD_UPDATE
-                            reason = "Forced re-download requested"
-                        else:
-                            action, reason = determine_sync_action(
-                                file_entry=file_entry,
-                                target_local_path=target_file_path,
-                                db_file=db_file,
-                                include_extensions=self.config.sync.include_extensions,
-                                exclude_extensions=self.config.sync.exclude_extensions,
-                                max_file_size_bytes=max_bytes,
-                            )
+                        action, reason = determine_sync_action(
+                            file_entry=file_entry,
+                            target_local_path=target_file_path,
+                            db_file=db_file,
+                            include_extensions=self.config.sync.include_extensions,
+                            exclude_extensions=self.config.sync.exclude_extensions,
+                            max_file_size_bytes=max_bytes,
+                        )
 
                         item_report = SyncItemReport(
                             course_name=db_course.name,

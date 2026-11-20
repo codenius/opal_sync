@@ -585,7 +585,6 @@ opal-sync config                   # Open/create config file in editor
 # Core operations
 opal-sync sync                     # Full sync (incremental if DB exists)
 opal-sync sync --dry-run           # Show what would be downloaded
-opal-sync sync --force             # Re-download all files
 opal-sync sync --course "Mathe"    # Sync only matching courses
 
 # Information

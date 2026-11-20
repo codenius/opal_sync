@@ -125,7 +125,6 @@ def main(
                 sync(
                     dry_run=False,
                     course=None,
-                    force=False,
                     rescan=False,
                     list_skipped_files=False,
                     config_path=config_path,
@@ -665,7 +664,6 @@ def setup(show_welcome_card: bool = True):
 def sync(
     dry_run: bool = typer.Option(False, "--dry-run", "-n", help="Simulate sync without downloading files"),
     course: Optional[str] = typer.Option(None, "--course", help="Sync only a specific course (name or ID)"),
-    force: bool = typer.Option(False, "--force", "-f", help="Re-download files even if unchanged"),
     rescan: bool = typer.Option(
         False,
         "--rescan",
@@ -712,7 +710,6 @@ def sync(
         engine,
         dry_run=dry_run,
         course_filter=course,
-        force_download=force,
         rescan=rescan,
     )
 

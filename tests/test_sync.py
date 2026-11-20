@@ -986,6 +986,90 @@ async def test_sync_does_not_download_same_file_discovered_in_nested_nodes(
 
 
 @pytest.mark.asyncio
+async def test_sync_date_update_versions_file_and_skips_unchanged_repeat(
+    tmp_path, monkeypatch
+):
+    cfg = AppConfig()
+    cfg.general.sync_directory = tmp_path / "OPAL_Sync"
+    cfg.sync.request_delay_seconds = 0.0
+    cfg.sync.parallel_downloads = 1
+    db = Database(tmp_path / "update.db")
+    course = db.upsert_course(
+        Course(
+            opal_id="123",
+            name="Mathematik",
+            url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123",
+        )
+    )
+    node = CourseNode(
+        course_id=course.id,
+        node_id="456",
+        title="Kursmaterialien",
+        url="https://bildungsportal.sachsen.de/opal/auth/RepositoryEntry/123/CourseNode/456",
+        relative_path="Kursmaterialien",
+    )
+    last_modified = "am 06.11.2026 um 12:23 Uhr"
+    downloaded_payload = b"%PDF-1.7\nold"
+
+    async def fetch_courses(_client):
+        return [course]
+
+    async def fetch_nodes(_client, _course_url, _course_id):
+        return [node]
+
+    async def fetch_files(client, node, **_kwargs):
+        return [
+            FileEntry(
+                course_id=course.id,
+                remote_url="https://example.com/lecture.pdf",
+                remote_path="Kursmaterialien/lecture.pdf",
+                local_path="",
+                filename="lecture.pdf",
+                extension=".pdf",
+                size_bytes=8,
+                last_modified=last_modified,
+            )
+        ]
+
+    class UpdatingDownloader:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def download_file(self, *args, **kwargs):
+            target_path = kwargs["target_path"]
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            target_path.write_bytes(downloaded_payload)
+            return DownloadResult(success=True, bytes_downloaded=8)
+
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_my_courses", fetch_courses)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_course_nodes", fetch_nodes)
+    monkeypatch.setattr("opal_sync.sync.engine.fetch_folder_files", fetch_files)
+    monkeypatch.setattr("opal_sync.sync.engine.FileDownloader", UpdatingDownloader)
+
+    async with httpx.AsyncClient() as client:
+        engine = SyncEngine(config=cfg, db=db, client=client)
+        monkeypatch.setattr(engine, "ensure_authenticated", lambda _client: _async_true())
+        first_summary = await engine.run_sync(course_filter="Mathematik")
+        last_modified = "am 07.11.2026 um 12:23 Uhr"
+        downloaded_payload = b"%PDF-1.7\nnew"
+        second_summary = await engine.run_sync(course_filter="Mathematik")
+        third_summary = await engine.run_sync(course_filter="Mathematik")
+
+    tracked_path = cfg.general.sync_directory / "Mathematik" / "Kursmaterialien" / "lecture.pdf"
+    version_path = cfg.general.sync_directory / "Mathematik" / "Kursmaterialien" / "lecture-1.pdf"
+    second_version_path = cfg.general.sync_directory / "Mathematik" / "Kursmaterialien" / "lecture-2.pdf"
+
+    assert first_summary.files_new == 1
+    assert second_summary.files_updated == 1
+    assert third_summary.files_updated == 0
+    assert tracked_path.is_file()
+    assert tracked_path.read_bytes() == b"%PDF-1.7\nold"
+    assert version_path.is_file()
+    assert version_path.read_bytes() == b"%PDF-1.7\nnew"
+    assert not second_version_path.exists()
+
+
+@pytest.mark.asyncio
 async def test_sync_engine_dry_run(tmp_path, my_courses_html, course_folder_html):
     # Setup isolated test config and DB
     cfg = AppConfig()

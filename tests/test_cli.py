@@ -240,7 +240,6 @@ def test_cli_without_command_with_config_starts_sync(tmp_path, monkeypatch):
     assert sync_calls == [{
         "dry_run": False,
         "course": None,
-        "force": False,
         "rescan": False,
         "list_skipped_files": False,
         "config_path": (tmp_path / "config.toml").resolve(),

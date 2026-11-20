@@ -300,7 +300,11 @@ class SyncEngine:
                         download_message.append(
                             f" ({job.file_entry.last_modified})"
                         )
-                    logger.info(download_message)
+                    logger.info(
+                        f"[{job.course_name}] Downloading: {job.target_path.name}"
+                        f"{f' ({job.file_entry.last_modified})' if job.file_entry.last_modified else ''}",
+                        extra={"rich_message": download_message},
+                    )
 
                     def report_download_progress(
                         bytes_received: int,
@@ -439,7 +443,10 @@ class SyncEngine:
                 course_heading.append_text(
                     local_path_text(course_base_dir, db_course.name)
                 )
-                logger.info(course_heading)
+                logger.info(
+                    f"Processing course: {db_course.name}",
+                    extra={"rich_message": course_heading},
+                )
 
                 # 3. Discover course nodes (folders, pages)
                 nodes = await fetch_course_nodes(client, db_course.url, db_course.id)

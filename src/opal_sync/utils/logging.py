@@ -3,6 +3,17 @@ from pathlib import Path
 from typing import Optional
 from rich.console import Console
 from rich.logging import RichHandler
+from rich.text import Text
+
+
+class RichLinkHandler(RichHandler):
+    """Rich logging handler that preserves pre-built Text styles and links."""
+
+    def render_message(self, record: logging.LogRecord, message: str):
+        rich_message = getattr(record, "rich_message", None)
+        if isinstance(rich_message, Text):
+            return rich_message
+        return super().render_message(record, message)
 
 console = Console()
 def setup_logger(log_level: str = "INFO", log_file: Optional[str] = None) -> logging.Logger:
@@ -16,7 +27,7 @@ def setup_logger(log_level: str = "INFO", log_file: Optional[str] = None) -> log
     # configuration. Setup can create a config after logging has already been
     # initialized, so a one-time initialization flag can silently omit the file.
     if not any(getattr(handler, "_opal_sync_console", False) for handler in logger.handlers):
-        rich_handler = RichHandler(
+        rich_handler = RichLinkHandler(
             console=console,
             show_time=True,
             show_path=False,

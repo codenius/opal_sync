@@ -44,7 +44,10 @@ def resolve_filename_conflict(
     message.append_text(local_path_text(target_path, target_path.name))
     message.append(" -> ")
     message.append_text(local_path_text(candidate, candidate.name))
-    logger.debug(message)
+    logger.debug(
+        f"Resolved filename conflict for '{target_path.name}' -> '{candidate.name}'",
+        extra={"rich_message": message},
+    )
     return candidate
 
 

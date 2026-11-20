@@ -11,6 +11,41 @@ from opal_sync.sync.engine import SyncChange, SyncItemReport, SyncSummary
 runner = CliRunner()
 
 
+def test_processing_course_log_preserves_folder_link():
+    import logging
+    from io import StringIO
+    from rich.console import Console
+
+    from opal_sync.utils.linking import course_directory, local_path_text
+    from opal_sync.utils.logging import RichLinkHandler
+
+    output = StringIO()
+    console = Console(
+        file=output,
+        force_terminal=True,
+        color_system="standard",
+        legacy_windows=False,
+    )
+    handler = RichLinkHandler(console=console, show_time=False, show_path=False)
+    logger = logging.getLogger("opal_sync_link_test")
+    logger.handlers = [handler]
+    logger.propagate = False
+    logger.setLevel(logging.INFO)
+
+    sync_directory = __import__("pathlib").Path("D:/Courses")
+    course_directory(sync_directory, {}, "E455 Grundlagen")
+    course_path = sync_directory / "E455 Grundlagen"
+    message = __import__("rich.text").text.Text("Processing course: ")
+    message.append_text(local_path_text(course_path, "E455 Grundlagen"))
+    logger.info("Processing course: E455 Grundlagen", extra={"rich_message": message})
+
+    rendered = output.getvalue()
+    assert "Processing course:" in rendered
+    assert "E455 Grundlagen" in rendered
+    assert "\x1b]8;" in rendered
+    assert "file:///D:/Courses" in rendered
+
+
 def test_sync_output_links_known_local_paths(tmp_path, monkeypatch):
     config_path = tmp_path / "config.toml"
     config_path.write_text("")

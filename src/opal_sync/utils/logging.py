@@ -6,6 +6,18 @@ from rich.logging import RichHandler
 from rich.text import Text
 
 
+MAX_LOG_LINES = 2500
+
+
+def _prune_log_file(path: Path) -> None:
+    with path.open("rb") as log_file:
+        lines = log_file.readlines()
+
+    if len(lines) > MAX_LOG_LINES:
+        with path.open("wb") as log_file:
+            log_file.writelines(lines[len(lines) // 2 :])
+
+
 class RichLinkHandler(RichHandler):
     """Rich logging handler that preserves pre-built Text styles and links."""
 
@@ -15,7 +27,10 @@ class RichLinkHandler(RichHandler):
             return rich_message
         return super().render_message(record, message)
 
+
 console = Console()
+
+
 def setup_logger(log_level: str = "INFO", log_file: Optional[str] = None) -> logging.Logger:
     """Configure structured console logging via rich and optional file logging."""
     logger = logging.getLogger("opal_sync")
@@ -54,6 +69,8 @@ def setup_logger(log_level: str = "INFO", log_file: Optional[str] = None) -> log
         try:
             path = Path(target_log)
             path.parent.mkdir(parents=True, exist_ok=True)
+            if path.exists():
+                _prune_log_file(path)
             file_handler = logging.FileHandler(path, encoding="utf-8")
             file_formatter = logging.Formatter(
                 "%(asctime)s [%(levelname)s] %(name)s (%(filename)s:%(lineno)d): %(message)s"

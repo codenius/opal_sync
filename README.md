@@ -72,7 +72,7 @@ Setup creates `config.toml` in the chosen sync directory. Most users do not need
 |---|---|---|
 | `general.sync_directory` | `"."` | Where course folders are saved |
 | `general.log_level` | `"INFO"` | Logging detail: `DEBUG`, `INFO`, `WARNING`, or `ERROR` |
-| `general.log_file` | `"opal-sync.log"` | Log file location |
+| `general.log_file` | `"opal-sync.log"` | Log file location; oldest half pruned above 2,500 lines |
 | `general.db_file` | `"state.db"` | Local sync-state database |
 | `auth.university` | `"htwk-leipzig"` | Institution identifier used for sign-in |
 | `auth.session.cookie_file` | `"session.json"` | Saved OPAL session cookies |
@@ -87,6 +87,8 @@ Setup creates `config.toml` in the chosen sync directory. Most users do not need
 | `courses.include` | `[]` | Optional case-insensitive course-name filters; empty includes all enrolled courses |
 | `courses.exclude` | `[]` | Course names to exclude |
 | `courses.paths` | `{}` | Optional per-course folder overrides |
+
+The configured log is a single file. When file logging is initialized, an existing log with more than 2,500 physical lines is pruned by deleting its oldest half. The log can exceed 2,500 lines during a command; it is pruned the next time a command initializes file logging. Only one process should write to a given log file at a time.
 
 Course filters match text within course names without regard to case. Excluded matches take precedence. Relative paths for per-course overrides are placed under the sync directory. Downloaded folders mirror OPAL's nested course structure; a top-level `Unterlagen` node is omitted from local paths.
 

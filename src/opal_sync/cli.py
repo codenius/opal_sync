@@ -2,7 +2,6 @@ import asyncio
 import os
 import shutil
 import sys
-from datetime import datetime
 from pathlib import Path
 from typing import Optional
 import typer
@@ -1077,12 +1076,11 @@ def log(
         title=f"Recent Downloads (Last {len(downloads)})",
         header_style="bold cyan",
     )
-    table.add_column("Downloaded", style="dim", width=19)
+    table.add_column("Last modified", style="dim")
     table.add_column("File")
 
     sync_directory = engine.config.general.sync_directory
     for entry in downloads:
-        downloaded_at = datetime.fromisoformat(entry["downloaded_at"])
         stored_path = Path(entry["local_path"])
         local_path = (
             stored_path
@@ -1091,7 +1089,7 @@ def log(
         )
         relative_path = stored_path.as_posix()
         table.add_row(
-            downloaded_at.strftime("%Y-%m-%d %H:%M:%S"),
+            entry["last_modified"] or "—",
             local_path_text(local_path, relative_path),
         )
 

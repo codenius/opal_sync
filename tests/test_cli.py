@@ -103,7 +103,7 @@ def test_log_lists_recent_downloads_with_relative_links(tmp_path, monkeypatch):
         def get_recent_downloads(self, limit):
             requested_limits.append(limit)
             return [{
-                "downloaded_at": "2026-11-24T10:20:30",
+                "last_modified": "Nov 24, 2026 10:20",
                 "local_path": "Course/Lectures/file.pdf",
                 "is_removed": 1,
                 "filename": "file.pdf",
@@ -137,7 +137,8 @@ def test_log_lists_recent_downloads_with_relative_links(tmp_path, monkeypatch):
     ]
     assert "Recent Downloads (Last 1)" in result.output
     assert "Course/Lectures/file.pdf" in result.output
-    assert "2026-11-24 10:20:30" in result.output
+    assert "Nov 24, 2026 10:20" in result.output
+    assert "Downloaded" not in result.output
 
 
 def test_processing_course_log_preserves_folder_link():

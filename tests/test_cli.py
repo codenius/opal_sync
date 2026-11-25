@@ -895,7 +895,7 @@ def test_sync_lists_only_excluded_and_oversized_files_before_summary(
     output = StringIO()
     monkeypatch.setattr(
         "opal_sync.cli.console",
-        Console(file=output, force_terminal=True, color_system="standard"),
+        Console(file=output, force_terminal=False),
     )
     monkeypatch.setattr("opal_sync.cli.get_configured_engine", lambda _path: FakeEngine())
     result = runner.invoke(

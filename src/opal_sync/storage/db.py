@@ -141,18 +141,8 @@ class Database:
                 bytes_downloaded INTEGER DEFAULT 0,
                 error_message   TEXT
             );
-
-            CREATE TABLE IF NOT EXISTS sync_log (
-                id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                run_id          INTEGER REFERENCES sync_runs(id),
-                timestamp       DATETIME DEFAULT CURRENT_TIMESTAMP,
-                level           TEXT NOT NULL,
-                action          TEXT NOT NULL,
-                course_name     TEXT,
-                file_path       TEXT,
-                details         TEXT
-            );
             """)
+            conn.execute("DROP TABLE IF EXISTS sync_log")
             file_columns = {
                 row["name"] for row in conn.execute("PRAGMA table_info(files)")
             }
@@ -163,6 +153,22 @@ class Database:
                     "ALTER TABLE files ADD COLUMN is_removed BOOLEAN NOT NULL DEFAULT 0"
                 )
             self._migrate_local_paths(conn)
+            self._prune_sync_runs(conn)
+
+    @staticmethod
+    def _prune_sync_runs(conn: sqlite3.Connection) -> None:
+        conn.execute("""
+            DELETE FROM sync_runs
+            WHERE julianday(started_at) < julianday('now', '-30 days')
+        """)
+        conn.execute("""
+            DELETE FROM sync_runs
+            WHERE id NOT IN (
+                  SELECT id FROM sync_runs
+                  ORDER BY julianday(started_at) DESC, id DESC
+                  LIMIT 100
+              )
+        """)
 
     # Course operations
     def upsert_course(self, course: Course) -> Course:
@@ -411,7 +417,22 @@ class Database:
                 ) for r in rows
             ]
 
-    # Sync run & log operations
+    def get_recent_downloads(self, limit: int = 10) -> List[Dict[str, Any]]:
+        if limit < 1:
+            raise ValueError("limit must be at least 1")
+        with self.get_connection() as conn:
+            rows = conn.execute(
+                """
+                SELECT f.filename, f.local_path, f.last_modified, f.is_removed
+                FROM files AS f
+                ORDER BY julianday(f.downloaded_at) DESC, f.id DESC
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+            return [dict(row) for row in rows]
+
+    # Sync run operations
     def start_sync_run(self) -> int:
         with self.get_connection() as conn:
             cursor = conn.cursor()
@@ -444,39 +465,13 @@ class Database:
                     error_message = ?
                 WHERE id = ?;
             """, (status, files_new, files_updated, files_skipped, files_failed, bytes_downloaded, error_message, run_id))
-
-    def log_action(
-        self,
-        run_id: Optional[int],
-        level: str,
-        action: str,
-        course_name: Optional[str] = None,
-        file_path: Optional[str] = None,
-        details: Optional[str] = None
-    ) -> None:
-        with self.get_connection() as conn:
-            conn.execute("""
-                INSERT INTO sync_log (run_id, level, action, course_name, file_path, details)
-                VALUES (?, ?, ?, ?, ?, ?);
-            """, (run_id, level.lower(), action, course_name, file_path, details))
+            self._prune_sync_runs(conn)
 
     def get_recent_runs(self, limit: int = 10) -> List[Dict[str, Any]]:
         with self.get_connection() as conn:
             rows = conn.execute(
                 "SELECT * FROM sync_runs ORDER BY id DESC LIMIT ?", (limit,)
             ).fetchall()
-            return [dict(r) for r in rows]
-
-    def get_recent_logs(self, limit: int = 50, only_errors: bool = False) -> List[Dict[str, Any]]:
-        query = "SELECT * FROM sync_log"
-        params: List[Any] = []
-        if only_errors:
-            query += " WHERE level IN ('error', 'warning')"
-        query += " ORDER BY id DESC LIMIT ?"
-        params.append(limit)
-
-        with self.get_connection() as conn:
-            rows = conn.execute(query, params).fetchall()
             return [dict(r) for r in rows]
 
     def get_stats(self) -> Dict[str, Any]:

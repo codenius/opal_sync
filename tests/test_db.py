@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from opal_sync.models.course import Course
 from opal_sync.models.file_entry import FileEntry
 from opal_sync.models.node import CourseNode
@@ -96,17 +96,9 @@ def test_database_crud(tmp_path):
         saved_course.id, "https://bildungsportal.sachsen.de/files/db_script.pdf"
     ).is_removed
 
-    # 4. Sync runs & logs
+    # 4. Sync runs
     run_id = db.start_sync_run()
     assert run_id > 0
-
-    db.log_action(
-        run_id=run_id,
-        level="INFO",
-        action="DOWNLOAD",
-        course_name=saved_course.name,
-        details="Downloaded script",
-    )
 
     db.finish_sync_run(
         run_id=run_id,
@@ -123,9 +115,10 @@ def test_database_crud(tmp_path):
     assert runs[0]["status"] == "success"
     assert runs[0]["files_new"] == 1
 
-    logs = db.get_recent_logs()
-    assert len(logs) == 1
-    assert logs[0]["action"] == "DOWNLOAD"
+    recent_downloads = db.get_recent_downloads()
+    assert len(recent_downloads) == 1
+    assert recent_downloads[0]["filename"] == "db_script.pdf"
+    assert recent_downloads[0]["local_path"] == "db_script.pdf"
 
     # 5. Stats
     stats = db.get_stats()
@@ -173,3 +166,109 @@ def test_database_migrates_absolute_paths_and_removes_checksums(tmp_path):
     migrated_file = db.get_file(course.id, file_entry.remote_url)
     assert migrated_file is not None
     assert migrated_file.local_path == str(sync_directory / "Course" / "file.pdf")
+
+
+def test_recent_downloads_are_ordered_and_include_removed_files(tmp_path):
+    db = Database(tmp_path / "recent.db", sync_directory=tmp_path)
+    course = db.upsert_course(
+        Course(opal_id="recent", name="Course", url="https://example.com/course")
+    )
+
+    for index in range(12):
+        db.upsert_file(
+            FileEntry(
+                course_id=course.id,
+                remote_url=f"https://example.com/{index}.pdf",
+                local_path=str(tmp_path / "Course" / f"{index}.pdf"),
+                filename=f"{index}.pdf",
+                last_modified=f"Nov {index + 1}, 2026",
+                downloaded_at=datetime(2026, 1, 1) + timedelta(minutes=index),
+            )
+        )
+
+    db.mark_file_removed(course.id, "https://example.com/11.pdf")
+
+    recent = db.get_recent_downloads()
+    assert [entry["filename"] for entry in recent] == [
+        "11.pdf",
+        "10.pdf",
+        "9.pdf",
+        "8.pdf",
+        "7.pdf",
+        "6.pdf",
+        "5.pdf",
+        "4.pdf",
+        "3.pdf",
+        "2.pdf",
+    ]
+    assert recent[0]["is_removed"]
+    assert recent[0]["local_path"] == "Course/11.pdf"
+    assert recent[0]["last_modified"] == "Nov 12, 2026"
+    assert len(db.get_recent_downloads(limit=1)) == 1
+
+
+def test_database_drops_legacy_sync_log_table(tmp_path):
+    db = Database(tmp_path / "legacy-log.db")
+    with db.get_connection() as conn:
+        conn.execute("""
+            CREATE TABLE sync_log (
+                id INTEGER PRIMARY KEY,
+                run_id INTEGER,
+                timestamp DATETIME,
+                level TEXT,
+                action TEXT,
+                course_name TEXT,
+                file_path TEXT,
+                details TEXT
+            )
+        """)
+        conn.execute(
+            "INSERT INTO sync_log (level, action) VALUES ('info', 'DOWNLOAD')"
+        )
+
+    db.init_schema()
+
+    with db.get_connection() as conn:
+        table = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'sync_log'"
+        ).fetchone()
+    assert table is None
+
+
+def test_database_prunes_sync_runs_by_age_and_count(tmp_path):
+    db = Database(tmp_path / "retention.db")
+    old_started_at = (datetime.utcnow() - timedelta(days=31)).strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+    recent_started_at = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    with db.get_connection() as conn:
+        for index in range(101):
+            conn.execute(
+                "INSERT INTO sync_runs (started_at, status) VALUES (?, ?)",
+                (
+                    old_started_at if index == 0 else recent_started_at,
+                    "running" if index == 0 else "success",
+                ),
+            )
+        old_run_id = 1
+        oldest_recent_run_id = 2
+
+    db.init_schema()
+    runs_after_age_prune = db.get_recent_runs(limit=200)
+    assert len(runs_after_age_prune) == 100
+    assert old_run_id not in {run["id"] for run in runs_after_age_prune}
+
+    run_id = db.start_sync_run()
+    db.finish_sync_run(
+        run_id=run_id,
+        status="success",
+        files_new=0,
+        files_updated=0,
+        files_skipped=0,
+        files_failed=0,
+        bytes_downloaded=0,
+    )
+    retained_run_ids = {run["id"] for run in db.get_recent_runs(limit=200)}
+    assert len(retained_run_ids) == 100
+    assert oldest_recent_run_id not in retained_run_ids
+    assert run_id in retained_run_ids

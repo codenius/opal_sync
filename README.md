@@ -59,7 +59,8 @@ opal_sync sync --rescan           Recrawl folders with unchanged dates, skipping
 opal_sync courses                 Show cached courses
 opal_sync courses --refresh       Refresh the course list from OPAL
 opal_sync status                  Show sync and storage status
-opal_sync log                     Show recent sync activity
+opal_sync log                     Show the 10 most recently downloaded or updated files
+opal_sync log --limit 20          Show a different number of recent downloads
 opal_sync logout                  Clear saved credentials and session cookies
 opal_sync config --path           Show the active config file location
 ```

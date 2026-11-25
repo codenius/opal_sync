@@ -324,13 +324,13 @@ async def shibboleth_login(client: httpx.AsyncClient, username: str, password: s
   - Compare `ETag` if available
   - Handle missing headers gracefully
 - [ ] Track per-file download state in DB
-- [ ] Implement sync log for audit trail
+- [ ] Implement `log` from tracked files' latest download times
 - [ ] Course include/exclude filtering from config
 - [ ] File extension filtering from config
 - [ ] Handle deleted remote files (config: keep or remove local)
 - [ ] Session refresh — detect expired session, re-authenticate automatically
 - [ ] CLI: `opal-sync status` — show sync statistics
-- [ ] CLI: `opal-sync log` — show recent sync activity
+- [ ] CLI: `opal-sync log` — show 10 recent downloads (`--limit` overrides)
 
 ### Phase 4: Polish & Reliability — ~1 week
 
@@ -475,17 +475,11 @@ CREATE TABLE IF NOT EXISTS sync_runs (
     error_message   TEXT
 );
 
-CREATE TABLE IF NOT EXISTS sync_log (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    run_id          INTEGER REFERENCES sync_runs(id),
-    timestamp       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    level           TEXT NOT NULL,                    -- 'info', 'warning', 'error'
-    action          TEXT NOT NULL,                    -- 'download', 'update', 'skip', 'error'
-    course_name     TEXT,
-    file_path       TEXT,
-    details         TEXT
-);
 ```
+
+`opal_sync log` sorts tracked file rows by `downloaded_at` and shows the latest
+10 by default. It does not retain per-event history. Sync-run history is
+limited to 100 runs from the last 30 days.
 
 ---
 
@@ -590,8 +584,8 @@ opal-sync sync --course "Mathe"    # Sync only matching courses
 # Information
 opal-sync courses                  # List enrolled courses
 opal-sync status                   # Show sync statistics
-opal-sync log                      # Show recent sync activity
-opal-sync log --errors             # Show only errors
+opal-sync log                      # Show 10 recently downloaded or updated files
+opal-sync log --limit 20           # Show a different number
 
 ```
 

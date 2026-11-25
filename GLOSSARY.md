@@ -16,3 +16,7 @@ Fibercode URL.
 **OPAL session**:
 The authenticated context that permits access to a user's OPAL courses and
 course materials.
+
+**Recent download**:
+The latest successful local download of a course file. A later successful
+download of the same file makes it recent again.

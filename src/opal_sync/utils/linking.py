@@ -6,11 +6,16 @@ from rich.text import Text
 from opal_sync.utils.sanitize import sanitize_filename
 
 
-def local_path_text(path: Path, display: Optional[str] = None) -> Text:
+def local_path_text(
+    path: Path,
+    display: Optional[str] = None,
+    style: Optional[str] = None,
+) -> Text:
     resolved = path.expanduser().resolve()
+    text_style = f"{style} link {resolved.as_uri()}".strip() if style else f"link {resolved.as_uri()}"
     return Text(
         display if display is not None else str(path),
-        style=f"link {resolved.as_uri()}",
+        style=text_style,
     )
 
 

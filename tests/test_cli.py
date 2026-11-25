@@ -1,4 +1,6 @@
 from io import StringIO
+from pathlib import Path
+from types import SimpleNamespace
 import pytest
 from rich.console import Console
 from typer.testing import CliRunner
@@ -9,6 +11,129 @@ from opal_sync.sync.differ import SyncAction
 from opal_sync.sync.engine import SyncChange, SyncItemReport, SyncSummary
 
 runner = CliRunner()
+
+
+def test_course_and_folder_links_are_green(tmp_path):
+    from opal_sync.utils.linking import local_path_text
+    from rich.console import Console
+
+    output = StringIO()
+    console = Console(
+        file=output,
+        force_terminal=True,
+        color_system="standard",
+        legacy_windows=False,
+    )
+    console.print(local_path_text(tmp_path / "Course", "Course", style="green"))
+    console.print(local_path_text(tmp_path / "Course" / "Lecture", "Lecture", style="green"))
+
+    rendered = output.getvalue()
+    assert "\x1b[32mCourse\x1b[0m" in rendered
+    assert "\x1b]8;" in rendered
+    assert "file://" in rendered
+
+
+def test_courses_command_styles_course_folder_links_green(tmp_path, monkeypatch):
+    from opal_sync.utils.linking import local_path_text as original_local_path_text
+
+    engine = SimpleNamespace(
+        config=SimpleNamespace(
+            general=SimpleNamespace(sync_directory=tmp_path / "sync"),
+            courses=SimpleNamespace(paths={}),
+        ),
+        db=SimpleNamespace(
+            get_courses=lambda: [
+                Course(
+                    opal_id="1",
+                    name="E455 Grundlagen",
+                    url="https://example.invalid/course",
+                )
+            ]
+        ),
+        is_course_allowed=lambda _name: True,
+    )
+    linked_styles = []
+
+    def capture(path, display=None, style=None):
+        linked_styles.append(style)
+        return original_local_path_text(path, display, style)
+
+    monkeypatch.setattr("opal_sync.cli.get_configured_engine", lambda _path: engine)
+    monkeypatch.setattr("opal_sync.cli.local_path_text", capture)
+
+    result = runner.invoke(app, ["courses"])
+
+    assert result.exit_code == 0
+    assert linked_styles == ["green"]
+
+
+def test_log_defaults_to_ten_downloads(monkeypatch):
+    requested_limits = []
+
+    class FakeDatabase:
+        def get_recent_downloads(self, limit):
+            requested_limits.append(limit)
+            return []
+
+    engine = SimpleNamespace(
+        config=SimpleNamespace(
+            general=SimpleNamespace(sync_directory=Path("sync")),
+        ),
+        db=FakeDatabase(),
+    )
+    monkeypatch.setattr(
+        "opal_sync.cli.get_configured_engine",
+        lambda _config_path: engine,
+    )
+
+    result = runner.invoke(app, ["log"])
+
+    assert result.exit_code == 0, result.output
+    assert requested_limits == [10]
+
+
+def test_log_lists_recent_downloads_with_relative_links(tmp_path, monkeypatch):
+    from opal_sync.utils.linking import local_path_text as original_local_path_text
+
+    sync_directory = tmp_path / "sync"
+    requested_limits = []
+    linked_paths = []
+
+    class FakeDatabase:
+        def get_recent_downloads(self, limit):
+            requested_limits.append(limit)
+            return [{
+                "downloaded_at": "2026-11-24T10:20:30",
+                "local_path": "Course/Lectures/file.pdf",
+                "is_removed": 1,
+                "filename": "file.pdf",
+            }]
+
+    engine = SimpleNamespace(
+        config=SimpleNamespace(
+            general=SimpleNamespace(sync_directory=sync_directory),
+        ),
+        db=FakeDatabase(),
+    )
+    monkeypatch.setattr(
+        "opal_sync.cli.get_configured_engine",
+        lambda _config_path: engine,
+    )
+    def capture_local_path(path, display=None, style=None):
+        linked_paths.append((path, display))
+        return original_local_path_text(path, display, style)
+
+    monkeypatch.setattr("opal_sync.cli.local_path_text", capture_local_path)
+    result = runner.invoke(app, ["log", "--limit", "1"])
+
+    assert result.exit_code == 0, result.output
+    assert requested_limits == [1]
+    assert linked_paths == [
+        (sync_directory / Path("Course/Lectures/file.pdf"), "Course/Lectures/file.pdf")
+    ]
+    assert "Recent Downloads (Last 1)" in result.output
+    assert "Course/Lectures/file.pdf" in result.output
+    assert "2026-11-24 10:20:30" in result.output
 
 
 def test_processing_course_log_preserves_folder_link():
@@ -36,7 +161,13 @@ def test_processing_course_log_preserves_folder_link():
     course_directory(sync_directory, {}, "E455 Grundlagen")
     course_path = sync_directory / "E455 Grundlagen"
     message = __import__("rich.text").text.Text("Processing course: ")
-    message.append_text(local_path_text(course_path, "E455 Grundlagen"))
+    course_text = local_path_text(
+        course_path,
+        "E455 Grundlagen",
+        style="green",
+    )
+    assert "green" in str(course_text.style)
+    message.append_text(course_text)
     logger.info("Processing course: E455 Grundlagen", extra={"rich_message": message})
 
     rendered = output.getvalue()

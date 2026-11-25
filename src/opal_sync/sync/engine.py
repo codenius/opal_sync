@@ -303,8 +303,20 @@ class SyncEngine:
                         )
 
                     download_message = Text(
-                        f"[{job.course_name}] Downloading: ",
+                        "[",
                     )
+                    download_message.append_text(
+                        local_path_text(
+                            course_directory(
+                                self.config.general.sync_directory,
+                                self.config.courses.paths,
+                                job.course_name,
+                            ),
+                            job.course_name,
+                            style="green",
+                        )
+                    )
+                    download_message.append("] Downloading: ")
                     download_message.append_text(
                         local_path_text(job.target_path, job.target_path.name)
                     )
@@ -370,29 +382,30 @@ class SyncEngine:
                             self._relative_sync_path(job.target_path),
                         )
                     )
-                    self.db.log_action(
-                        run_id=job.run_id,
-                        level="INFO",
-                        action="DOWNLOAD",
-                        course_name=job.course_name,
-                        file_path=str(job.target_path),
-                        details=f"Downloaded {dl_result.bytes_downloaded} B",
-                    )
                 else:
                     summary.files_failed += 1
                     job.item_report.success = False
                     job.item_report.error = dl_result.error_message
-                    logger.error(
-                        f"[{job.course_name}] Failed to download "
+                    failed_message = Text("[")
+                    failed_message.append_text(
+                        local_path_text(
+                            course_directory(
+                                self.config.general.sync_directory,
+                                self.config.courses.paths,
+                                job.course_name,
+                            ),
+                            job.course_name,
+                            style="green",
+                        )
+                    )
+                    failed_message.append(
+                        f"] Failed to download "
                         f"{job.file_entry.filename}: {dl_result.error_message}"
                     )
-                    self.db.log_action(
-                        run_id=job.run_id,
-                        level="ERROR",
-                        action="DOWNLOAD_FAILED",
-                        course_name=job.course_name,
-                        file_path=str(job.target_path),
-                        details=dl_result.error_message,
+                    logger.error(
+                        f"[{job.course_name}] Failed to download "
+                        f"{job.file_entry.filename}: {dl_result.error_message}",
+                        extra={"rich_message": failed_message},
                     )
 
                 summary.items.append(job.item_report)
@@ -406,9 +419,26 @@ class SyncEngine:
                     job.completion.cancel()
                     raise
                 except Exception as exc:
+                    worker_message = Text("[")
+                    worker_message.append_text(
+                        local_path_text(
+                            course_directory(
+                                self.config.general.sync_directory,
+                                self.config.courses.paths,
+                                job.course_name,
+                            ),
+                            job.course_name,
+                            style="green",
+                        )
+                    )
+                    worker_message.append(
+                        f"] Download worker failed for "
+                        f"{job.file_entry.filename}: {exc}"
+                    )
                     logger.exception(
                         f"[{job.course_name}] Download worker failed for "
-                        f"{job.file_entry.filename}: {exc}"
+                        f"{job.file_entry.filename}: {exc}",
+                        extra={"rich_message": worker_message},
                     )
                     summary.files_failed += 1
                     job.item_report.success = False
@@ -444,7 +474,22 @@ class SyncEngine:
                 if not course_filter and not self.is_course_allowed(course_data.name):
                     course_data.is_excluded = True
                     self.db.upsert_course(course_data)
-                    logger.debug(f"Skipping excluded course: [bold]{course_data.name}[/bold]")
+                    excluded_course_message = Text("Skipping excluded course: ")
+                    excluded_course_message.append_text(
+                        local_path_text(
+                            course_directory(
+                                self.config.general.sync_directory,
+                                self.config.courses.paths,
+                                course_data.name,
+                            ),
+                            course_data.name,
+                            style="green",
+                        )
+                    )
+                    logger.debug(
+                        f"Skipping excluded course: {course_data.name}",
+                        extra={"rich_message": excluded_course_message},
+                    )
                     continue
 
                 # Upsert course in DB
@@ -453,7 +498,7 @@ class SyncEngine:
                 course_base_dir = self._course_base_dir(db_course)
                 course_heading = Text("Processing course: ")
                 course_heading.append_text(
-                    local_path_text(course_base_dir, db_course.name)
+                    local_path_text(course_base_dir, db_course.name, style="green")
                 )
                 logger.info(
                     f"Processing course: {db_course.name}",
@@ -616,9 +661,26 @@ class SyncEngine:
                             else:
                                 summary.files_updated += 1
                             summary.items.append(item_report)
+                            dry_run_message = Text("[")
+                            dry_run_message.append_text(
+                                local_path_text(
+                                    course_directory(
+                                        self.config.general.sync_directory,
+                                        self.config.courses.paths,
+                                        db_course.name,
+                                    ),
+                                    db_course.name,
+                                    style="green",
+                                )
+                            )
+                            dry_run_message.append(
+                                f"] [DRY-RUN] Would download: "
+                                f"{file_entry.filename} ({reason})"
+                            )
                             logger.info(
                                 f"[{db_course.name}] [DRY-RUN] Would download: "
-                                f"[yellow]{file_entry.filename}[/yellow] ({reason})"
+                                f"{file_entry.filename} ({reason})",
+                                extra={"rich_message": dry_run_message},
                             )
                             return
 
@@ -845,13 +907,6 @@ class SyncEngine:
             for worker in download_workers:
                 worker.cancel()
             await asyncio.gather(*download_workers, return_exceptions=True)
-            if run_id:
-                self.db.log_action(
-                    run_id=run_id,
-                    level="ERROR",
-                    action="RUN_ERROR",
-                    details=str(e),
-                )
         finally:
             summary.finished_at = datetime.utcnow()
             summary.duration_seconds = time.perf_counter() - sync_started

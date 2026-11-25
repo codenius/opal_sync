@@ -2,6 +2,7 @@ import asyncio
 import os
 import shutil
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 import typer
@@ -460,7 +461,9 @@ def _offer_frozen_bundle_copy(sync_directory: Path) -> None:
         )
         return
     copied = Text("Copied OPAL Sync to ", style="green")
-    copied.append_text(local_path_text(destination, str(destination)))
+    copied.append_text(
+        local_path_text(destination, str(destination), style="green")
+    )
     copied.append(".", style="green")
     console.print(copied)
 
@@ -598,7 +601,9 @@ def setup(show_welcome_card: bool = True):
         engine.db.upsert_course(course_item)
     console.rule("[bold cyan]4 · Review and sync[/bold cyan]", align="left")
     course_line = Text("Course files and local data: ")
-    course_line.append_text(local_path_text(sync_directory, str(sync_directory)))
+    course_line.append_text(
+        local_path_text(sync_directory, str(sync_directory), style="green")
+    )
     console.print(course_line)
     config_line = Text("Config and additional settings: ")
     config_line.append_text(local_path_text(config_path, str(config_path)))
@@ -617,7 +622,7 @@ def setup(show_welcome_card: bool = True):
         sync_again_message.append("opal_sync sync", style="dim")
         sync_again_message.append(") from the sync directory ")
         sync_again_message.append_text(
-            local_path_text(sync_directory, str(sync_directory))
+            local_path_text(sync_directory, str(sync_directory), style="green")
         )
         sync_again_message.append(".\n\n")
         sync_again_message.append(
@@ -701,6 +706,7 @@ def sync(
         local_path_text(
             engine.config.general.sync_directory,
             str(engine.config.general.sync_directory),
+            style="green",
         )
     )
     console.print(target_heading)
@@ -734,12 +740,15 @@ def sync(
                 )
                 local_path = item.local_path or course_path / item.node_title / item.filename
                 line = Text("- ")
-                line.append_text(local_path_text(course_path, item.course_name))
+                line.append_text(
+                    local_path_text(course_path, item.course_name, style="green")
+                )
                 line.append("/")
                 line.append_text(
                     local_path_text(
                         course_path / item.node_title,
                         item.node_title,
+                        style="green",
                     )
                 )
                 line.append("/")
@@ -760,12 +769,15 @@ def sync(
             )
             local_path = item.local_path or course_path / item.node_title / item.filename
             line = Text("- ")
-            line.append_text(local_path_text(course_path, item.course_name))
+            line.append_text(
+                local_path_text(course_path, item.course_name, style="green")
+            )
             line.append("/")
             line.append_text(
                 local_path_text(
                     course_path / item.node_title,
                     item.node_title,
+                    style="green",
                 )
             )
             line.append("/")
@@ -812,7 +824,13 @@ def sync(
         if not change_path.is_absolute():
             change_path = engine.config.general.sync_directory / change_path
         line = Text(f"{change.prefix} ", style=change_styles[change.prefix])
-        line.append_text(local_path_text(change_path, change.path))
+        line.append_text(
+            local_path_text(
+                change_path,
+                change.path,
+                style=change_styles[change.prefix],
+            )
+        )
         console.print(line)
     if summary.error_message:
         error_title = (
@@ -880,7 +898,7 @@ def courses(
         )
         table.add_row(
             c.opal_id,
-            local_path_text(course_path, c.name),
+            local_path_text(course_path, c.name, style="green"),
             c.semester or "—",
             synced_str,
             status,
@@ -931,6 +949,7 @@ def status(
         local_path_text(
             engine.config.general.sync_directory,
             str(engine.config.general.sync_directory),
+            style="green",
         ),
     )
     table.add_row("Total Courses Tracked", str(stats["total_courses"]))
@@ -1041,52 +1060,47 @@ def logout(
 
 @app.command()
 def log(
-    limit: int = typer.Option(30, "--limit", "-l", help="Number of log records to show"),
-    errors: bool = typer.Option(False, "--errors", "-e", help="Show only errors and warnings"),
+    limit: int = typer.Option(
+        10,
+        "--limit",
+        "-l",
+        help="Number of recently downloaded files to show",
+    ),
     config_path: Optional[Path] = typer.Option(
         None, "--config", "-c", help="Custom config file path"
     ),
 ):
-    """Display recent sync log records and error events."""
-    engine = get_configured_engine(config_path)
-    logs = engine.db.get_recent_logs(limit=limit, only_errors=errors)
+    """Display recently downloaded or updated files."""
+    if limit < 1:
+        raise typer.BadParameter("--limit must be at least 1")
 
-    if not logs:
-        console.print("[dim]No sync logs found in database.[/dim]")
+    engine = get_configured_engine(config_path)
+    downloads = engine.db.get_recent_downloads(limit=limit)
+
+    if not downloads:
+        console.print("[dim]No downloaded files found in database.[/dim]")
         return
 
-    table = Table(title=f"Recent Sync Activity (Last {len(logs)})", header_style="bold cyan")
-    table.add_column("Timestamp", style="dim", width=19)
-    table.add_column("Level", width=8)
-    table.add_column("Action", style="bold", width=16)
-    table.add_column("Course", style="cyan")
-    table.add_column("Details")
+    table = Table(
+        title=f"Recent Downloads (Last {len(downloads)})",
+        header_style="bold cyan",
+    )
+    table.add_column("Downloaded", style="dim", width=19)
+    table.add_column("File")
 
-    for entry in logs:
-        lvl = entry["level"].upper()
-        lvl_colored = f"[red]{lvl}[/red]" if lvl == "ERROR" else f"[yellow]{lvl}[/yellow]" if lvl == "WARNING" else f"[green]{lvl}[/green]"
-        detail = entry.get("details") or entry.get("file_path") or "—"
-        detail_text: object = detail
-        file_path = entry.get("file_path")
-        if file_path:
-            detail_text = Text(str(detail))
-            detail_text.append(" ")
-            detail_text.append_text(local_path_text(Path(file_path), str(file_path)))
-        course_name = entry.get("course_name")
-        course_text: object = course_name or "—"
-        if course_name:
-            course_path = course_directory(
-                engine.config.general.sync_directory,
-                engine.config.courses.paths,
-                course_name,
-            )
-            course_text = local_path_text(course_path, course_name)
+    sync_directory = engine.config.general.sync_directory
+    for entry in downloads:
+        downloaded_at = datetime.fromisoformat(entry["downloaded_at"])
+        stored_path = Path(entry["local_path"])
+        local_path = (
+            stored_path
+            if stored_path.is_absolute()
+            else sync_directory / stored_path
+        )
+        relative_path = stored_path.as_posix()
         table.add_row(
-            entry["timestamp"],
-            lvl_colored,
-            entry["action"],
-            course_text,
-            detail_text,
+            downloaded_at.strftime("%Y-%m-%d %H:%M:%S"),
+            local_path_text(local_path, relative_path),
         )
 
     console.print(table)

@@ -13,7 +13,7 @@ from opal_sync.sync.engine import SyncChange, SyncItemReport, SyncSummary
 runner = CliRunner()
 
 
-def test_course_and_folder_links_are_green(tmp_path):
+def test_local_path_links_are_green_by_default(tmp_path):
     from opal_sync.utils.linking import local_path_text
     from rich.console import Console
 
@@ -24,8 +24,8 @@ def test_course_and_folder_links_are_green(tmp_path):
         color_system="standard",
         legacy_windows=False,
     )
-    console.print(local_path_text(tmp_path / "Course", "Course", style="green"))
-    console.print(local_path_text(tmp_path / "Course" / "Lecture", "Lecture", style="green"))
+    console.print(local_path_text(tmp_path / "Course", "Course"))
+    console.print(local_path_text(tmp_path / "Course" / "Lecture", "Lecture"))
 
     rendered = output.getvalue()
     assert "\x1b[32mCourse\x1b[0m" in rendered
@@ -64,7 +64,7 @@ def test_courses_command_styles_course_folder_links_green(tmp_path, monkeypatch)
     result = runner.invoke(app, ["courses"])
 
     assert result.exit_code == 0
-    assert linked_styles == ["green"]
+    assert linked_styles == [None]
 
 
 def test_log_defaults_to_ten_downloads(monkeypatch):
@@ -120,7 +120,7 @@ def test_log_lists_recent_downloads_with_relative_links(tmp_path, monkeypatch):
         lambda _config_path: engine,
     )
     def capture_local_path(path, display=None, style=None):
-        linked_paths.append((path, display))
+        linked_paths.append((path, display, style))
         return original_local_path_text(path, display, style)
 
     monkeypatch.setattr("opal_sync.cli.local_path_text", capture_local_path)
@@ -129,7 +129,11 @@ def test_log_lists_recent_downloads_with_relative_links(tmp_path, monkeypatch):
     assert result.exit_code == 0, result.output
     assert requested_limits == [1]
     assert linked_paths == [
-        (sync_directory / Path("Course/Lectures/file.pdf"), "Course/Lectures/file.pdf")
+        (
+            sync_directory / Path("Course/Lectures/file.pdf"),
+            "Course/Lectures/file.pdf",
+            None,
+        )
     ]
     assert "Recent Downloads (Last 1)" in result.output
     assert "Course/Lectures/file.pdf" in result.output

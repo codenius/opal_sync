@@ -313,7 +313,6 @@ class SyncEngine:
                                 job.course_name,
                             ),
                             job.course_name,
-                            style="green",
                         )
                     )
                     download_message.append("] Downloading: ")
@@ -395,7 +394,6 @@ class SyncEngine:
                                 job.course_name,
                             ),
                             job.course_name,
-                            style="green",
                         )
                     )
                     failed_message.append(
@@ -428,7 +426,6 @@ class SyncEngine:
                                 job.course_name,
                             ),
                             job.course_name,
-                            style="green",
                         )
                     )
                     worker_message.append(
@@ -483,7 +480,6 @@ class SyncEngine:
                                 course_data.name,
                             ),
                             course_data.name,
-                            style="green",
                         )
                     )
                     logger.debug(
@@ -498,7 +494,7 @@ class SyncEngine:
                 course_base_dir = self._course_base_dir(db_course)
                 course_heading = Text("Processing course: ")
                 course_heading.append_text(
-                    local_path_text(course_base_dir, db_course.name, style="green")
+                    local_path_text(course_base_dir, db_course.name)
                 )
                 logger.info(
                     f"Processing course: {db_course.name}",
@@ -670,7 +666,6 @@ class SyncEngine:
                                         db_course.name,
                                     ),
                                     db_course.name,
-                                    style="green",
                                 )
                             )
                             dry_run_message.append(

@@ -461,9 +461,7 @@ def _offer_frozen_bundle_copy(sync_directory: Path) -> None:
         )
         return
     copied = Text("Copied OPAL Sync to ", style="green")
-    copied.append_text(
-        local_path_text(destination, str(destination), style="green")
-    )
+    copied.append_text(local_path_text(destination, str(destination)))
     copied.append(".", style="green")
     console.print(copied)
 
@@ -601,9 +599,7 @@ def setup(show_welcome_card: bool = True):
         engine.db.upsert_course(course_item)
     console.rule("[bold cyan]4 · Review and sync[/bold cyan]", align="left")
     course_line = Text("Course files and local data: ")
-    course_line.append_text(
-        local_path_text(sync_directory, str(sync_directory), style="green")
-    )
+    course_line.append_text(local_path_text(sync_directory, str(sync_directory)))
     console.print(course_line)
     config_line = Text("Config and additional settings: ")
     config_line.append_text(local_path_text(config_path, str(config_path)))
@@ -622,7 +618,7 @@ def setup(show_welcome_card: bool = True):
         sync_again_message.append("opal_sync sync", style="dim")
         sync_again_message.append(") from the sync directory ")
         sync_again_message.append_text(
-            local_path_text(sync_directory, str(sync_directory), style="green")
+            local_path_text(sync_directory, str(sync_directory))
         )
         sync_again_message.append(".\n\n")
         sync_again_message.append(
@@ -706,7 +702,6 @@ def sync(
         local_path_text(
             engine.config.general.sync_directory,
             str(engine.config.general.sync_directory),
-            style="green",
         )
     )
     console.print(target_heading)
@@ -741,14 +736,13 @@ def sync(
                 local_path = item.local_path or course_path / item.node_title / item.filename
                 line = Text("- ")
                 line.append_text(
-                    local_path_text(course_path, item.course_name, style="green")
+                    local_path_text(course_path, item.course_name)
                 )
                 line.append("/")
                 line.append_text(
                     local_path_text(
                         course_path / item.node_title,
                         item.node_title,
-                        style="green",
                     )
                 )
                 line.append("/")
@@ -770,14 +764,13 @@ def sync(
             local_path = item.local_path or course_path / item.node_title / item.filename
             line = Text("- ")
             line.append_text(
-                local_path_text(course_path, item.course_name, style="green")
+                local_path_text(course_path, item.course_name)
             )
             line.append("/")
             line.append_text(
                 local_path_text(
                     course_path / item.node_title,
                     item.node_title,
-                    style="green",
                 )
             )
             line.append("/")
@@ -898,7 +891,7 @@ def courses(
         )
         table.add_row(
             c.opal_id,
-            local_path_text(course_path, c.name, style="green"),
+            local_path_text(course_path, c.name),
             c.semester or "—",
             synced_str,
             status,
@@ -949,7 +942,6 @@ def status(
         local_path_text(
             engine.config.general.sync_directory,
             str(engine.config.general.sync_directory),
-            style="green",
         ),
     )
     table.add_row("Total Courses Tracked", str(stats["total_courses"]))

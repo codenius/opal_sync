@@ -12,7 +12,7 @@ def local_path_text(
     style: Optional[str] = None,
 ) -> Text:
     resolved = path.expanduser().resolve()
-    text_style = f"{style} link {resolved.as_uri()}".strip() if style else f"link {resolved.as_uri()}"
+    text_style = f"{style or 'green'} link {resolved.as_uri()}".strip()
     return Text(
         display if display is not None else str(path),
         style=text_style,
